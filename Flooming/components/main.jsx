@@ -1,27 +1,31 @@
 import React from 'react';
-import { StyleSheet, Text, ImageBackground, View, Button, TouchableOpacity } from 'react-native';
+import { useEffect } from 'react';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 export default function Main(props) {
 
+  useEffect(() => {
+    props.setText('지금 해볼래요');
+  });
+
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require('../assets/images/mainBackground.jpg')}
-        style={styles.image}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>FLOOMING</Text>
+      </View>
 
-        <View style={styles.textContainer}>
-          <Text style={styles.innerText}>마음에 드는</Text>
-          <Text style={styles.innerText}>꽃 사진을 그림으로</Text>
-          <Text style={styles.innerText}>바꿔봐요.</Text>
-        </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.innerText}>마음에 드는 <Text style={{ fontWeight: 'bold' }}>꽃</Text>을</Text>
+        <Text style={styles.innerText}><Text style={{ fontWeight: 'bold' }}>그림</Text>으로 바꿔봐요.</Text>
+      </View>
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.textButton}>지금 해볼래요</Text>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
+      <View style={styles.imageContainer}>
+        <Image style={styles.img} source={require('../assets/images/imageEx.jpg')}></Image>
+        <FontAwesome name='arrow-right' size={24} color='#FFF9C3' />
+        <Image style={styles.img} source={require('../assets/images/illustrationimageEx.jpg')}></Image>
+      </View>
     </View>
   )
 };
@@ -31,32 +35,37 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  image: {
+  titleContainer: {
     width: '100%',
-    height: '100%',
-    top: '15%',
+    position: 'absolute',
+    top: 0,
+    height: 70,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FCFCFC',
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold',
   },
   textContainer: {
-    top: '10%',
+    top: 150,
   },
   innerText: {
     color: '#FFF9C3',
-    fontSize: 40,
+    fontSize: 35,
     paddingLeft: 20,
   },
-  buttonContainer: {
+  imageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
+    top: 200,
   },
-  button: {
-    backgroundColor: '#0C0B0C',
-    alignItems: 'center',
-    padding: 10,
-    width: '80%',
-    bottom: '10%',
-    borderRadius: 16,
-  },
-  textButton: {
-    color: '#FCFCFC',
-    fontSize: 25,
+  img: {
+    width: 150,
+    height: 150,
+    margin: 10
   },
 })
