@@ -6,7 +6,7 @@ export default function Loading (props) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../assets/images/mainBackground.jpg')}
+        source={require('../assets/images/loadingBackground.jpg')}
         style={styles.image}>
         <Text style={styles.text}>FLOOMING</Text>
       </ImageBackground>

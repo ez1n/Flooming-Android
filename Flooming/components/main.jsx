@@ -1,17 +1,15 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import Button from './button';
 
 
 export default function Main(props) {
 
-  useEffect(() => {
-    props.setText('지금 해볼래요');
-  });
-
   return (
-    <View style={styles.container}>
+    <ImageBackground
+    source={require('../assets/images/mainBackground.jpg')}
+    style={styles.backgroundImage}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>FLOOMING</Text>
       </View>
@@ -22,18 +20,22 @@ export default function Main(props) {
       </View>
 
       <View style={styles.imageContainer}>
-        <Image style={styles.img} source={require('../assets/images/imageEx.jpg')}></Image>
+        <Image style={styles.exImage} source={require('../assets/images/imageEx.jpg')}></Image>
         <FontAwesome name='arrow-right' size={24} color='#FFF9C3' />
-        <Image style={styles.img} source={require('../assets/images/illustrationimageEx.jpg')}></Image>
+        <Image style={styles.exImage} source={require('../assets/images/illustrationimageEx.jpg')}></Image>
       </View>
-    </View>
+
+      <View style={styles.buttonContainer}>
+        <Button text={'지금 해볼래요'} />
+      </View>
+    </ImageBackground>
   )
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
+  backgroundImage: {
     height: '100%',
+    width: '100%',
   },
   titleContainer: {
     width: '100%',
@@ -63,9 +65,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     top: 200,
   },
-  img: {
+  exImage: {
     width: 150,
     height: 150,
     margin: 10
+  },
+  buttonContainer: {
+    width: '100%',
+    alignItems: 'center',
+    top: 440,
   },
 })
