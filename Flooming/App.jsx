@@ -5,7 +5,9 @@ import { StatusBar } from 'expo-status-bar';
 import Main from './components/main';
 import Guide from './components/guide';
 import ImageCheck from './components/imageCheck';
-import Result from './components/result/result';
+import ClassResult from './components/classResult';
+import ImageResult from './components/imageResult';
+import Gallery from './components/gallery/gallery';
 
 Stack = createNativeStackNavigator();
 
@@ -30,9 +32,19 @@ export default function App() {
         options={{ title: '' }}
         />
         <Stack.Screen
-        name='Result'
-        component={Result}
+        name='ClassResult'
+        component={ClassResult}
         options={{ title: '분류 결과' }}
+        />
+        <Stack.Screen
+        name='ImageResult'
+        component={ImageResult}
+        options={{ title: '그림 결과' }}
+        />
+        <Stack.Screen
+        name='Gallery'
+        component={Gallery}
+        options={{ title: '갤러리' }}
         />
     </Stack.Navigator>
     </NavigationContainer>

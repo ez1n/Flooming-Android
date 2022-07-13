@@ -1,58 +1,51 @@
 import React, { useState } from 'react';
 import { StyleSheet, Image, ImageBackground, View, Text, TouchableOpacity, Modal } from 'react-native';
-import Button from '../button';
+import Button from './button';
 
-const Result = ({ navigation }) => {
+const ClassResult = ({ navigation }) => {
   const [selectImage, setSelectImage] = useState(false);
 
   // 임시 정보
   const images = [
-    { img_src: '../../assets/images/imageEx.jpg', kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
-    { img_src: '../../assets/images/imageEx.jpg', kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
-    { img_src: '../../assets/images/imageEx.jpg', kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
+    { img_src: '../assets/images/imageEx.jpg', kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
+    { img_src: '../assets/images/imageEx.jpg', kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
+    { img_src: '../assets/images/imageEx.jpg', kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
   ]
 
   // 사진 다시 촬영하기 이벤트
-  const handleClickReturnButton = () => {
-    navigation.navigate('ImageCheck');
-  };
+  const handleClickReturnButton = () => { navigation.navigate('ImageCheck') };
 
   // 사진 선택 이벤트
-  const handleSelectImage = () => {
-    setSelectImage(!selectImage);
-  };
+  const handleSelectImage = () => { setSelectImage(!selectImage) };
 
   // 그림 그리기 이벤트
-  const handleClickYes = () => {
-    //
-  };
+  const handleClickYes = () => { navigation.navigate('ImageResult') };
 
   // 사진 선택 취소 이벤트
-  const handleClickNo = () => {
-    setSelectImage(!selectImage);
-  }
+  const handleClickNo = () => { setSelectImage(!selectImage) };
 
   return (
     <ImageBackground
-      source={require('../../assets/images/mainBackground.jpg')}
+      source={require('../assets/images/mainBackground.jpg')}
       style={styles.backgroundImage}>
 
       {/* 사진 선택 다이얼로그 */}
       <Modal
         animationType='fade'
+        transparent={true}
         visible={selectImage}>
-        <View styles={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Image style={styles.resultImage} source={require('../../assets/images/imageEx.jpg')} />
-            <Text>그림을 그릴까요?</Text>
+        <View style={styles.modalContainer}>
+          <View style={styles.modal}>
+            <Image style={styles.resultImage} source={require('../assets/images/imageEx.jpg')} />
+            <Text>그림을 그려볼까요?</Text>
 
-            <View style={styles.button}>
-              <TouchableOpacity onPress={handleClickYes}>
-                <Text>예</Text>
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity style={styles.modalButton} onPress={handleClickYes}>
+                <Text style={styles.modalButtonText}>예</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={handleClickNo}>
-                <Text>아니요</Text>
+              <TouchableOpacity style={styles.modalButton} onPress={handleClickNo}>
+                <Text style={styles.modalButtonText}>아니요</Text>
               </TouchableOpacity>
             </View>
 
@@ -67,7 +60,7 @@ const Result = ({ navigation }) => {
       <View style={styles.imageContainer}>
 
         <View style={styles.myImageContainer}>
-          <Image style={styles.myImage} source={require('../../assets/images/imageEx.jpg')} />
+          <Image style={styles.myImage} source={require('../assets/images/imageEx.jpg')} />
           <Text style={styles.myImageText}>당신의 꽃</Text>
         </View>
 
@@ -75,9 +68,9 @@ const Result = ({ navigation }) => {
           {images.map((item) => (
             <TouchableOpacity onPress={handleSelectImage} style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
               {/* 이미지 경로 받아오는거 수정 */}
-              <Image style={styles.resultImage} source={require(`../../assets/images/imageEx.jpg`)} />
+              <Image style={styles.resultImage} source={require(`../assets/images/imageEx.jpg`)} />
               <Text style={styles.flowerData}>{item.kor_name}({item.eng_name})</Text>
-              <Text style={styles.flowerData}>"{item.flower_language}"</Text>
+              <Text style={styles.flowerData}>'{item.flower_language}'</Text>
               <Text style={styles.flowerData}>{item.probability}%</Text>
             </TouchableOpacity>
           ))}
@@ -95,36 +88,42 @@ const Result = ({ navigation }) => {
   )
 };
 
-export default Result;
+export default ClassResult;
 
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
   },
-  centeredView: {
+  modalContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(114, 114, 114, 0.4)',
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
+  modal: {
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: 30,
+    alignItems: 'center',
+    elevation: 5,
+    width: '70%',
   },
-  button: {
+  modalButtonContainer: {
     display: 'flex',
     flexDirection: 'row',
+  },
+  modalButton: {
+    backgroundColor: '#0C0B0C',
+    alignItems: 'center',
+    padding: 5,
+    borderRadius: 10,
+    width: 70,
+    margin: 10,
+    marginBottom: 0,
+  },
+  modalButtonText: {
+    color: '#FCFCFC',
+    fontSize: 15,
   },
   textContainer: {
     flex: 0.15,
@@ -172,7 +171,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 0.2,
-    width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-end',
   },

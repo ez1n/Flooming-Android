@@ -9,7 +9,7 @@ const ImageCheck = ({ navigation }) => {
   const [photoPermission, setPhotoPermission] = ImagePicker.useCameraPermissions();
 
   const handleClickButton = () => {
-    navigation.navigate('Result');
+    navigation.navigate('ClassResult');
   };
 
   const PressGalleryButton = async() => {
@@ -42,6 +42,7 @@ const ImageCheck = ({ navigation }) => {
       }
     };
 
+    // 사진 촬영
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -116,7 +117,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 0.15,
-    width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-end',
   },

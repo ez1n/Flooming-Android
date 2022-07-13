@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 0.35,
-    width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
