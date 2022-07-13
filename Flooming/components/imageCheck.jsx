@@ -3,11 +3,14 @@ import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, ImageBackground, Text, View, Image, TouchableOpacity } from 'react-native';
 import Button from './button';
 
-const ImageCheck = (props) => {
+const ImageCheck = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [galleryPermission, setGalleryPermission] = ImagePicker.useMediaLibraryPermissions();
   const [photoPermission, setPhotoPermission] = ImagePicker.useCameraPermissions();
 
+  const handleClickButton = () => {
+    navigation.navigate('Result');
+  };
 
   const PressGalleryButton = async() => {
     // 접근 권한 허용 여부
@@ -35,7 +38,7 @@ const ImageCheck = (props) => {
     if (!photoPermission?.granted) {
       const permission = await setPhotoPermission();
       if(!permission.granted) {
-        return null;z
+        return null;
       }
     };
 
@@ -54,7 +57,6 @@ const ImageCheck = (props) => {
     <ImageBackground
       source={require('../assets/images/mainBackground.jpg')}
       style={styles.backgroundImage}>
-      <View style={styles.titleContainer}></View>
       
       <View style={styles.imageContainer}>
         { image ? <Image style={styles.exImage} source={{uri: image}} /> : <Image style={styles.exImage} source={require('../assets/images/imageEx.jpg')} />}
@@ -71,7 +73,7 @@ const ImageCheck = (props) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button text={'사진 선택'} />
+        <Button text={'사진 선택'} onPress={handleClickButton} />
       </View>
     </ImageBackground>
   )
@@ -81,8 +83,7 @@ export default ImageCheck;
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    height: '100%',
-    width: '100%',
+    flex: 1,
   },
   titleContainer: {
     width: '100%',
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFC',
   },
   imageContainer: {
-    flex: 1,
+    flex: 0.85,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -114,8 +115,9 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   buttonContainer: {
+    flex: 0.15,
     width: '100%',
     alignItems: 'center',
-    bottom: 10,
+    justifyContent: 'flex-end',
   },
 })

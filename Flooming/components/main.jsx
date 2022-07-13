@@ -4,15 +4,15 @@ import { FontAwesome } from '@expo/vector-icons';
 import Button from './button';
 
 
-export default function Main(props) {
+export default function Main({ navigation }) {
+  const handleClickButton = () => {
+    navigation.navigate('Guide');
+  };
 
   return (
     <ImageBackground
     source={require('../assets/images/mainBackground.jpg')}
     style={styles.backgroundImage}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>FLOOMING</Text>
-      </View>
 
       <View style={styles.textContainer}>
         <Text style={styles.innerText}>마음에 드는 <Text style={{ fontWeight: 'bold' }}>꽃</Text>을</Text>
@@ -26,7 +26,7 @@ export default function Main(props) {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button text={'지금 해볼래요'} />
+        <Button text={'지금 해볼래요'} onPress={handleClickButton} />
       </View>
     </ImageBackground>
   )
@@ -34,24 +34,11 @@ export default function Main(props) {
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    height: '100%',
-    width: '100%',
-  },
-  titleContainer: {
-    width: '100%',
-    position: 'absolute',
-    top: 0,
-    height: 70,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FCFCFC',
-  },
-  title: {
-    fontSize: 25,
-    fontWeight: 'bold',
+    flex: 1,
   },
   textContainer: {
-    top: 150,
+    flex: 0.35,
+    justifyContent: 'flex-end',
   },
   innerText: {
     color: '#FFF9C3',
@@ -59,11 +46,12 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   imageContainer: {
+    flex: 0.3,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    top: 200,
+    paddingTop: 30
   },
   exImage: {
     width: 150,
@@ -71,8 +59,9 @@ const styles = StyleSheet.create({
     margin: 10
   },
   buttonContainer: {
+    flex: 0.35,
     width: '100%',
     alignItems: 'center',
-    top: 440,
+    justifyContent: 'flex-end',
   },
 })
