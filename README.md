@@ -1,9 +1,7 @@
 # Flooming-Android
 
 ## Framework
+```React Native```, ```expo-CLI```
 
-```React Native``` ```expo-CLI```
-
-## API
-
-'''axios''' React Navigation```
+## API/LIBRARY
+```axios```, ```React Navigation```
