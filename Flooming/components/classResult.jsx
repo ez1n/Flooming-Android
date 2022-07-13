@@ -7,9 +7,9 @@ const ClassResult = ({ navigation }) => {
 
   // 임시 정보
   const images = [
-    { img_src: '../assets/images/imageEx.jpg', kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
-    { img_src: '../assets/images/imageEx.jpg', kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
-    { img_src: '../assets/images/imageEx.jpg', kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
+    { img_src: require('../assets/images/imageEx.jpg'), kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
+    { img_src: require('../assets/images/imageNonEx.jpg'), kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
+    { img_src: require('../assets/images/imageEx.jpg'), kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
   ]
 
   // 사진 다시 촬영하기 이벤트
@@ -67,8 +67,7 @@ const ClassResult = ({ navigation }) => {
         <View style={styles.resultImageContainer}>
           {images.map((item) => (
             <TouchableOpacity onPress={handleSelectImage} style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
-              {/* 이미지 경로 받아오는거 수정 */}
-              <Image style={styles.resultImage} source={require(`../assets/images/imageEx.jpg`)} />
+              <Image style={styles.resultImage} source={item.img_src} />
               <Text style={styles.flowerData}>{item.kor_name}({item.eng_name})</Text>
               <Text style={styles.flowerData}>'{item.flower_language}'</Text>
               <Text style={styles.flowerData}>{item.probability}%</Text>
