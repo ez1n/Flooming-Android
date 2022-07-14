@@ -6,7 +6,7 @@ const Gallery = (props) => {
   const [isLoading, setIsLoading] = useState(true); // 화면 로딩 state
   const [isRefreshing, setIsRefreshing] = useState(false); // 새로고침 state
 
-  // 데이터 로딩 이벤츠 (새로고침)
+  // 데이터 로딩 이벤트 (새로고침)
   const refreshData = () => {
     setIsLoading(false);
     // 통신으로 데이터 받아와야함
@@ -22,7 +22,7 @@ const Gallery = (props) => {
     <ImageBackground style={styles.backgroundImage} source={require('../../assets/images/galleryBackground.jpg')}>
       <FlatList
         data={arr}
-        renderItem={() => <GalleryItem />}
+        renderItem={() => <GalleryItem loadData={props.loadData} />}
         refreshing={isRefreshing}
         onRefresh={refreshData}
         windowSize={3}

@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import FormData from 'form-data';
 import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, ImageBackground, Text, View, Image, TouchableOpacity } from 'react-native';
 import Button from './button';
 
-const ImageCheck = ({ navigation }) => {
-  const [image, setImage] = useState(null);
-  const [galleryPermission, setGalleryPermission] = ImagePicker.useMediaLibraryPermissions();
-  const [photoPermission, setPhotoPermission] = ImagePicker.useCameraPermissions();
+export default function ImageCheck(props) {
+  const [galleryPermission, setGalleryPermission] = ImagePicker.useMediaLibraryPermissions();  // 갤러리 접근 권한
+  const [photoPermission, setPhotoPermission] = ImagePicker.useCameraPermissions(); // 카메라 접근 권한
+  const [drawingImage, setDrawingImage] = useState(null);
+  const imageData = new FormData(); // 사진 전송 폼
 
-  const handleClickButton = () => {
-    navigation.navigate('ClassResult');
-  };
-
-  const PressGalleryButton = async() => {
+  // 앨범에서 가져오기 이벤트
+  const handleClickGalleryButton = async() => {
     // 접근 권한 허용 여부
     if (!galleryPermission?.granted) {
       const permission = await setGalleryPermission();
@@ -29,11 +29,12 @@ const ImageCheck = ({ navigation }) => {
     });
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      props.getImage(result.uri);
     }
   };
 
-  const PressPhotoButton = async() => {
+  // 사진 찍기 이벤트
+  const handleClickPhotoButton = async() => {
     // 접근 권한 허용 여부
     if (!photoPermission?.granted) {
       const permission = await setPhotoPermission();
@@ -50,9 +51,29 @@ const ImageCheck = ({ navigation }) => {
     });
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      props.getImage(result.uri);
+      imageData.append('file', props.image);
     }
   };
+
+    // 이미지 전송 이벤트 (버튼 클릭)
+    const handleClickSelectButton = () => {
+      const filename = props.image.split('/').pop();
+      imageData.append('file', {uri: props.image, type: 'multipart/form-data', name: filename});
+
+      // http://flooming.link
+      axios.post('https://e513-121-136-173-243.jp.ngrok.io/photo', imageData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then((response) => {
+          console.log(response.data.result);
+          props.updateFlowerData(response.data.result);
+          props.navigation.navigate('ClassResult');
+        })
+        .catch((error) => { console.log(error) })
+    };
 
   return (
     <ImageBackground
@@ -60,27 +81,26 @@ const ImageCheck = ({ navigation }) => {
       style={styles.backgroundImage}>
       
       <View style={styles.imageContainer}>
-        { image ? <Image style={styles.exImage} source={{uri: image}} /> : <Image style={styles.exImage} source={require('../assets/images/imageEx.jpg')} />}
+        {/* 받아온 꽃 사진 */}
+        { props.image ? <Image style={styles.exImage} source={{uri: props.image}} /> : <Image style={styles.exImage} source={require('../assets/images/imageEx.jpg')} />}
 
         <View style={styles.imageButtonContainer}>
           <TouchableOpacity>
-            <Text style={styles.buttonText} onPress={PressPhotoButton}>사진 찍기</Text>
+            <Text style={styles.buttonText} onPress={handleClickPhotoButton}>사진 찍기</Text>
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text style={styles.buttonText} onPress={PressGalleryButton}>앨범에서 가져오기</Text>
+            <Text style={styles.buttonText} onPress={handleClickGalleryButton}>앨범에서 가져오기</Text>
           </TouchableOpacity>
         </View>
 
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button text={'사진 선택'} onPress={handleClickButton} />
+        <Button text={'사진 선택'} onPress={handleClickSelectButton} />
       </View>
     </ImageBackground>
   )
 };
-
-export default ImageCheck;
 
 const styles = StyleSheet.create({
   backgroundImage: {
@@ -103,6 +123,7 @@ const styles = StyleSheet.create({
   exImage: {
     width: 300,
     height: 300,
+    borderRadius: 20,
   },
   imageButtonContainer: {
     width: '100%',

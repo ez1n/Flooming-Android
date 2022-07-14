@@ -2,24 +2,20 @@ import React, { useState } from 'react';
 import { StyleSheet, Image, ImageBackground, View, Text, TouchableOpacity, Modal } from 'react-native';
 import Button from './button';
 
-const ClassResult = ({ navigation }) => {
+const ClassResult = (props) => {
   const [selectImage, setSelectImage] = useState(false);
 
-  // 임시 정보
-  const images = [
-    { img_src: require('../assets/images/imageEx.jpg'), kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
-    { img_src: require('../assets/images/imageNonEx.jpg'), kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
-    { img_src: require('../assets/images/imageEx.jpg'), kor_name: '장미', eng_name: 'Rose', flower_language: '열렬한 사랑', probability: 50 },
-  ]
-
   // 사진 다시 촬영하기 이벤트
-  const handleClickReturnButton = () => { navigation.navigate('ImageCheck') };
+  const handleClickReturnButton = () => { props.navigation.navigate('ImageCheck') };
 
   // 사진 선택 이벤트
   const handleSelectImage = () => { setSelectImage(!selectImage) };
 
   // 그림 그리기 이벤트
-  const handleClickYes = () => { navigation.navigate('ImageResult') };
+  const handleClickYes = () => { 
+    // props.updateGalleryData(response); => 통신처리
+    props.navigation.navigate('ImageResult');
+  };
 
   // 사진 선택 취소 이벤트
   const handleClickNo = () => { setSelectImage(!selectImage) };
@@ -54,18 +50,19 @@ const ClassResult = ({ navigation }) => {
       </Modal>
 
       <View style={styles.textContainer}>
-        {(images.length > 1) && <Text style={styles.text}>꽃을 선택해 주세요</Text>}
+        {(props.flowerData.data.length > 1) && <Text style={styles.text}>꽃을 선택해 주세요</Text>}
       </View>
 
       <View style={styles.imageContainer}>
 
         <View style={styles.myImageContainer}>
-          <Image style={styles.myImage} source={require('../assets/images/imageEx.jpg')} />
           <Text style={styles.myImageText}>당신의 꽃</Text>
+          <Image style={styles.myImage} source={{ uri: props.currentImage }} />
         </View>
 
+        {/* response가 두개 이상인 경우는 테스트 해 봐야함 */}
         <View style={styles.resultImageContainer}>
-          {images.map((item) => (
+          {props.flowerData.data.map((item) => (
             <TouchableOpacity onPress={handleSelectImage} style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
               <Image style={styles.resultImage} source={item.img_src} />
               <Text style={styles.flowerData}>{item.kor_name}({item.eng_name})</Text>
@@ -78,7 +75,7 @@ const ClassResult = ({ navigation }) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        {(images.length == 1) &&
+        {(props.flowerData.data.length == 1) &&
           <Button text={'그림을 그려볼까요?'} onPress={handleSelectImage} />
         }
         <Button text={'다시 찍을까요?'} onPress={handleClickReturnButton} />
@@ -145,14 +142,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  myImage: {
-    width: 150,
-    height: 150,
-    marginBottom: 10,
-  },
   myImageText: {
     color: '#FCFCFC',
     fontSize: 20,
+  },
+  myImage: {
+    width: 150,
+    height: 150,
+    marginTop: 10,
   },
   resultImageContainer: {
     flex: 0.5,

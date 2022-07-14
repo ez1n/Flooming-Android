@@ -4,8 +4,11 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const GalleryItem = (props) => {
   // 임시 데이터
-  const flower = '../../assets/images/imageEx.jpg';
-  const flowerImage = '../../assets/images/illustrationimageEx.jpg';
+  const flower = {
+    picture_src: props.loadData.picture_src,
+    photo_src: props.loadData.photo_src,
+    comment: props.loadData.comment,
+  };
 
   // 이미지 전환 이벤트
   const handleChangeImage = () => {
@@ -20,10 +23,10 @@ const GalleryItem = (props) => {
   return (
     <View style={styles.galleryContainer}>
       <TouchableOpacity onPress={handleChangeImage}>
-        <Image style={styles.image} source={require('../../assets/images/imageEx.jpg')} />
+        <Image style={styles.image} source={{ uri: flower.picture_src}} />
       </TouchableOpacity>
       <View style={styles.commentContainer}>
-        <Text style={styles.comment}>comment</Text>
+        <Text style={styles.comment}>{flower.comment}</Text>
         <TouchableOpacity onPress={handleDownloadImage}>
           <FontAwesome name='download' size={24} color='#D3D3D3' />
         </TouchableOpacity>

@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     width: 190,
     height: 190,
     margin: 5,
+    borderRadius: 20,
   },
   text: {
     color: '#FCFCFC',
@@ -57,6 +58,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginTop: 50,
+    backgroundColor: 'white',
+    borderRadius: 100,
   },
   buttonContainer: {
     flex: 0.15,

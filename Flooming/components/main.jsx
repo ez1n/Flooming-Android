@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
   exImage: {
     width: 150,
     height: 150,
-    margin: 10
+    margin: 10,
+    borderRadius: 20,
   },
   buttonContainer: {
     flex: 0.35,
