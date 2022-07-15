@@ -12,16 +12,10 @@ const Gallery = (props) => {
     // 통신으로 데이터 받아와야함
   }
 
-  // 임시
-  const arr = [];
-  for (let i = 0; i < 100; i++) {
-    arr.push(i);
-  }
-
   return (
     <ImageBackground style={styles.backgroundImage} source={require('../../assets/images/galleryBackground.jpg')}>
       <FlatList
-        data={arr}
+        data={props.loadData}
         renderItem={() => <GalleryItem loadData={props.loadData} />}
         refreshing={isRefreshing}
         onRefresh={refreshData}

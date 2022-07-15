@@ -1,24 +1,39 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { StyleSheet, Image, ImageBackground, View, Text, TouchableOpacity, Modal } from 'react-native';
 import Button from './button';
 
 const ClassResult = (props) => {
-  const [selectImage, setSelectImage] = useState(false);
+  const [selected, setSelected] = useState(false); // modal 상태 state
+  const [selectImage, setSelectImage] = useState(null); // 선택한 이미지 state
+  // 서버에 요청할 데이터 state (클래스 선택시)
+  const [currentImageType, setCurrentImageType] = useState({
+    photo_id: props.photoId,
+    flower_type: null,
+  });
 
   // 사진 다시 촬영하기 이벤트
   const handleClickReturnButton = () => { props.navigation.navigate('ImageCheck') };
 
-  // 사진 선택 이벤트
-  const handleSelectImage = () => { setSelectImage(!selectImage) };
+  // 사진 선택 이벤트 (flower_type 업데이트)
+  const handleSelectImage = (item) => {
+    setSelected(!selected);
+    setCurrentImageType({ ...currentImageType, flower_type: item.kor_name });
+    setSelectImage(item.img_src);
+  };
 
   // 그림 그리기 이벤트
-  const handleClickYes = () => { 
-    // props.updateGalleryData(response); => 통신처리
-    props.navigation.navigate('ImageResult');
+  const handleClickYes = () => {
+    axios.post('https://eb85-211-117-246-158.jp.ngrok.io/picture', currentImageType)
+      .then((response) => {
+        props.navigation.navigate('ImageResult');
+        props.updateGalleryData(response.data);
+      })
+      .catch((error) => console.log(error))
   };
 
   // 사진 선택 취소 이벤트
-  const handleClickNo = () => { setSelectImage(!selectImage) };
+  const handleClickNo = () => { setSelected(!selected) };
 
   return (
     <ImageBackground
@@ -29,10 +44,10 @@ const ClassResult = (props) => {
       <Modal
         animationType='fade'
         transparent={true}
-        visible={selectImage}>
+        visible={selected}>
         <View style={styles.modalContainer}>
           <View style={styles.modal}>
-            <Image style={styles.resultImage} source={require('../assets/images/imageEx.jpg')} />
+            <Image style={styles.resultImage} source={{ uri: selectImage }} />
             <Text>그림을 그려볼까요?</Text>
 
             <View style={styles.modalButtonContainer}>
@@ -60,10 +75,9 @@ const ClassResult = (props) => {
           <Image style={styles.myImage} source={{ uri: props.currentImage }} />
         </View>
 
-        {/* response가 두개 이상인 경우는 테스트 해 봐야함 */}
         <View style={styles.resultImageContainer}>
           {props.flowerData.data.map((item) => (
-            <TouchableOpacity onPress={handleSelectImage} style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
+            <TouchableOpacity onPress={() => handleSelectImage(item)} style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
               <Image style={styles.resultImage} source={item.img_src} />
               <Text style={styles.flowerData}>{item.kor_name}({item.eng_name})</Text>
               <Text style={styles.flowerData}>'{item.flower_language}'</Text>

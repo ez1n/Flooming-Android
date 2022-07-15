@@ -8,7 +8,6 @@ import Button from './button';
 export default function ImageCheck(props) {
   const [galleryPermission, setGalleryPermission] = ImagePicker.useMediaLibraryPermissions();  // 갤러리 접근 권한
   const [photoPermission, setPhotoPermission] = ImagePicker.useCameraPermissions(); // 카메라 접근 권한
-  const [drawingImage, setDrawingImage] = useState(null);
   const imageData = new FormData(); // 사진 전송 폼
 
   // 앨범에서 가져오기 이벤트
@@ -62,14 +61,15 @@ export default function ImageCheck(props) {
       imageData.append('file', {uri: props.image, type: 'multipart/form-data', name: filename});
 
       // http://flooming.link
-      axios.post('https://e513-121-136-173-243.jp.ngrok.io/photo', imageData, {
+      axios.post('https://eb85-211-117-246-158.jp.ngrok.io/photo', imageData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
         .then((response) => {
-          console.log(response.data.result);
+          console.log(response.data);
           props.updateFlowerData(response.data.result);
+          props.updatePhotoId(Number(response.data.photo_id));
           props.navigation.navigate('ClassResult');
         })
         .catch((error) => { console.log(error) })

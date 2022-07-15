@@ -1,31 +1,32 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { StyleSheet, ImageBackground, View, Image, TextInput } from 'react-native';
 import Button from './button';
 
 const ImageResult = (props) => {
+  const { photo_id, picture_id, picture_src } = props.galleryData;
   // 갤러리에 들어가야할 데이터
   const [data, setData] = useState(
     {
-      photo_id: 1, // props.galleryData.photo_id,
-      picture_id: 2, // props.galleryData.picture_id,
-      comment: null,
+      photo_id: photo_id,
+      picture_id: picture_id,
+      comment: '',
     }
   );
 
   // comment onChange 이벤트
   const getComment = (event) => {
       const {eventCount, target, text} = event.nativeEvent;
-      setData({ ...data, comment: text});
+      setData({ ...data, comment: text });
       console.log(data);
   };
 
   // 갤러리 전시 이벤트
   const handleClickGallery = () => { 
-    axios.post('https://e513-121-136-173-243.jp.ngrok.io/picture', data)
+    axios.post('https://eb85-211-117-246-158.jp.ngrok.io/gallery', data)
     .then((response) => {
-      console.log(response);
-      props.getLoadDAta(response.data);
+      console.log(response.data);
+      props.getLoadData(response.data);
       props.navigation.navigate('Gallery');
     })
     .catch((error) => console.log(error))
@@ -35,7 +36,7 @@ const ImageResult = (props) => {
   const handleClickSave = () => {
     //
   };
-  
+
 
   return (
     <ImageBackground style={styles.backgroundImage} source={require('../assets/images/mainBackground.jpg')}>

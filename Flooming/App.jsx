@@ -9,11 +9,11 @@ import ClassResult from './components/classResult';
 import ImageResult from './components/imageResult';
 import Gallery from './components/gallery/gallery';
 
-// 네비게이터
-Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator(); // 네비게이터
 
 export default function App() {
-  const [image, setImage] = useState(null); // 현재 이미지 데이터 state
+  // 현재 사진 state (당신이 찍은 꽃)
+  const [image, setImage] = useState(null);
   // 꽃 정보 state
   const [flowerData, setFlowerData] = useState([
     {
@@ -24,30 +24,29 @@ export default function App() {
       probability: null,
     },
   ]);
+  // photo_id
+  const [photoId, setPhotoId] = useState(null);
   // 갤러리 정보 state
   const [galleryData, setGalleryData] = useState({
     photo_id: null,
     picture_id: null,
     picture_src: null,
   });
-  // 갤러리 로딩 데이터 state (받아오기)
-  const [loadData, setLoadData] = useState({
-    photo_src: null,
-    picture_src: null,
-    comment: null,
-  });
+  // 갤러리 로딩 데이터 state (페이징)
+  const [loadData, setLoadData] = useState([
+    {
+      photo_src: null,
+      picture_src: null,
+      comment: null,
+    },
+  ]);
 
-  // 현재 이미지 데이터 가져오기
-  const getImage = (data) => { setImage(data) };
 
-  // 꽃 정보 업데이트
-  const updateFlowerData = (data) => { setFlowerData({ data }) };
-
-  // 갤러리 정보 업데이트
-  const updateGalleryData = (data) => { setGalleryData(data) };
-
-  // 갤러리 로딩 정보 가져오기
-  const getLoadDAta = (data) => { setLoadData(data) };
+  const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
+  const updateFlowerData = (data) => { setFlowerData({ data }) }; // 꽃 정보 업데이트
+  const updatePhotoId = (data) => { setPhotoId(data) }; // photo_id 업데이트
+  const updateGalleryData = (data) => { setGalleryData(data) }; // 갤러리 정보 업데이트
+  const getLoadData = (data) => { setLoadData({ data }) }; // 갤러리 로딩 정보 가져오기
 
   return (
     <NavigationContainer>
@@ -69,10 +68,11 @@ export default function App() {
         <Stack.Screen
           name='ImageCheck'
           children={({ navigation }) => <ImageCheck
-            updateFlowerData={updateFlowerData}
-            navigation={navigation}
-            getImage={getImage}
             image={image}
+            updateFlowerData={updateFlowerData}
+            updatePhotoId={updatePhotoId}
+            getImage={getImage}
+            navigation={navigation}
           />}
           options={{ title: '' }}
         />
@@ -82,6 +82,7 @@ export default function App() {
           children={(({ navigation }) => <ClassResult
             flowerData={flowerData}
             currentImage={image}
+            photoId={photoId}
             updateGalleryData={updateGalleryData}
             navigation={navigation}
           />)}
@@ -92,17 +93,17 @@ export default function App() {
           name='ImageResult'
           children={(({ navigation }) => <ImageResult
             galleryData={galleryData}
-            getLoadDAta={getLoadDAta}
-            navigation={navigation} 
-            />)}
+            getLoadData={getLoadData}
+            navigation={navigation}
+          />)}
           options={{ title: '그림 결과' }}
         />
 
         <Stack.Screen
           name='Gallery'
-          children={(({navigation}) => <Gallery
-          loadData={loadData}
-          navigation={navigation} 
+          children={(({ navigation }) => <Gallery
+            loadData={loadData}
+            navigation={navigation}
           />)}
           options={{ title: '갤러리' }}
         />
