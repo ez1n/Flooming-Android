@@ -3,16 +3,14 @@ import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Button from './button';
 
-
 export default function Main({ navigation }) {
-  const handleClickButton = () => {
-    navigation.navigate('Guide');
-  };
+  const handleClickButton = () => { navigation.navigate('Guide') }; // 버튼 클릭 이벤트
 
   return (
     <ImageBackground
-    source={require('../assets/images/mainBackground.jpg')}
-    style={styles.backgroundImage}>
+      source={require('../assets/images/mainBackground.jpg')}
+      style={styles.backgroundImage}
+      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
 
       <View style={styles.textContainer}>
         <Text style={styles.innerText}>마음에 드는 <Text style={{ fontWeight: 'bold' }}>꽃</Text>을</Text>
@@ -35,6 +33,7 @@ export default function Main({ navigation }) {
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
+    backgroundColor: '#FCFCFC',
   },
   textContainer: {
     flex: 0.35,
@@ -42,8 +41,9 @@ const styles = StyleSheet.create({
   },
   innerText: {
     color: '#FFF9C3',
-    fontSize: 35,
-    paddingLeft: 20,
+    fontSize: 40,
+    paddingLeft: 40,
+    fontFamily: 'symkyungha',
   },
   imageContainer: {
     flex: 0.3,

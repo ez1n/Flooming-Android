@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   illustText: {
     color: '#FCFCFC',
     fontSize: 25,
+    fontFamily: 'symkyungha',
   },
   buttonContainer: {
     flex: 0.2,

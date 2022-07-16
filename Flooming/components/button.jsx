@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: '#FCFCFC',
-    fontSize: 25,
+    fontSize: 30,
     height: 35,
+    fontFamily: 'symkyungha',
   },
 })

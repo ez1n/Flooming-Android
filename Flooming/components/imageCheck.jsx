@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import FormData from 'form-data';
 import * as ImagePicker from 'expo-image-picker';
@@ -131,10 +131,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   buttonText: {
     color: '#FCFCFC',
-    fontSize: 25,
+    fontSize: 30,
+    fontFamily: 'symkyungha',
   },
   buttonContainer: {
     flex: 0.15,

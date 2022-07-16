@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     color: '#FCFCFC',
     fontSize: 25,
     top: '40%',
+    fontFamily: 'symkyungha',
   },
   image: {
     flex: 1,

@@ -14,6 +14,7 @@ export default function Guide({navigation}) {
       style={styles.backgroundImage}>
       <View style={styles.exampleImageContainer}>
         <View style={{ alignItems: 'center' }}>
+          {/* 예시 사진 수정 */}
           <Image style={styles.img} source={require('../assets/images/imageEx.jpg')} />
           <Text style={styles.text}>이렇게 찍어주세요</Text>
           <AntDesign style={styles.icon} name="checkcircle" size={40} color="blue" />
@@ -53,8 +54,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   text: {
+    marginTop: 20,
     color: '#FCFCFC',
-    fontSize: 20,
+    fontSize: 25,
+    fontFamily: 'symkyungha',
   },
   icon: {
     marginTop: 50,

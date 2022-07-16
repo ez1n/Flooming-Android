@@ -57,5 +57,6 @@ const styles = StyleSheet.create({
   comment: {
     color: '#FCFCFC',
     fontSize: 20,
+    fontFamily: 'symkyungha',
   },
 })

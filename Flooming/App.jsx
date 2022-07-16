@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
@@ -12,6 +13,12 @@ import Gallery from './components/gallery/gallery';
 const Stack = createNativeStackNavigator(); // 네비게이터
 
 export default function App() {
+  useEffect(() => {
+    Font.loadAsync({
+      'symkyungha': require('./assets/fonts/SimKyungha.ttf'),
+    });
+  }, [])
+
   // 현재 사진 state (당신이 찍은 꽃)
   const [image, setImage] = useState(null);
   // 꽃 정보 state
@@ -41,7 +48,6 @@ export default function App() {
     },
   ]);
 
-
   const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
   const updateFlowerData = (data) => { setFlowerData({ data }) }; // 꽃 정보 업데이트
   const updatePhotoId = (data) => { setPhotoId(data) }; // photo_id 업데이트
@@ -51,12 +57,19 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style='auto' />
-      <Stack.Navigator initialRootName='Main'>
+      <Stack.Navigator
+        screenOptions={{
+          headerTitleAlign: 'center',
+          headerShadowVisible: false,
+          headerStyle: { backgroundColor: '#FCFCFC' },
+          headerTitleStyle: { fontFamily: 'symkyungha', fontSize: 30 }
+        }}
+        initialRootName='Main'>
 
         <Stack.Screen
           name='Main'
           component={Main}
-          options={{ title: 'FLOOMING' }}
+          options={{ headerTitle: 'FLOOMING' }}
         />
 
         <Stack.Screen

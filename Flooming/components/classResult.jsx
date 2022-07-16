@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: '#FCFCFC',
     fontSize: 15,
+    fontFamily: 'symkyungha',
   },
   textContainer: {
     flex: 0.15,
@@ -143,6 +144,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#FCFCFC',
     fontSize: 25,
+    fontFamily: 'symkyungha',
   },
   imageContainer: {
     flex: 0.65,
@@ -159,6 +161,7 @@ const styles = StyleSheet.create({
   myImageText: {
     color: '#FCFCFC',
     fontSize: 20,
+    fontFamily: 'symkyungha',
   },
   myImage: {
     width: 150,
