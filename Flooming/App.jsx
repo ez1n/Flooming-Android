@@ -49,7 +49,7 @@ export default function App() {
   ]);
 
   const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
-  const updateFlowerData = (data) => { setFlowerData({ data }) }; // 꽃 정보 업데이트
+  const updateFlowerData = (data) => { setFlowerData(data) }; // 꽃 정보 업데이트
   const updatePhotoId = (data) => { setPhotoId(data) }; // photo_id 업데이트
   const updateGalleryData = (data) => { setGalleryData(data) }; // 갤러리 정보 업데이트
   const getLoadData = (data) => { setLoadData({ data }) }; // 갤러리 로딩 정보 가져오기

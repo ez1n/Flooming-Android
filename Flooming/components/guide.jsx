@@ -56,12 +56,11 @@ const styles = StyleSheet.create({
   text: {
     marginTop: 20,
     color: '#FCFCFC',
-    fontSize: 25,
+    fontSize: 27,
     fontFamily: 'symkyungha',
   },
   icon: {
     marginTop: 50,
-    backgroundColor: 'white',
     borderRadius: 100,
   },
   buttonContainer: {

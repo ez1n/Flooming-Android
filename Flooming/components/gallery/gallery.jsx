@@ -10,13 +10,13 @@ const Gallery = (props) => {
   const refreshData = () => {
     setIsLoading(false);
     // 통신으로 데이터 받아와야함
-  }
+  };
 
   return (
     <ImageBackground style={styles.backgroundImage} source={require('../../assets/images/galleryBackground.jpg')}>
-      <FlatList
+        <FlatList
         data={props.loadData}
-        renderItem={() => <GalleryItem loadData={props.loadData} />}
+        renderItem={<GalleryItem />}
         refreshing={isRefreshing}
         onRefresh={refreshData}
         windowSize={3}

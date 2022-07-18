@@ -61,14 +61,14 @@ export default function ImageCheck(props) {
       imageData.append('file', {uri: props.image, type: 'multipart/form-data', name: filename});
 
       // http://flooming.link
-      axios.post('https://eb85-211-117-246-158.jp.ngrok.io/photo', imageData, {
+      axios.post('https://38e3-183-99-247-44.jp.ngrok.io/photo', imageData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
         .then((response) => {
           console.log(response.data);
-          props.updateFlowerData(response.data.result);
+          props.updateFlowerData(response.data);
           props.updatePhotoId(Number(response.data.photo_id));
           props.navigation.navigate('ClassResult');
         })

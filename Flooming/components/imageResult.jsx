@@ -23,10 +23,10 @@ const ImageResult = (props) => {
 
   // 갤러리 전시 이벤트
   const handleClickGallery = () => { 
-    axios.post('https://eb85-211-117-246-158.jp.ngrok.io/gallery', data)
+    axios.post('https://38e3-183-99-247-44.jp.ngrok.io/gallery', data)
     .then((response) => {
-      console.log(response.data);
-      props.getLoadData(response.data);
+      console.log(response.data.result);
+      props.getLoadData(response.data.result);
       props.navigation.navigate('Gallery');
     })
     .catch((error) => console.log(error))
@@ -37,12 +37,11 @@ const ImageResult = (props) => {
     //
   };
 
-
   return (
     <ImageBackground style={styles.backgroundImage} source={require('../assets/images/mainBackground.jpg')}>
 
       <View style={styles.illustContainer}>
-        <Image style={styles.illust} source={require('../assets/images/illustrationimageEx.jpg')} />
+        <Image style={styles.illust} source={{uri: props.galleryData.picture_src}} />
         <TextInput
           style={styles.illustText}
           placeholder='남기고 싶은 말이 있나요?'
@@ -74,6 +73,7 @@ const styles = StyleSheet.create({
     width: 320,
     height: 320,
     marginBottom: 15,
+    borderRadius: 20,
   },
   illustText: {
     color: '#FCFCFC',

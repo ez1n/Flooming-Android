@@ -5,9 +5,9 @@ import { FontAwesome } from '@expo/vector-icons';
 const GalleryItem = (props) => {
   // 임시 데이터
   const flower = {
-    picture_src: props.loadData.picture_src,
-    photo_src: props.loadData.photo_src,
-    comment: props.loadData.comment,
+    picture_src: props.item.picture_src,
+    photo_src: props.item.photo_src,
+    comment: props.item.comment,
   };
 
   // 이미지 전환 이벤트
