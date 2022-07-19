@@ -13,8 +13,11 @@ const Gallery = (props) => {
   };
 
   return (
-    <ImageBackground style={styles.backgroundImage} source={require('../../assets/images/galleryBackground.jpg')}>
-        <FlatList
+    <ImageBackground
+      source={require('../../assets/images/galleryBackground.jpg')}
+      style={styles.backgroundImage}
+      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
+      <FlatList
         data={props.loadData}
         renderItem={<GalleryItem />}
         refreshing={isRefreshing}

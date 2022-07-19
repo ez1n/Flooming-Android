@@ -78,7 +78,8 @@ export default function ImageCheck(props) {
   return (
     <ImageBackground
       source={require('../assets/images/mainBackground.jpg')}
-      style={styles.backgroundImage}>
+      style={styles.backgroundImage}
+      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
       
       <View style={styles.imageContainer}>
         {/* 받아온 꽃 사진 */}

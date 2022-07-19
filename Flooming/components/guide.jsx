@@ -11,7 +11,8 @@ export default function Guide({navigation}) {
   return (
     <ImageBackground
       source={require('../assets/images/mainBackground.jpg')}
-      style={styles.backgroundImage}>
+      style={styles.backgroundImage}
+      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
       <View style={styles.exampleImageContainer}>
         <View style={{ alignItems: 'center' }}>
           {/* 예시 사진 수정 */}
