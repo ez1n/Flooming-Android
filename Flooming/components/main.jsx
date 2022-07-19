@@ -10,7 +10,7 @@ export default function Main({ navigation }) {
     <ImageBackground
       source={require('../assets/images/mainBackground.jpg')}
       style={styles.backgroundImage}
-      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
+      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
       <View style={styles.textContainer}>
         <Text style={styles.innerText}>마음에 드는 <Text style={{ fontWeight: 'bold' }}>꽃</Text>을</Text>

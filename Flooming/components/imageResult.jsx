@@ -38,7 +38,10 @@ const ImageResult = (props) => {
   };
 
   return (
-    <ImageBackground style={styles.backgroundImage} source={require('../assets/images/mainBackground.jpg')}>
+    <ImageBackground 
+    source={require('../assets/images/mainBackground.jpg')}
+    style={styles.backgroundImage} 
+    imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
       <View style={styles.illustContainer}>
         <Image style={styles.illust} source={{uri: props.galleryData.picture_src}} />

@@ -25,7 +25,8 @@ const ClassResult = (props) => {
   return (
     <ImageBackground
       source={require('../assets/images/mainBackground.jpg')}
-      style={styles.backgroundImage}>
+      style={styles.backgroundImage}
+      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
       {/* 사진 선택 다이얼로그
       <Modal
