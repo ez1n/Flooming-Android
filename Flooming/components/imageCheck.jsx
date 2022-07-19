@@ -60,8 +60,7 @@ export default function ImageCheck(props) {
       const filename = props.image.split('/').pop();
       imageData.append('file', {uri: props.image, type: 'multipart/form-data', name: filename});
 
-      // http://flooming.link
-      axios.post('https://38e3-183-99-247-44.jp.ngrok.io/photo', imageData, {
+      axios.post(`${props.url}/photo`, imageData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -69,10 +68,9 @@ export default function ImageCheck(props) {
         .then((response) => {
           console.log(response.data);
           props.updateFlowerData(response.data);
-          props.updatePhotoId(Number(response.data.photo_id));
           props.navigation.navigate('ClassResult');
         })
-        .catch((error) => { console.log(error) })
+        .catch((error) => { console.log(props.url) })
     };
 
   return (
@@ -106,6 +104,7 @@ export default function ImageCheck(props) {
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
+    backgroundColor: '#FCFCFC',
   },
   titleContainer: {
     width: '100%',
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 0.85,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   exImage: {
     width: 300,

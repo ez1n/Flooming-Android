@@ -14,7 +14,7 @@ const ClassResult = (props) => {
 
   // 그림 그리기 이벤트
   const handleDrawImage = () => {
-    axios.post('https://38e3-183-99-247-44.jp.ngrok.io/picture', currentImageType)
+    axios.post(`${props.url}/picture`, currentImageType)
       .then((response) => {
         props.navigation.navigate('ImageResult');
         props.updateGalleryData(response.data);
@@ -52,10 +52,6 @@ const ClassResult = (props) => {
         </View>
       </Modal> */}
 
-      <View style={styles.textContainer}>
-        {(props.flowerData.length > 1) && <Text style={styles.text}>꽃을 선택해 주세요</Text>}
-      </View>
-
       <View style={styles.imageContainer}>
 
         <View style={styles.myImageContainer}>
@@ -64,12 +60,10 @@ const ClassResult = (props) => {
         </View>
 
         <View style={styles.resultImageContainer}>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
-              <Image style={styles.resultImage} source={props.flowerData.img_src} />
-              <Text style={styles.flowerData}>{props.flowerData.kor_name} ({props.flowerData.eng_name})</Text>
-              <Text style={styles.flowerData}>'{props.flowerData.flower_language}'</Text>
-              <Text style={styles.flowerData}>{props.flowerData.probability}%</Text>
-            </TouchableOpacity>
+          <Image style={styles.resultImage} source={{ uri: `${props.url}/flower/${props.flowerData.kor_name}` }} />
+          <Text style={[styles.flowerData, styles.flowerName]}>{props.flowerData.kor_name} ({props.flowerData.eng_name})</Text>
+          <Text style={[styles.flowerData, styles.flowerLanguage]}>'{props.flowerData.flower_language}'</Text>
+          <Text style={[styles.flowerData, styles.flowerProbability]}>{props.flowerData.probability}%</Text>
         </View>
 
       </View>
@@ -86,19 +80,10 @@ export default ClassResult;
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
-  },
-  textContainer: {
-    flex: 0.15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    color: '#FCFCFC',
-    fontSize: 25,
-    fontFamily: 'symkyungha',
+    backgroundColor: '#FCFCFC',
   },
   imageContainer: {
-    flex: 0.65,
+    flex: 0.9,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -107,36 +92,45 @@ const styles = StyleSheet.create({
     flex: 0.5,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
   },
   myImageText: {
     color: '#FCFCFC',
-    fontSize: 20,
+    fontSize: 30,
     fontFamily: 'symkyungha',
   },
   myImage: {
-    width: 150,
-    height: 150,
-    marginTop: 10,
+    width: 180,
+    height: 180,
+    marginTop: 15,
     borderRadius: 20,
   },
   resultImageContainer: {
-    flex: 0.5,
-    display: 'flex',
-    flexDirection: 'row',
+    flex: 0.4,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   resultImage: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 120,
     marginBottom: 10,
     borderRadius: 20,
   },
   flowerData: {
     color: '#FCFCFC',
+    marginBottom: 10,
+    fontFamily: 'symkyungha',
+  },
+  flowerName: {
+    fontSize: 26,
+  },
+  flowerLanguage: {
+    fontSize: 22,
+  },
+  flowerProbability: {
     fontSize: 15,
   },
   buttonContainer: {
-    flex: 0.2,
+    flex: 0.1,
     alignItems: 'center',
     justifyContent: 'flex-end',
   },

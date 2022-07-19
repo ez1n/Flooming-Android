@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, Text, ImageBackground } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import Button from './button';
 
-export default function Guide({navigation}) {
+export default function Guide({ navigation }) {
   const handleClickButton = () => {
     navigation.navigate('ImageCheck');
   };
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative',
+    backgroundColor: '#FCFCFC',
   },
   exampleImageContainer: {
     flex: 0.85,

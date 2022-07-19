@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 300,
+    borderRadius: 20,
   },
   commentContainer: {
     width: 300,
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
   },
   comment: {
     color: '#FCFCFC',
-    fontSize: 20,
+    fontSize: 23,
     fontFamily: 'symkyungha',
   },
 })

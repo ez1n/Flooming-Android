@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { StyleSheet, ImageBackground, View, Image, TextInput } from 'react-native';
 import Button from './button';
@@ -17,15 +17,14 @@ const ImageResult = (props) => {
   // comment onChange 이벤트
   const getComment = (event) => {
       const {eventCount, target, text} = event.nativeEvent;
-      setData({ ...data, comment: text });
+      setData({ ...data, photo_id: photo_id, picture_id: picture_id, comment: text });
       console.log(data);
   };
 
   // 갤러리 전시 이벤트
   const handleClickGallery = () => { 
-    axios.post('https://38e3-183-99-247-44.jp.ngrok.io/gallery', data)
+    axios.post(`${props.url}/gallery`, data)
     .then((response) => {
-      console.log(response.data.result);
       props.getLoadData(response.data.result);
       props.navigation.navigate('Gallery');
     })
@@ -44,11 +43,11 @@ const ImageResult = (props) => {
     imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
       <View style={styles.illustContainer}>
-        <Image style={styles.illust} source={{uri: props.galleryData.picture_src}} />
+        <Image style={styles.illust} source={{uri: `${props.url}/picture/${props.galleryData.picture_id}`}} />
         <TextInput
           style={styles.illustText}
           placeholder='남기고 싶은 말이 있나요?'
-          placeholderTextColor="#FCFCFC"
+          placeholderTextColor='#FCFCFC'
           onChange={getComment}
         />
       </View>
@@ -66,6 +65,7 @@ export default ImageResult;
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
+    backgroundColor: '#FCFCFC',
   },
   illustContainer: {
     flex: 0.8,

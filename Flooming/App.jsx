@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Flooming from './flooming';
 import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,26 +14,25 @@ import Gallery from './components/gallery/gallery';
 const Stack = createNativeStackNavigator(); // 네비게이터
 
 export default function App() {
+  // 폰트 로딩 => 로딩화면 띄우기
   useEffect(() => {
     Font.loadAsync({
       'symkyungha': require('./assets/fonts/SimKyungha.ttf'),
     });
   }, [])
 
-  // 현재 사진 state (당신이 찍은 꽃)
-  const [image, setImage] = useState(null);
+  const flooming = new Flooming(); // url
+  const [image, setImage] = useState(null); // 현재 사진 state (나의 사진)
+  const [photoId, setPhotoId] = useState(null); // photo_id state
   // 꽃 정보 state
   const [flowerData, setFlowerData] = useState([
     {
-      img_src: null,
       kor_name: null,
       eng_name: null,
       flower_language: null,
       probability: null,
     },
   ]);
-  // photo_id
-  const [photoId, setPhotoId] = useState(null);
   // 갤러리 정보 state
   const [galleryData, setGalleryData] = useState({
     photo_id: null,
@@ -81,6 +81,7 @@ export default function App() {
         <Stack.Screen
           name='ImageCheck'
           children={({ navigation }) => <ImageCheck
+            url={flooming.url()}
             image={image}
             updateFlowerData={updateFlowerData}
             updatePhotoId={updatePhotoId}
@@ -93,6 +94,7 @@ export default function App() {
         <Stack.Screen
           name='ClassResult'
           children={(({ navigation }) => <ClassResult
+            url={flooming.url()}
             flowerData={flowerData}
             currentImage={image}
             photoId={photoId}
@@ -105,6 +107,8 @@ export default function App() {
         <Stack.Screen
           name='ImageResult'
           children={(({ navigation }) => <ImageResult
+            url={flooming.url()}
+            getImage={getImage} // 현재 이미지 초기화 시킬까말까 -> 뒤로가기했을때 정보 남아있어야하나?
             galleryData={galleryData}
             getLoadData={getLoadData}
             navigation={navigation}
@@ -115,10 +119,11 @@ export default function App() {
         <Stack.Screen
           name='Gallery'
           children={(({ navigation }) => <Gallery
+            url={flooming.url()}
             loadData={loadData}
             navigation={navigation}
           />)}
-          options={{ title: '갤러리' }}
+          options={{ title: '전시관' }}
         />
 
       </Stack.Navigator>
