@@ -4,8 +4,6 @@ import { StyleSheet, Image, ImageBackground, View, Text, TouchableOpacity, Modal
 import Button from './button';
 
 const ClassResult = (props) => {
-  // const [selected, setSelected] = useState(false); // modal 상태 state
-  // const [selectImage, setSelectImage] = useState(null); // 선택한 이미지 state
   // 서버에 요청할 데이터 state
   const currentImageType = {
     photo_id: props.flowerData.photo_id,
@@ -27,30 +25,6 @@ const ClassResult = (props) => {
       source={require('../assets/images/mainBackground.jpg')}
       style={styles.backgroundImage}
       imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
-
-      {/* 사진 선택 다이얼로그
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={selected}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modal}>
-            <Image style={styles.resultImage} source={{ uri: selectImage }} />
-            <Text>그림을 그려볼까요?</Text>
-
-            <View style={styles.modalButtonContainer}>
-              <TouchableOpacity style={styles.modalButton} onPress={handleDrawImage}>
-                <Text style={styles.modalButtonText}>예</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.modalButton} onPress={handleClickNo}>
-                <Text style={styles.modalButtonText}>아니요</Text>
-              </TouchableOpacity>
-            </View>
-
-          </View>
-        </View>
-      </Modal> */}
 
       <View style={styles.imageContainer}>
 
