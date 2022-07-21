@@ -14,13 +14,6 @@ import Gallery from './components/gallery/gallery';
 const Stack = createNativeStackNavigator(); // 네비게이터
 
 export default function App() {
-  // 폰트 로딩 => 로딩화면 띄우기
-  useEffect(() => {
-    Font.loadAsync({
-      'symkyungha': require('./assets/fonts/SimKyungha.ttf'),
-    });
-  }, [])
-
   const flooming = new Flooming(); // url
   const [image, setImage] = useState(null); // 현재 사진 state (나의 사진)
   const [photoId, setPhotoId] = useState(null); // photo_id state
@@ -48,6 +41,13 @@ export default function App() {
     },
   ]);
 
+  // 폰트 로딩 => 로딩화면 띄우기
+  useEffect(() => {
+    Font.loadAsync({
+      'symkyungha': require('./assets/fonts/SimKyungha.ttf'),
+    });
+  }, []);
+
   const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
   const updateFlowerData = (data) => { setFlowerData(data) }; // 꽃 정보 업데이트
   const updatePhotoId = (data) => { setPhotoId(data) }; // photo_id 업데이트
@@ -56,7 +56,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <StatusBar style='auto' />
+      < StatusBar style='auto' />
       <Stack.Navigator
         screenOptions={{
           headerTitleAlign: 'center',
@@ -127,6 +127,6 @@ export default function App() {
         />
 
       </Stack.Navigator>
-    </NavigationContainer>
-  );
+    </NavigationContainer >
+  )
 }

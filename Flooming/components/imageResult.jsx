@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { StyleSheet, ImageBackground, View, Image, TextInput } from 'react-native';
 import Button from './button';
@@ -14,7 +14,7 @@ const ImageResult = (props) => {
     }
   );
 
-  // comment onChange 이벤트
+  // comment 입력 이벤트
   const getComment = (event) => {
       const {eventCount, target, text} = event.nativeEvent;
       setData({ ...data, photo_id: photo_id, picture_id: picture_id, comment: text });
@@ -33,7 +33,7 @@ const ImageResult = (props) => {
 
   // 사진 저장 이벤트
   const handleClickSave = () => {
-    //
+    console.log('save');
   };
 
   return (

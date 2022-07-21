@@ -1,17 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 const GalleryItem = (props) => {
-  // 임시 데이터
-  const flower = {
-    picture_src: props.item.picture_src,
-    photo_src: props.item.photo_src,
-    comment: props.item.comment,
-  };
-
-  // 이미지 전환 이벤트
-  const handleChangeImage = () => {
+  // 이미지 슬라이딩 이벤트
+  const handleSlideImage = () => {
     //
   };
 
@@ -22,11 +15,13 @@ const GalleryItem = (props) => {
 
   return (
     <View style={styles.galleryContainer}>
-      <TouchableOpacity onPress={handleChangeImage}>
-        <Image style={styles.image} source={{ uri: flower.picture_src}} />
-      </TouchableOpacity>
+      <View style={styles.imageContainer}>
+        {/* 슬라이딩으로 이미지 넘길 수 있도록 만들기 */}
+        <Image style={styles.image} source={{ uri: props.item.picture_src }} />
+        <Image style={styles.image} source={{ uri: props.item.photo_src }} />
+      </View>
       <View style={styles.commentContainer}>
-        <Text style={styles.comment}>{flower.comment}</Text>
+        <Text style={styles.comment}>{props.item.comment}</Text>
         <TouchableOpacity onPress={handleDownloadImage}>
           <FontAwesome name='download' size={24} color='#D3D3D3' />
         </TouchableOpacity>
@@ -42,6 +37,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 30,
+  },
+  imageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
   },
   image: {
     width: 300,

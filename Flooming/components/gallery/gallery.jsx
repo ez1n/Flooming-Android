@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { StyleSheet, ImageBackground, FlatList, Text } from 'react-native';
+import { StyleSheet, ImageBackground, FlatList } from 'react-native';
 import GalleryItem from './galleryItem';
 
 const Gallery = (props) => {
@@ -27,7 +27,6 @@ const Gallery = (props) => {
         refreshing={isRefreshing}
         onRefresh={refreshData}
       />
-
     </ImageBackground>
   )
 };
