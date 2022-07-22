@@ -1,13 +1,9 @@
 import React from 'react';
+import { SliderBox } from 'react-native-image-slider-box';
 import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 const GalleryItem = (props) => {
-  // 이미지 슬라이딩 이벤트
-  const handleSlideImage = () => {
-    //
-  };
-
   // 이미지 다운로드 이벤트
   const handleDownloadImage = () => {
     //
@@ -16,10 +12,16 @@ const GalleryItem = (props) => {
   return (
     <View style={styles.galleryContainer}>
       <View style={styles.imageContainer}>
-        {/* 슬라이딩으로 이미지 넘길 수 있도록 만들기 */}
-        <Image style={styles.image} source={{ uri: `${props.url}/picture/${props.item.picture_id}` }} />
-        <Image style={styles.image} source={{ uri: `${props.url}/photo/${props.item.photo_id}` }} />
+        <SliderBox
+          style={styles.imageSlider}
+          images={[
+            `${props.url}/picture/${props.item.picture_id}`,
+            `${props.url}/photo/${props.item.photo_id}`
+          ]} 
+          parentWidth={300}
+        />
       </View>
+
       <View style={styles.commentContainer}>
         <Text style={styles.comment}>{props.item.comment}</Text>
         <TouchableOpacity onPress={handleDownloadImage}>
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
   },
-  image: {
+  imageSlider: {
     width: 300,
     height: 300,
     borderRadius: 20,

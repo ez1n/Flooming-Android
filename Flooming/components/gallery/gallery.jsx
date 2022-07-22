@@ -19,8 +19,6 @@ const Gallery = (props) => {
       .then((response) => { 
         props.getLoadData(response.data.result);
         setPageCount(1);
-        console.log('loadData', props.loadData);
-        console.log('pageCount', response.data.result.length);
       })
       .catch((error) => console.log(error))
   };
@@ -32,8 +30,6 @@ const Gallery = (props) => {
         .then((response) => {
           props.updateLoadData(response.data.result);
           setPageCount(pageCount + 1);
-          console.log(props.loadData);
-          console.log('pageCount', pageCount);
         })
         .catch((error) => console.log(error))
     }
@@ -46,7 +42,7 @@ const Gallery = (props) => {
       imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
       <FlatList
         data={pageCount==1 ? props.loadData.data : props.loadData}
-        renderItem={({ item }) => (<GalleryItem item={item} url={props.url} galleryData={props.galleryData} />)}
+        renderItem={({ item }) => (<GalleryItem item={item} url={props.url} />)}
         refreshing={isRefreshing}
         onRefresh={handleRefresh}
         onEndReached={() => handleEndReached(pageCount)}
