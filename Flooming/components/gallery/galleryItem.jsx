@@ -17,8 +17,8 @@ const GalleryItem = (props) => {
     <View style={styles.galleryContainer}>
       <View style={styles.imageContainer}>
         {/* 슬라이딩으로 이미지 넘길 수 있도록 만들기 */}
-        <Image style={styles.image} source={{ uri: props.item.picture_src }} />
-        <Image style={styles.image} source={{ uri: props.item.photo_src }} />
+        <Image style={styles.image} source={{ uri: `${props.url}/picture/${props.item.picture_id}` }} />
+        <Image style={styles.image} source={{ uri: `${props.url}/photo/${props.item.photo_id}` }} />
       </View>
       <View style={styles.commentContainer}>
         <Text style={styles.comment}>{props.item.comment}</Text>
