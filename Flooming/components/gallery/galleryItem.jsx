@@ -1,6 +1,6 @@
 import React from 'react';
 import { SliderBox } from 'react-native-image-slider-box';
-import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 const GalleryItem = (props) => {
@@ -14,11 +14,11 @@ const GalleryItem = (props) => {
       <View style={styles.imageContainer}>
         <SliderBox
           style={styles.imageSlider}
+          parentWidth={300}
           images={[
             `${props.url}/picture/${props.item.picture_id}`,
             `${props.url}/photo/${props.item.photo_id}`
           ]} 
-          parentWidth={300}
         />
       </View>
 
