@@ -1,22 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Flooming from './flooming';
+import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
+import { FontAwesome } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
+import { TouchableOpacity } from 'react-native';
 import Main from './components/main';
 import Guide from './components/guide';
 import ImageCheck from './components/imageCheck';
 import ClassResult from './components/classResult';
 import ImageResult from './components/imageResult';
 import Gallery from './components/gallery/gallery';
+import MainLoading from './components/mainLoading';
+import Error from './components/error';
+import Loading from './components/loading';
 
 const Stack = createNativeStackNavigator(); // 네비게이터
 
 export default function App() {
   const flooming = new Flooming(); // url
+  const [onLoaded, setOnLoaded] = useState(false); // 앱 로딩 state
   const [image, setImage] = useState(null); // 현재 사진 state (나의 사진)
-  const [photoId, setPhotoId] = useState(null); // photo_id state
   // 꽃 정보 state
   const [flowerData, setFlowerData] = useState([
     {
@@ -34,31 +40,50 @@ export default function App() {
   });
   // 갤러리 로딩 데이터 state (페이징)
   const [loadData, setLoadData] = useState([
-    { 
-      photo_id: null, 
-      picture_id: null, 
+    {
+      photo_id: null,
+      picture_id: null,
       comment: null,
     },
   ]);
 
-  // 폰트 로딩 => 로딩화면 띄우기
-  useEffect(() => {
-    Font.loadAsync({
-      'symkyungha': require('./assets/fonts/SimKyungha.ttf'),
-    });
-  }, []);
-
   const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
   const updateFlowerData = (data) => { setFlowerData(data) }; // 꽃 정보 업데이트
-  const updatePhotoId = (data) => { setPhotoId(data) }; // photo_id 업데이트
   const updateGalleryData = (data) => { setGalleryData(data) }; // 갤러리 정보 업데이트
   const getLoadData = (data) => { setLoadData({ data }) }; // 갤러리 로딩 정보 가져오기
-  const updateLoadData = (data) => { 
-    for (let i=0; i<data.length; i++) {
-      const newData = [ ...loadData.data, data[i]];
+  // 갤러리 로딩 정보 가져오기
+  const updateLoadData = (data) => {
+    for (let i = 0; i < data.length; i++) {
+      const newData = [...loadData.data, data[i]];
       setLoadData(newData);
     }
-  }; // 갤러리 로딩 정보 가져오기
+  };
+  // 폰트 로딩
+  const onLoading = async () => {
+    await Font.loadAsync({
+      'symkyungha': require('./assets/fonts/SimKyungha.ttf'),
+    });
+  }
+  // 로딩 state 변경
+  const loaded = () => { setOnLoaded(true) };
+
+  // 처음 로딩화면 어떻게 보여주지;
+  if (!onLoaded) {
+    return (
+      <AppLoading
+        startAsync={onLoading}
+        onError={console.warn}
+        onFinish={loaded}
+      />
+      // <Loading />
+    )
+  };
+
+  // if(onLoaded) {
+  //   return (
+  //     <Loading />
+  //   )
+  // }
 
   return (
     <NavigationContainer>
@@ -90,7 +115,6 @@ export default function App() {
             url={flooming.url()}
             image={image}
             updateFlowerData={updateFlowerData}
-            updatePhotoId={updatePhotoId}
             getImage={getImage}
             navigation={navigation}
           />}
@@ -103,7 +127,6 @@ export default function App() {
             url={flooming.url()}
             flowerData={flowerData}
             currentImage={image}
-            photoId={photoId}
             updateGalleryData={updateGalleryData}
             navigation={navigation}
           />)}
@@ -114,7 +137,6 @@ export default function App() {
           name='ImageResult'
           children={(({ navigation }) => <ImageResult
             url={flooming.url()}
-            getImage={getImage} // 현재 이미지 초기화 시킬까말까 -> 뒤로가기했을때 정보 남아있어야하나?
             galleryData={galleryData}
             getLoadData={getLoadData}
             navigation={navigation}
@@ -131,7 +153,14 @@ export default function App() {
             updateLoadData={updateLoadData}
             navigation={navigation}
           />)}
-          options={{ title: '전시관' }}
+          options={{
+            title: '전시관',
+            headerRight: () => (
+              <TouchableOpacity onPress={goHome}>
+                <FontAwesome name='home' size={30} color='black' />
+              </TouchableOpacity>
+            )
+          }}
         />
 
       </Stack.Navigator>

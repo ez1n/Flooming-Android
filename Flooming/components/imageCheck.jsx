@@ -29,12 +29,12 @@ export default function ImageCheck(props) {
       aspect: [1, 1],
     });
 
-    if (!result.cancelled) {
-      props.getImage(result.uri);
-    }
+    if (!result.cancelled) { 
+      props.getImage(result.uri) ;
+    };
   };
 
-  // 사진 찍기 이벤트
+  // 사진 촬영 이벤트
   const handleClickPhotoButton = async() => {
     // 접근 권한 허용 여부
     if (!photoPermission?.granted) {
@@ -53,7 +53,6 @@ export default function ImageCheck(props) {
 
     if (!result.cancelled) {
       props.getImage(result.uri);
-      imageData.append('file', props.image);
     }
   };
 
@@ -73,7 +72,7 @@ export default function ImageCheck(props) {
         props.navigation.navigate('ClassResult');
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
         setOnError(!onError);
         setErrorMessage(error.response.data.detail);
       })

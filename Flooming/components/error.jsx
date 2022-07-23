@@ -1,16 +1,14 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ImageBackground, Image, Text } from 'react-native';
 
-export default function Loading(props) {
+export default function Error(props) {
   return (
     <ImageBackground
       source={require('../assets/images/loadingBackground.jpg')}
       style={styles.backgroundImage}
       imageStyle={{ opacity: 0.9 }}>
-      <View style={styles.textContainer}>
-        <Text style={styles.text}>꽃을 그리고 있어요</Text>
-        <Text style={styles.text}>잠시만 기다려 주세요 :)</Text>
-      </View>
+        <Image style={styles.icon} source={require('../assets/errorIcon.png')} />
+        <Text style={styles.errorMessageText}>error message</Text>
     </ImageBackground>
   )
 };
@@ -22,12 +20,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textContainer: {
-    alignItems: 'center',
+  icon: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
   },
-  text: {
+  errorMessageText: {
     color: '#FCFCFC',
     fontSize: 28,
     fontFamily: 'symkyungha',
-  }
+  },
 })
