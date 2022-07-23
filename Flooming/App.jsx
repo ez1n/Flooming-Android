@@ -34,9 +34,9 @@ export default function App() {
   });
   // 갤러리 로딩 데이터 state (페이징)
   const [loadData, setLoadData] = useState([
-    {
-      photo_src: null,
-      picture_src: null,
+    { 
+      photo_id: null, 
+      picture_id: null, 
       comment: null,
     },
   ]);
@@ -53,6 +53,12 @@ export default function App() {
   const updatePhotoId = (data) => { setPhotoId(data) }; // photo_id 업데이트
   const updateGalleryData = (data) => { setGalleryData(data) }; // 갤러리 정보 업데이트
   const getLoadData = (data) => { setLoadData({ data }) }; // 갤러리 로딩 정보 가져오기
+  const updateLoadData = (data) => { 
+    for (let i=0; i<data.length; i++) {
+      const newData = [ ...loadData.data, data[i]];
+      setLoadData(newData);
+    }
+  }; // 갤러리 로딩 정보 가져오기
 
   return (
     <NavigationContainer>
@@ -121,6 +127,8 @@ export default function App() {
           children={(({ navigation }) => <Gallery
             url={flooming.url()}
             loadData={loadData}
+            getLoadData={getLoadData}
+            updateLoadData={updateLoadData}
             navigation={navigation}
           />)}
           options={{ title: '전시관' }}
