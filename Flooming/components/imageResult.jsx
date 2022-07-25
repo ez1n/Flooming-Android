@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ViewShot, { captureRef } from 'react-native-view-shot';
 import CameraRoll from '@react-native-community/cameraroll';
 import axios from 'axios';
@@ -6,22 +6,25 @@ import { StyleSheet, ImageBackground, View, Image, TextInput, PermissionsAndroid
 import Button from './button';
 
 const ImageResult = (props) => {
-  const { photo_id, picture_id, picture_src } = props.galleryData;
   const viewRef = useRef();
 
   // 갤러리에 들어가야할 데이터
   const [data, setData] = useState(
     {
-      photo_id: photo_id,
-      picture_id: picture_id,
+      photo_id: props.galleryData.photo_id,
+      picture_id: props.galleryData.picture_id,
       comment: '',
     }
   );
 
+  useEffect(() => {
+    console.log(data);
+  },[])
+
   // comment 입력 이벤트
   const getComment = (event) => {
       const {eventCount, target, text} = event.nativeEvent;
-      setData({ ...data, photo_id: photo_id, picture_id: picture_id, comment: text });
+      setData({ ...data, comment: text });
       console.log(data);
   };
 
@@ -47,25 +50,6 @@ const ImageResult = (props) => {
     return status === 'granted';
   };
 
-  const handleSave = async () => {
-    if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
-      toast('갤러리 접근 권한이 없어요');
-      return;
-    }
-   
-    const uri = await captureRef(viewRef);
-
-    console.log('uri', uri)
-    const result = await CameraRoll.save(uri);
-    console.log('result', result);
-    if (result) {
-      Alert.alert('이미지 저장', '이미지가 저장되었습니다.',
-        [{ text: 'OK', onPress: () => { } }],
-        { cancelable: false },
-      );
-    }
-  };
-
   return (
     <ImageBackground 
     source={require('../assets/images/mainBackground.jpg')}
@@ -76,6 +60,7 @@ const ImageResult = (props) => {
         <ViewShot ref={viewRef}>
           <Image style={styles.illust} source={{ uri: `${props.url}/picture/${props.galleryData.picture_id}` }} />
         </ViewShot>
+        
         <TextInput
           style={styles.illustText}
           placeholder='남기고 싶은 말이 있나요?'
@@ -86,7 +71,7 @@ const ImageResult = (props) => {
 
       <View style={styles.buttonContainer}>
         <Button text={'전시 할래요'} onPress={handleClickGallery} />
-        <Button text={'저장 할게요'} onPress={handleSave} />
+        <Button text={'저장 할게요'} onPress={props.handleSave} />
       </View>
     </ImageBackground>
   )

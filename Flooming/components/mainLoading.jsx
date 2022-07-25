@@ -1,32 +1,30 @@
 import React from 'react';
 import { StyleSheet, Text, ImageBackground, View } from 'react-native';
+import Footer from './onBoarding/footer';
 
-export default function MainLoading (props) {
+export default function MainLoading(props) {
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       <ImageBackground
         source={require('../assets/images/loadingBackground.jpg')}
         style={styles.image}>
         <Text style={styles.text}>FLOOMING</Text>
       </ImageBackground>
+      <View style={styles.footer}>
+        <Footer />
+      </View>
     </View>
   )
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '100%',
-  },
   text: {
     color: '#FCFCFC',
     fontSize: 25,
-    top: '40%',
   },
   image: {
     flex: 1,
-    width: '100%',
-    height: '100%',
     alignItems: 'center',
-  }
+    justifyContent: 'center',
+  },
 })
