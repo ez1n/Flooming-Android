@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Flooming from './flooming';
 import AppLoading from 'expo-app-loading';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Font from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
@@ -18,7 +19,7 @@ const Stack = createNativeStackNavigator(); // 네비게이터
 export default function App() {
   const flooming = new Flooming(); // url
   const [onLoaded, setOnLoaded] = useState(false); // 앱 로딩 state
-  const [onboarding, setOnboarding] = useState(true);
+  const [firstLaunch, setFirstLaunch] = useState(null);
   const [image, setImage] = useState(null); // 현재 사진 state (나의 사진)
   // 꽃 정보 state
   const [flowerData, setFlowerData] = useState([
@@ -32,8 +33,15 @@ export default function App() {
   ]);
 
   useEffect(() => {
-  //온보딩 실행여부
-  })
+    AsyncStorage.getItem('launched').then(value => {
+      if(value == null) {
+        AsyncStorage.setItem('launched', 'true');
+        setFirstLaunch(true);
+      } else {
+        setFirstLaunch(false);
+      }
+    });
+  },[]);
 
   const getOnboarding = () => { setOnboarding(!onboarding) } 
   const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
@@ -76,103 +84,189 @@ export default function App() {
     }
   };
 
-    // 처음 로딩화면 어떻게 보여주지;
-    if (!onLoaded) {
-      return (
-        <AppLoading
-          startAsync={onLoading}
-          onError={console.warn}
-          onFinish={loaded}
-        />
-        // <Loading />
-      )
-    };
+  // 처음 로딩화면 어떻게 보여주지;
+  if (!onLoaded) {
+    return (
+      <AppLoading
+        startAsync={onLoading}
+        onError={console.warn}
+        onFinish={loaded}
+      />
+      // <Loading />
+    )
+  };
 
-  return (
-    <NavigationContainer>
-      <StatusBar style='auto' />
-
-      <Stack.Navigator
-        screenOptions={{
-          headerTitleAlign: 'center',
-          headerShadowVisible: false,
-          headerStyle: { backgroundColor: '#FCFCFC' },
-          headerTitleStyle: { fontFamily: 'symkyungha', fontSize: 30 }
-        }}>
-
-        <Stack.Screen
-          name='Onboarding'
-          component={OnBoarding}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name='Main'
-          children={({ navigation }) => <Main
-            getOnboarding={getOnboarding}
-            navigation={navigation}
-          />}
-          options={{ headerTitle: 'FLOOMING' }}
-        />
-
-        <Stack.Screen
-          name='Guide'
-          component={Guide}
-          options={{ title: '사진 가이드' }}
-        />
-
-        <Stack.Screen
-          name='ImageCheck'
-          children={({ navigation }) => <ImageCheck
-            url={flooming.url()}
-            image={image}
-            flowerData={flowerData}
-            updateFlowerData={updateFlowerData}
-            getImage={getImage}
-            navigation={navigation}
-          />}
-          options={{ title: '' }}
-        />
-
-        <Stack.Screen
-          name='ClassResult'
-          children={(({ navigation }) => <ClassResult
-            url={flooming.url()}
-            flowerData={flowerData}
-            currentImage={image}
-            updateGalleryData={updateGalleryData} d
-            navigation={navigation}
-          />)}
-          options={{ title: '분류 결과' }}
-        />
-
-        <Stack.Screen
-          name='ImageResult'
-          children={(({ navigation }) => <ImageResult
-            url={flooming.url()}
-            galleryData={galleryData}
-            getLoadData={getLoadData}
-            navigation={navigation}
-          />)}
-          options={{ title: '그림 결과' }}
-        />
-
-        <Stack.Screen
-          name='Gallery'
-          children={(({ navigation }) => <Gallery
-            url={flooming.url()}
-            loadData={loadData}
-            getImage={getImage}
-            updateFlowerData={updateFlowerData}
-            getLoadData={getLoadData}
-            updateLoadData={updateLoadData}
-            handleSave={handleSave}
-            navigation={navigation}
-          />)}
-          options={{ title: '전시관' }}
-        />
-
-      </Stack.Navigator>
-    </NavigationContainer >
-  )
+  if (firstLaunch == null) {
+    return null;
+  } else if (firstLaunch == true) {
+    return (
+      <NavigationContainer>
+        <StatusBar style='auto' />
+  
+        <Stack.Navigator
+          screenOptions={{
+            headerTitleAlign: 'center',
+            headerShadowVisible: false,
+            headerStyle: { backgroundColor: '#FCFCFC' },
+            headerTitleStyle: { fontFamily: 'symkyungha', fontSize: 30 }
+          }}>
+  
+          <Stack.Screen
+            name='Onboarding'
+            component={OnBoarding}
+            options={{ headerShown: false }}
+          />
+  
+          <Stack.Screen
+            name='Main'
+            children={({ navigation }) => <Main
+              getOnboarding={getOnboarding}
+              navigation={navigation}
+            />}
+            options={{ headerTitle: 'FLOOMING' }}
+          />
+  
+          <Stack.Screen
+            name='Guide'
+            component={Guide}
+            options={{ title: '사진 가이드' }}
+          />
+  
+          <Stack.Screen
+            name='ImageCheck'
+            children={({ navigation }) => <ImageCheck
+              url={flooming.url()}
+              image={image}
+              flowerData={flowerData}
+              updateFlowerData={updateFlowerData}
+              getImage={getImage}
+              navigation={navigation}
+            />}
+            options={{ title: '' }}
+          />
+  
+          <Stack.Screen
+            name='ClassResult'
+            children={(({ navigation }) => <ClassResult
+              url={flooming.url()}
+              flowerData={flowerData}
+              currentImage={image}
+              updateGalleryData={updateGalleryData} d
+              navigation={navigation}
+            />)}
+            options={{ title: '분류 결과' }}
+          />
+  
+          <Stack.Screen
+            name='ImageResult'
+            children={(({ navigation }) => <ImageResult
+              url={flooming.url()}
+              galleryData={galleryData}
+              getLoadData={getLoadData}
+              navigation={navigation}
+            />)}
+            options={{ title: '그림 결과' }}
+          />
+  
+          <Stack.Screen
+            name='Gallery'
+            children={(({ navigation }) => <Gallery
+              url={flooming.url()}
+              loadData={loadData}
+              getImage={getImage}
+              updateFlowerData={updateFlowerData}
+              getLoadData={getLoadData}
+              updateLoadData={updateLoadData}
+              handleSave={handleSave}
+              navigation={navigation}
+            />)}
+            options={{ title: '전시관' }}
+          />
+  
+        </Stack.Navigator>
+      </NavigationContainer >
+    )
+  } else {
+    return (
+      <NavigationContainer>
+        <StatusBar style='auto' />
+  
+        <Stack.Navigator
+          screenOptions={{
+            headerTitleAlign: 'center',
+            headerShadowVisible: false,
+            headerStyle: { backgroundColor: '#FCFCFC' },
+            headerTitleStyle: { fontFamily: 'symkyungha', fontSize: 30 }
+          }}>
+  
+          <Stack.Screen
+            name='Main'
+            children={({ navigation }) => <Main
+              getOnboarding={getOnboarding}
+              navigation={navigation}
+            />}
+            options={{ headerTitle: 'FLOOMING' }}
+          />
+  
+          <Stack.Screen
+            name='Guide'
+            component={Guide}
+            options={{ title: '사진 가이드' }}
+          />
+  
+          <Stack.Screen
+            name='ImageCheck'
+            children={({ navigation }) => <ImageCheck
+              url={flooming.url()}
+              image={image}
+              flowerData={flowerData}
+              updateFlowerData={updateFlowerData}
+              getImage={getImage}
+              navigation={navigation}
+            />}
+            options={{ title: '' }}
+          />
+  
+          <Stack.Screen
+            name='ClassResult'
+            children={(({ navigation }) => <ClassResult
+              url={flooming.url()}
+              flowerData={flowerData}
+              currentImage={image}
+              updateGalleryData={updateGalleryData} d
+              navigation={navigation}
+            />)}
+            options={{ title: '분류 결과' }}
+          />
+  
+          <Stack.Screen
+            name='ImageResult'
+            children={(({ navigation }) => <ImageResult
+              url={flooming.url()}
+              galleryData={galleryData}
+              getLoadData={getLoadData}
+              navigation={navigation}
+            />)}
+            options={{ title: '그림 결과' }}
+          />
+  
+          <Stack.Screen
+            name='Gallery'
+            children={(({ navigation }) => <Gallery
+              url={flooming.url()}
+              loadData={loadData}
+              getImage={getImage}
+              updateFlowerData={updateFlowerData}
+              getLoadData={getLoadData}
+              updateLoadData={updateLoadData}
+              handleSave={handleSave}
+              navigation={navigation}
+            />)}
+            options={{ title: '전시관' }}
+          />
+  
+        </Stack.Navigator>
+      </NavigationContainer >
+    )
+  }
 }
