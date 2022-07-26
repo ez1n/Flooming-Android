@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import axios from 'axios';
+import { FontAwesome } from '@expo/vector-icons';
 import { StyleSheet, ImageBackground, FlatList } from 'react-native';
 import GalleryItem from './galleryItem';
 
@@ -8,16 +9,31 @@ const Gallery = (props) => {
   const [isRefreshing, setIsRefreshing] = useState(false); // 새로고침 state
   const [pageCount, setPageCount] = useState(1); // 페이지 count state
 
-  useEffect(() => {
-    console.log(props.loadData.data);
-  },[])
+  // 홈버튼
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <FontAwesome 
+        name='home' 
+        size={30} 
+        color='black' 
+        onPress = {() => {
+          props.getImage(null); // 현재 사진 초기화
+          props.updateFlowerData({ photo_id: null, probability: null, kor_name: null, eng_name: null, flower_language: null }); // 꽃 정보 초기화
+          props.navigation.popToTop(); // main 페이지로 이동 (스택 초기화)
+        }} 
+        />
+      ),
+    });
+  }, []);
 
   // 데이터 로딩 이벤트 (새로고침)
   const handleRefresh = async () => {
     setIsLoading(false);
     await axios.get(`${props.url}/gallery?page=0`)
-      .then((response) => { 
+      .then((response) => {
         props.getLoadData(response.data.result);
+        setIsLoading(true);
         setPageCount(1);
       })
       .catch((error) => console.log(error))
@@ -25,14 +41,13 @@ const Gallery = (props) => {
 
   // 스크롤 이벤트
   const handleEndReached = async (page) => {
-    if (!isLoading) {
-      await axios.get(`${props.url}/gallery?page=${page}`)
-        .then((response) => {
-          props.updateLoadData(response.data.result);
-          setPageCount(pageCount + 1);
-        })
-        .catch((error) => console.log(error))
-    }
+    await axios.get(`${props.url}/gallery?page=${page}`)
+      .then((response) => {
+        console.log(pageCount);
+        props.updateLoadData(response.data.result);
+        setPageCount(pageCount + 1);
+      })
+      .catch((error) => console.log(error))
   };
 
   return (

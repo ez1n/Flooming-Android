@@ -4,11 +4,6 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 const GalleryItem = (props) => {
-  // 이미지 다운로드 이벤트
-  const handleDownloadImage = () => {
-    //
-  };
-
   return (
     <View style={styles.galleryContainer}>
       <View style={styles.imageContainer}>
@@ -24,7 +19,7 @@ const GalleryItem = (props) => {
 
       <View style={styles.commentContainer}>
         <Text style={styles.comment}>{props.item.comment}</Text>
-        <TouchableOpacity onPress={handleDownloadImage}>
+        <TouchableOpacity onPress={props.handleSave}>
           <FontAwesome name='download' size={24} color='#D3D3D3' />
         </TouchableOpacity>
       </View>

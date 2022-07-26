@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { StyleSheet, Image, ImageBackground, View, Text, TouchableOpacity, Modal } from 'react-native';
 import Button from './button';
@@ -7,7 +7,6 @@ const ClassResult = (props) => {
   // 서버에 요청할 데이터 state
   const currentImageType = {
     photo_id: props.flowerData.photo_id,
-    flower_type: props.flowerData.kor_name,
   };
 
   // 그림 그리기 이벤트

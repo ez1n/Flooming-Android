@@ -1,57 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Flooming from './flooming';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-import { FontAwesome } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
-import { TouchableOpacity } from 'react-native';
 import Main from './components/main';
 import Guide from './components/guide';
 import ImageCheck from './components/imageCheck';
 import ClassResult from './components/classResult';
 import ImageResult from './components/imageResult';
 import Gallery from './components/gallery/gallery';
-import MainLoading from './components/mainLoading';
-import Error from './components/error';
-import Loading from './components/loading';
+import OnBoarding from './components/onBoarding/onBoarding';
 
 const Stack = createNativeStackNavigator(); // 네비게이터
 
 export default function App() {
   const flooming = new Flooming(); // url
   const [onLoaded, setOnLoaded] = useState(false); // 앱 로딩 state
+  const [onboarding, setOnboarding] = useState(true);
   const [image, setImage] = useState(null); // 현재 사진 state (나의 사진)
   // 꽃 정보 state
   const [flowerData, setFlowerData] = useState([
-    {
-      kor_name: null,
-      eng_name: null,
-      flower_language: null,
-      probability: null,
-    },
+    { photo_id: null, probability: null, kor_name: null, eng_name: null, flower_language: null, },
   ]);
   // 갤러리 정보 state
-  const [galleryData, setGalleryData] = useState({
-    photo_id: null,
-    picture_id: null,
-    picture_src: null,
-  });
+  const [galleryData, setGalleryData] = useState({ photo_id: null, picture_id: null, });
   // 갤러리 로딩 데이터 state (페이징)
   const [loadData, setLoadData] = useState([
-    {
-      photo_id: null,
-      picture_id: null,
-      comment: null,
-    },
+    { photo_id: null, picture_id: null, comment: null, },
   ]);
 
+  useEffect(() => {
+  //온보딩 실행여부
+  })
+
+  const getOnboarding = () => { setOnboarding(!onboarding) } 
   const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
   const updateFlowerData = (data) => { setFlowerData(data) }; // 꽃 정보 업데이트
   const updateGalleryData = (data) => { setGalleryData(data) }; // 갤러리 정보 업데이트
   const getLoadData = (data) => { setLoadData({ data }) }; // 갤러리 로딩 정보 가져오기
-  // 갤러리 로딩 정보 가져오기
+  // 갤러리 정보 추가하기
   const updateLoadData = (data) => {
     for (let i = 0; i < data.length; i++) {
       const newData = [...loadData.data, data[i]];
@@ -67,39 +56,62 @@ export default function App() {
   // 로딩 state 변경
   const loaded = () => { setOnLoaded(true) };
 
-  // 처음 로딩화면 어떻게 보여주지;
-  if (!onLoaded) {
-    return (
-      <AppLoading
-        startAsync={onLoading}
-        onError={console.warn}
-        onFinish={loaded}
-      />
-      // <Loading />
-    )
+  // 이미지 다운로드 이벤트
+  const handleSave = async () => {
+    if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
+      alert('갤러리 접근 권한이 없어요');
+      return;
+    };
+
+    const uri = await captureRef(viewRef);
+
+    console.log('uri', uri);
+    const result = await CameraRoll.save(uri);
+    console.log('result', result);
+    if (result) {
+      Alert.alert('이미지 저장', '이미지가 저장되었습니다.',
+        [{ text: 'OK', onPress: () => { } }],
+        { cancelable: false },
+      );
+    }
   };
 
-  // if(onLoaded) {
-  //   return (
-  //     <Loading />
-  //   )
-  // }
+    // 처음 로딩화면 어떻게 보여주지;
+    if (!onLoaded) {
+      return (
+        <AppLoading
+          startAsync={onLoading}
+          onError={console.warn}
+          onFinish={loaded}
+        />
+        // <Loading />
+      )
+    };
 
   return (
     <NavigationContainer>
-      < StatusBar style='auto' />
+      <StatusBar style='auto' />
+
       <Stack.Navigator
         screenOptions={{
           headerTitleAlign: 'center',
           headerShadowVisible: false,
           headerStyle: { backgroundColor: '#FCFCFC' },
           headerTitleStyle: { fontFamily: 'symkyungha', fontSize: 30 }
-        }}
-        initialRootName='Main'>
+        }}>
+
+        <Stack.Screen
+          name='Onboarding'
+          component={OnBoarding}
+          options={{ headerShown: false }}
+        />
 
         <Stack.Screen
           name='Main'
-          component={Main}
+          children={({ navigation }) => <Main
+            getOnboarding={getOnboarding}
+            navigation={navigation}
+          />}
           options={{ headerTitle: 'FLOOMING' }}
         />
 
@@ -114,6 +126,7 @@ export default function App() {
           children={({ navigation }) => <ImageCheck
             url={flooming.url()}
             image={image}
+            flowerData={flowerData}
             updateFlowerData={updateFlowerData}
             getImage={getImage}
             navigation={navigation}
@@ -127,7 +140,7 @@ export default function App() {
             url={flooming.url()}
             flowerData={flowerData}
             currentImage={image}
-            updateGalleryData={updateGalleryData}
+            updateGalleryData={updateGalleryData} d
             navigation={navigation}
           />)}
           options={{ title: '분류 결과' }}
@@ -149,18 +162,14 @@ export default function App() {
           children={(({ navigation }) => <Gallery
             url={flooming.url()}
             loadData={loadData}
+            getImage={getImage}
+            updateFlowerData={updateFlowerData}
             getLoadData={getLoadData}
             updateLoadData={updateLoadData}
+            handleSave={handleSave}
             navigation={navigation}
           />)}
-          options={{
-            title: '전시관',
-            headerRight: () => (
-              <TouchableOpacity onPress={goHome}>
-                <FontAwesome name='home' size={30} color='black' />
-              </TouchableOpacity>
-            )
-          }}
+          options={{ title: '전시관' }}
         />
 
       </Stack.Navigator>

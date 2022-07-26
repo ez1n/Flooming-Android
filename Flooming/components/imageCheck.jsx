@@ -67,8 +67,8 @@ export default function ImageCheck(props) {
       }
     })
       .then((response) => {
-        console.log(response.data);
         props.updateFlowerData(response.data);
+        axios.get(`${props.url}/flower/${props.flowerData.kor_name}`);
         props.navigation.navigate('ClassResult');
       })
       .catch((error) => {
