@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#FCFCFC',
-    fontSize: 25,
+    fontSize: 30,
+    fontFamily: 'symkyungha',
   },
   footer: {
     flex: 0.05,

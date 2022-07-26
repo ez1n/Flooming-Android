@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Flooming from './flooming';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
@@ -15,39 +15,32 @@ import OnBoarding from './components/onBoarding/onBoarding';
 
 const Stack = createNativeStackNavigator(); // 네비게이터
 
-export default function App() {``
+export default function App() {
   const flooming = new Flooming(); // url
   const [onLoaded, setOnLoaded] = useState(false); // 앱 로딩 state
+  const [onboarding, setOnboarding] = useState(true);
   const [image, setImage] = useState(null); // 현재 사진 state (나의 사진)
   // 꽃 정보 state
   const [flowerData, setFlowerData] = useState([
-    {
-      photo_id: null,
-      probability: null,
-      kor_name: null,
-      eng_name: null,
-      flower_language: null,
-    },
+    { photo_id: null, probability: null, kor_name: null, eng_name: null, flower_language: null, },
   ]);
   // 갤러리 정보 state
-  const [galleryData, setGalleryData] = useState({
-    photo_id: null,
-    picture_id: null,
-  });
+  const [galleryData, setGalleryData] = useState({ photo_id: null, picture_id: null, });
   // 갤러리 로딩 데이터 state (페이징)
   const [loadData, setLoadData] = useState([
-    {
-      photo_id: null,
-      picture_id: null,
-      comment: null,
-    },
+    { photo_id: null, picture_id: null, comment: null, },
   ]);
 
+  useEffect(() => {
+  //온보딩 실행여부
+  })
+
+  const getOnboarding = () => { setOnboarding(!onboarding) } 
   const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
   const updateFlowerData = (data) => { setFlowerData(data) }; // 꽃 정보 업데이트
   const updateGalleryData = (data) => { setGalleryData(data) }; // 갤러리 정보 업데이트
   const getLoadData = (data) => { setLoadData({ data }) }; // 갤러리 로딩 정보 가져오기
-  // 갤러리 로딩 정보 가져오기
+  // 갤러리 정보 추가하기
   const updateLoadData = (data) => {
     for (let i = 0; i < data.length; i++) {
       const newData = [...loadData.data, data[i]];
@@ -63,28 +56,10 @@ export default function App() {``
   // 로딩 state 변경
   const loaded = () => { setOnLoaded(true) };
 
-  // 처음 로딩화면 어떻게 보여주지;
-  if (!onLoaded) {
-    return (
-      <AppLoading
-        startAsync={onLoading}
-        onError={console.warn}
-        onFinish={loaded}
-      />
-      // <Loading />
-    )
-  };
-
-  // if(onLoaded) {
-  //   return (
-  //     <MainLoading />
-  //   )
-  // }
-
   // 이미지 다운로드 이벤트
   const handleSave = async () => {
     if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
-      toast('갤러리 접근 권한이 없어요');
+      alert('갤러리 접근 권한이 없어요');
       return;
     };
 
@@ -101,9 +76,21 @@ export default function App() {``
     }
   };
 
+    // 처음 로딩화면 어떻게 보여주지;
+    if (!onLoaded) {
+      return (
+        <AppLoading
+          startAsync={onLoading}
+          onError={console.warn}
+          onFinish={loaded}
+        />
+        // <Loading />
+      )
+    };
+
   return (
     <NavigationContainer>
-      < StatusBar style='auto' />
+      <StatusBar style='auto' />
 
       <Stack.Navigator
         screenOptions={{
@@ -121,7 +108,10 @@ export default function App() {``
 
         <Stack.Screen
           name='Main'
-          component={Main}
+          children={({ navigation }) => <Main
+            getOnboarding={getOnboarding}
+            navigation={navigation}
+          />}
           options={{ headerTitle: 'FLOOMING' }}
         />
 

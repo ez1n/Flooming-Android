@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   footerText: {
-    fontSize: 20,
+    fontSize: 25,
     color: '#D3D3D3',
+    fontFamily: 'symkyungha',
   },
 })

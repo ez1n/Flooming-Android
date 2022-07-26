@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, ImageBackground, View } from 'react-native';
-import Footer from './onBoarding/footer';
 
 export default function MainLoading(props) {
   return (
@@ -11,7 +10,6 @@ export default function MainLoading(props) {
         <Text style={styles.text}>FLOOMING</Text>
       </ImageBackground>
       <View style={styles.footer}>
-        <Footer />
       </View>
     </View>
   )
@@ -20,7 +18,8 @@ export default function MainLoading(props) {
 const styles = StyleSheet.create({
   text: {
     color: '#FCFCFC',
-    fontSize: 25,
+    fontSize: 30,
+    fontFamily: 'symkyungha',    
   },
   image: {
     flex: 1,

@@ -3,8 +3,8 @@ import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Button from './button';
 
-export default function Main({ navigation }) {
-  const handleClickButton = () => { navigation.navigate('Guide') }; // 버튼 클릭 이벤트
+export default function Main(props) {
+  const handleClickButton = () => { props.navigation.navigate('Guide') }; // 버튼 클릭 이벤트
 
   return (
     <ImageBackground
