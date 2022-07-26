@@ -32,6 +32,7 @@ export default function App() {
     { photo_id: null, picture_id: null, comment: null, },
   ]);
 
+  // 온보딩 화면 표시 여부 불러오기
   useEffect(() => {
     AsyncStorage.getItem('launched').then(value => {
       if(value == null) {
@@ -43,7 +44,6 @@ export default function App() {
     });
   },[]);
 
-  const getOnboarding = () => { setOnboarding(!onboarding) } 
   const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
   const updateFlowerData = (data) => { setFlowerData(data) }; // 꽃 정보 업데이트
   const updateGalleryData = (data) => { setGalleryData(data) }; // 갤러리 정보 업데이트
@@ -92,13 +92,12 @@ export default function App() {
         onError={console.warn}
         onFinish={loaded}
       />
-      // <Loading />
     )
   };
 
   if (firstLaunch == null) {
     return null;
-  } else if (firstLaunch == true) {
+  } else if (firstLaunch == true) { // 어플 실행이 처음인 경우 (onboarding)
     return (
       <NavigationContainer>
         <StatusBar style='auto' />
@@ -120,7 +119,6 @@ export default function App() {
           <Stack.Screen
             name='Main'
             children={({ navigation }) => <Main
-              getOnboarding={getOnboarding}
               navigation={navigation}
             />}
             options={{ headerTitle: 'FLOOMING' }}
@@ -186,7 +184,7 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer >
     )
-  } else {
+  } else { // 어플 실행이 처음이 아닌 경우 (no onboarding)
     return (
       <NavigationContainer>
         <StatusBar style='auto' />
@@ -202,7 +200,6 @@ export default function App() {
           <Stack.Screen
             name='Main'
             children={({ navigation }) => <Main
-              getOnboarding={getOnboarding}
               navigation={navigation}
             />}
             options={{ headerTitle: 'FLOOMING' }}
