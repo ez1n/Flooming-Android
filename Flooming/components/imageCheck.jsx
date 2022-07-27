@@ -68,7 +68,7 @@ export default function ImageCheck(props) {
     })
       .then((response) => {
         props.updateFlowerData(response.data);
-        axios.get(`${props.url}/flower/${props.flowerData.kor_name}`);
+        // axios.get(`${props.url}/flower/${props.flowerData.kor_name}`); // 없어도 사진 오는데..?
         props.navigation.navigate('ClassResult');
       })
       .catch((error) => {
