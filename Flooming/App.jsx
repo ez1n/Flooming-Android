@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Flooming from './flooming';
 import AppLoading from 'expo-app-loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import * as Font from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
@@ -32,6 +33,7 @@ export default function App() {
     { photo_id: null, picture_id: null, comment: null, },
   ]);
 
+  // 온보딩 화면 표시 여부 불러오기
   useEffect(() => {
     AsyncStorage.getItem('launched').then(value => {
       if(value == null) {
@@ -43,7 +45,12 @@ export default function App() {
     });
   },[]);
 
-  const getOnboarding = () => { setOnboarding(!onboarding) } 
+    //인터넷 연결 여부
+    const unsubscribe = () => NetInfo.addEventListener(state => {
+      console.log("Is connected?", state.isConnected);
+      return state.isConnected;
+    });
+
   const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
   const updateFlowerData = (data) => { setFlowerData(data) }; // 꽃 정보 업데이트
   const updateGalleryData = (data) => { setGalleryData(data) }; // 갤러리 정보 업데이트
@@ -92,13 +99,12 @@ export default function App() {
         onError={console.warn}
         onFinish={loaded}
       />
-      // <Loading />
     )
   };
 
   if (firstLaunch == null) {
     return null;
-  } else if (firstLaunch == true) {
+  } else if (firstLaunch == true) { // 어플 실행이 처음인 경우 (onboarding)
     return (
       <NavigationContainer>
         <StatusBar style='auto' />
@@ -120,7 +126,7 @@ export default function App() {
           <Stack.Screen
             name='Main'
             children={({ navigation }) => <Main
-              getOnboarding={getOnboarding}
+            unsubscribe={unsubscribe}
               navigation={navigation}
             />}
             options={{ headerTitle: 'FLOOMING' }}
@@ -186,7 +192,7 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer >
     )
-  } else {
+  } else { // 어플 실행이 처음이 아닌 경우 (no onboarding)
     return (
       <NavigationContainer>
         <StatusBar style='auto' />
@@ -202,7 +208,6 @@ export default function App() {
           <Stack.Screen
             name='Main'
             children={({ navigation }) => <Main
-              getOnboarding={getOnboarding}
               navigation={navigation}
             />}
             options={{ headerTitle: 'FLOOMING' }}

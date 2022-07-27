@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesome } from '@expo/vector-icons';
 import { StyleSheet, ImageBackground, FlatList } from 'react-native';
@@ -13,19 +13,23 @@ const Gallery = (props) => {
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <FontAwesome 
-        name='home' 
-        size={30} 
-        color='black' 
-        onPress = {() => {
-          props.getImage(null); // 현재 사진 초기화
-          props.updateFlowerData({ photo_id: null, probability: null, kor_name: null, eng_name: null, flower_language: null }); // 꽃 정보 초기화
-          props.navigation.popToTop(); // main 페이지로 이동 (스택 초기화)
-        }} 
+        <FontAwesome
+          name='home'
+          size={30}
+          color='black'
+          onPress={() => {
+            props.getImage(null); // 현재 사진 초기화
+            props.updateFlowerData({ photo_id: null, probability: null, kor_name: null, eng_name: null, flower_language: null }); // 꽃 정보 초기화
+            props.navigation.popToTop(); // main 페이지로 이동 (스택 초기화)
+          }}
         />
       ),
     });
   }, []);
+
+  useEffect(() => {
+    console.log(props.loadData)
+  })
 
   // 데이터 로딩 이벤트 (새로고침)
   const handleRefresh = async () => {
@@ -56,7 +60,7 @@ const Gallery = (props) => {
       style={styles.backgroundImage}
       imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
       <FlatList
-        data={pageCount==1 ? props.loadData.data : props.loadData}
+        data={pageCount == 1 ? props.loadData.data : props.loadData}
         renderItem={({ item }) => (<GalleryItem item={item} url={props.url} />)}
         refreshing={isRefreshing}
         onRefresh={handleRefresh}

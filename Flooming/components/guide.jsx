@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text, ImageBackground } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 import Button from './button';
 
 export default function Guide({ navigation }) {
@@ -18,13 +17,13 @@ export default function Guide({ navigation }) {
           {/* 예시 사진 수정 */}
           <Image style={styles.img} source={require('../assets/images/imageEx.jpg')} />
           <Text style={styles.text}>이렇게 찍어주세요</Text>
-          <AntDesign style={styles.icon} name="checkcircle" size={40} color="blue" />
+          <Image source={require('../assets/yesIcon2.png')} style={styles.icon} />
         </View>
 
         <View style={{ alignItems: 'center' }}>
           <Image style={styles.img} source={require('../assets/images/imageNonEx.jpg')} />
           <Text style={styles.text}>이러면 그릴 수 없어요</Text>
-          <AntDesign style={styles.icon} name="closecircle" size={40} color="red" />
+          <Image source={require('../assets/noIcon2.png')} style={styles.icon} />
         </View>
       </View>
 
@@ -63,6 +62,8 @@ const styles = StyleSheet.create({
   icon: {
     marginTop: 50,
     borderRadius: 100,
+    width: 45, 
+    height: 45,
   },
   buttonContainer: {
     flex: 0.15,
