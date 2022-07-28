@@ -32,6 +32,8 @@ export default function ImageCheck(props) {
     if (!result.cancelled) { 
       props.getImage(result.uri) ;
     };
+
+    console.log(result.uri)
   };
 
   // 사진 촬영 이벤트
