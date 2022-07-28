@@ -7,13 +7,14 @@ import Error from './error';
 export default function Main(props) {
   const handleClickButton = () => { props.navigation.navigate('Guide') }; // 버튼 클릭 이벤트
 
-  useEffect(() => {
-    props.unsubscribe;
-  }, [])
+  // useEffect(() => {
+  //   props.unsubscribe;
+  // }, [])
 
-  if (!props.unsubscribe()) {
-    return <Error />
-  } else {
+  // if (props.unsubscribe) {
+  //   return <Error navigation={props.navigation} />
+  // } else
+   {
     return (
       <ImageBackground
         source={require('../assets/images/mainBackground.jpg')}

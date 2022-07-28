@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
 import { StyleSheet, ImageBackground, View, Image, TextInput } from 'react-native';
 import Button from './button';
 
@@ -16,18 +18,18 @@ const ImageResult = (props) => {
   );
 
   useEffect(() => {
-    console.log(data);
-    console.log(props.galleryData);
+    console.log('gallery', props.galleryData);
+    console.log('data', data);
   }, [])
 
   // comment 입력 이벤트
   const getComment = (event) => {
     const { eventCount, target, text } = event.nativeEvent;
-    setData({ ...data, comment: text });
+    setData({ ...data, photo_id: photo_id, picture_id: picture_id, comment: text });
     console.log(data);
   };
 
-  // 갤러리 전시 이벤트
+  // 이미지 전시 이벤트
   const handleClickGallery = () => {
     axios.post(`${props.url}/gallery`, data)
       .then((response) => {
@@ -35,6 +37,37 @@ const ImageResult = (props) => {
         props.navigation.navigate('Gallery');
       })
       .catch((error) => console.log(error))
+  };
+
+  // 갤러리 저장 이벤트
+  const saveFile = async (fileUri) => {
+    const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+
+    if (permissions.granted) {
+      const asset = await MediaLibrary.createAssetAsync(fileUri);
+      await MediaLibrary.createAlbumAsync('flooming', asset, false);
+    }
+  };
+
+  const saveImage = async () => {
+    const downloadResumable = FileSystem.createDownloadResumable(
+      `${props.url}/picture/${picture_id}`,
+      FileSystem.documentDirectory + '.jpg',
+      {}
+    );
+
+    try {
+      const { uri } = await downloadResumable.downloadAsync().then((item) => {
+        return item;
+      });
+
+      saveFile(uri)
+        .then(() => {
+          alert('저장되었어요'); console.log(uri)
+        });
+    } catch (event) {
+      console.error(event);
+    };
   };
 
   return (
@@ -55,7 +88,7 @@ const ImageResult = (props) => {
 
       <View style={styles.buttonContainer}>
         <Button text={'전시 할래요'} onPress={handleClickGallery} />
-        <Button text={'저장 할게요'} onPress={props.handleSave} />
+        <Button text={'저장 할게요'} onPress={saveImage} />
       </View>
     </ImageBackground>
   )

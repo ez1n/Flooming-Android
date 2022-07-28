@@ -1,9 +1,41 @@
 import React from 'react';
 import { SliderBox } from 'react-native-image-slider-box';
+import * as FileSystem from 'expo-file-system';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 const GalleryItem = (props) => {
+  // 갤러리 저장 이벤트
+  const saveFile = async (fileUri) => {
+    const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+
+    if (permissions.granted) {
+      const asset = await MediaLibrary.createAssetAsync(fileUri);
+      await MediaLibrary.createAlbumAsync('flooming', asset, false);
+    }
+  };
+
+  const saveImage = async () => {
+    const downloadResumable = FileSystem.createDownloadResumable(
+      `${props.url}/picture/${props.item.picture_id}`,
+      FileSystem.documentDirectory + '.jpg',
+      {}
+    );
+
+    try {
+      const { uri } = await downloadResumable.downloadAsync().then((item) => {
+        return item;
+      });
+
+      saveFile(uri)
+        .then(() => {
+          alert('저장되었어요'); console.log(uri)
+        });
+    } catch (event) {
+      console.error(event);
+    };
+  };
+
   return (
     <View style={styles.galleryContainer}>
       <View style={styles.imageContainer}>
@@ -19,7 +51,7 @@ const GalleryItem = (props) => {
 
       <View style={styles.commentContainer}>
         <Text style={styles.comment}>{props.item.comment}</Text>
-        <TouchableOpacity onPress={props.handleSave}>
+        <TouchableOpacity onPress={saveImage}>
           <FontAwesome name='download' size={24} color='#D3D3D3' />
         </TouchableOpacity>
       </View>
