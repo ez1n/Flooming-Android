@@ -27,9 +27,11 @@ const Gallery = (props) => {
     });
   }, []);
 
+  // 네트워크 연결 확인
   useEffect(() => {
     console.log(props.loadData)
-  })
+    props.unsubscribe;
+  }, []);
 
   // 데이터 로딩 이벤트 (새로고침)
   const handleRefresh = async () => {
@@ -54,21 +56,25 @@ const Gallery = (props) => {
       .catch((error) => console.log(error))
   };
 
-  return (
-    <ImageBackground
-      source={require('../../assets/images/mainBackground.jpg')}
-      style={styles.backgroundImage}
-      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
-      <FlatList
-        data={pageCount == 1 ? props.loadData.data : props.loadData}
-        renderItem={({ item }) => (<GalleryItem item={item} url={props.url} saveImage={props.saveImage} />)}
-        refreshing={isRefreshing}
-        onRefresh={handleRefresh}
-        onEndReached={() => handleEndReached(pageCount)}
-        onEndReachedThreshold={0.8}
-      />
-    </ImageBackground>
-  )
+  if (!props.unsubscribe) {
+    return <Error navigation={props.navigation} message={'Network Error'} />
+  } else {
+    return (
+      <ImageBackground
+        source={require('../../assets/images/mainBackground.jpg')}
+        style={styles.backgroundImage}
+        imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
+        <FlatList
+          data={pageCount == 1 ? props.loadData.data : props.loadData}
+          renderItem={({ item }) => (<GalleryItem item={item} url={props.url} saveImage={props.saveImage} />)}
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+          onEndReached={() => handleEndReached(pageCount)}
+          onEndReachedThreshold={0.8}
+        />
+      </ImageBackground>
+    )
+  }
 };
 
 export default Gallery;

@@ -7,14 +7,14 @@ import Error from './error';
 export default function Main(props) {
   const handleClickButton = () => { props.navigation.navigate('Guide') }; // 버튼 클릭 이벤트
 
-  // useEffect(() => {
-  //   props.unsubscribe;
-  // }, [])
+  // 네트워크 연결 확인
+  useEffect(() => {
+    props.unsubscribe;
+  }, []);
 
-  // if (props.unsubscribe) {
-  //   return <Error navigation={props.navigation} />
-  // } else
-   {
+  if (!props.unsubscribe) {
+    return <Error navigation={props.navigation} message={'Network Error'} />
+  } else {
     return (
       <ImageBackground
         source={require('../assets/images/mainBackground.jpg')}

@@ -48,6 +48,7 @@ export default function App() {
 
   // 인터넷 연결 여부
   const unsubscribe = () => NetInfo.addEventListener(state => {
+    console.log(state.isConnected)
     return (state.isConnected);
   });
 
@@ -84,7 +85,11 @@ export default function App() {
   };
 
   if (firstLaunch == null) {
-    return null;
+    return (<Stack.Screen
+      name='Onboarding'
+      component={OnBoarding}
+      options={{ headerShown: false }}
+    />)
   } else if (firstLaunch == true) { // 어플 실행이 처음인 경우 (onboarding)
     return (
       <NavigationContainer>
@@ -115,7 +120,10 @@ export default function App() {
 
           <Stack.Screen
             name='Guide'
-            component={Guide}
+            children={({ navigation }) => <Guide
+              unsubscribe={unsubscribe}
+              navigation={navigation}
+            />}
             options={{ title: '사진 가이드' }}
           />
 
@@ -125,6 +133,7 @@ export default function App() {
               url={flooming.url()}
               image={image}
               flowerData={flowerData}
+              unsubscribe={unsubscribe}
               updateFlowerData={updateFlowerData}
               getImage={getImage}
               navigation={navigation}
@@ -138,7 +147,8 @@ export default function App() {
               url={flooming.url()}
               flowerData={flowerData}
               currentImage={image}
-              updateGalleryData={updateGalleryData} d
+              unsubscribe={unsubscribe}
+              updateGalleryData={updateGalleryData}
               navigation={navigation}
             />)}
             options={{ title: '분류 결과' }}
@@ -149,6 +159,7 @@ export default function App() {
             children={(({ navigation }) => <ImageResult
               url={flooming.url()}
               galleryData={galleryData}
+              unsubscribe={unsubscribe}
               getLoadData={getLoadData}
               navigation={navigation}
             />)}
@@ -160,6 +171,7 @@ export default function App() {
             children={(({ navigation }) => <Gallery
               url={flooming.url()}
               loadData={loadData}
+              unsubscribe={unsubscribe}
               getImage={getImage}
               updateFlowerData={updateFlowerData}
               getLoadData={getLoadData}
@@ -188,6 +200,7 @@ export default function App() {
           <Stack.Screen
             name='Main'
             children={({ navigation }) => <Main
+              unsubscribe={unsubscribe}
               navigation={navigation}
             />}
             options={{ headerTitle: 'FLOOMING' }}
@@ -195,7 +208,10 @@ export default function App() {
 
           <Stack.Screen
             name='Guide'
-            component={Guide}
+            children={({ navigation }) => <Guide
+              unsubscribe={unsubscribe}
+              navigation={navigation}
+            />}
             options={{ title: '사진 가이드' }}
           />
 
@@ -205,6 +221,7 @@ export default function App() {
               url={flooming.url()}
               image={image}
               flowerData={flowerData}
+              unsubscribe={unsubscribe}
               updateFlowerData={updateFlowerData}
               getImage={getImage}
               navigation={navigation}
@@ -218,7 +235,8 @@ export default function App() {
               url={flooming.url()}
               flowerData={flowerData}
               currentImage={image}
-              updateGalleryData={updateGalleryData} d
+              unsubscribe={unsubscribe}
+              updateGalleryData={updateGalleryData}
               navigation={navigation}
             />)}
             options={{ title: '분류 결과' }}
@@ -229,6 +247,7 @@ export default function App() {
             children={(({ navigation }) => <ImageResult
               url={flooming.url()}
               galleryData={galleryData}
+              unsubscribe={unsubscribe}
               getLoadData={getLoadData}
               navigation={navigation}
             />)}
@@ -240,6 +259,7 @@ export default function App() {
             children={(({ navigation }) => <Gallery
               url={flooming.url()}
               loadData={loadData}
+              unsubscribe={unsubscribe}
               getImage={getImage}
               updateFlowerData={updateFlowerData}
               getLoadData={getLoadData}

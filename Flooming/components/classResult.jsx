@@ -9,6 +9,11 @@ const ClassResult = (props) => {
     photo_id: props.flowerData.photo_id,
   };
 
+  // 네트워크 연결 확인
+  useEffect(() => {
+    props.unsubscribe;
+  }, []);
+
   // 그림 그리기 이벤트
   const handleDrawImage = () => {
     axios.post(`${props.url}/picture`, currentImageType)
@@ -19,33 +24,37 @@ const ClassResult = (props) => {
       .catch((error) => console.log(error))
   };
 
-  return (
-    <ImageBackground
-      source={require('../assets/images/mainBackground.jpg')}
-      style={styles.backgroundImage}
-      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
+  if (!props.unsubscribe) {
+    return <Error navigation={props.navigation} message={'Network Error'} />
+  } else {
+    return (
+      <ImageBackground
+        source={require('../assets/images/mainBackground.jpg')}
+        style={styles.backgroundImage}
+        imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
-      <View style={styles.imageContainer}>
+        <View style={styles.imageContainer}>
 
-        <View style={styles.myImageContainer}>
-          <Text style={styles.myImageText}>당신의 꽃</Text>
-          <Image style={styles.myImage} source={{ uri: props.currentImage }} />
+          <View style={styles.myImageContainer}>
+            <Text style={styles.myImageText}>당신의 꽃</Text>
+            <Image style={styles.myImage} source={{ uri: props.currentImage }} />
+          </View>
+
+          <View style={styles.resultImageContainer}>
+            <Image style={styles.resultImage} source={{ uri: `${props.url}/flower/${props.flowerData.kor_name}` }} />
+            <Text style={[styles.flowerData, styles.flowerName]}>{props.flowerData.kor_name} ({props.flowerData.eng_name})</Text>
+            <Text style={[styles.flowerData, styles.flowerLanguage]}>'{props.flowerData.flower_language}'</Text>
+            <Text style={[styles.flowerData, styles.flowerProbability]}>{props.flowerData.probability}%</Text>
+          </View>
+
         </View>
 
-        <View style={styles.resultImageContainer}>
-          <Image style={styles.resultImage} source={{ uri: `${props.url}/flower/${props.flowerData.kor_name}` }} />
-          <Text style={[styles.flowerData, styles.flowerName]}>{props.flowerData.kor_name} ({props.flowerData.eng_name})</Text>
-          <Text style={[styles.flowerData, styles.flowerLanguage]}>'{props.flowerData.flower_language}'</Text>
-          <Text style={[styles.flowerData, styles.flowerProbability]}>{props.flowerData.probability}%</Text>
+        <View style={styles.buttonContainer}>
+          <Button text={'그림을 그려볼까요?'} onPress={handleDrawImage} />
         </View>
-
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <Button text={'그림을 그려볼까요?'} onPress={handleDrawImage} />
-      </View>
-    </ImageBackground >
-  )
+      </ImageBackground >
+    )
+  }
 };
 
 export default ClassResult;

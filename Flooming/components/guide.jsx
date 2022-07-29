@@ -1,37 +1,46 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Image, Text, ImageBackground } from 'react-native';
 import Button from './button';
 
-export default function Guide({ navigation }) {
+export default function Guide(props) {
+  // 네트워크 연결 확인
+  useEffect(() => {
+    props.unsubscribe;
+  }, []);
+
   const handleClickButton = () => {
-    navigation.navigate('ImageCheck');
+    props.navigation.navigate('ImageCheck');
   };
 
-  return (
-    <ImageBackground
-      source={require('../assets/images/mainBackground.jpg')}
-      style={styles.backgroundImage}
-      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
-      <View style={styles.exampleImageContainer}>
-        <View style={{ alignItems: 'center' }}>
-          {/* 예시 사진 수정 */}
-          <Image style={styles.img} source={require('../assets/images/imageEx.jpg')} />
-          <Text style={styles.text}>이렇게 찍어주세요</Text>
-          <Image source={require('../assets/yesIcon2.png')} style={styles.icon} />
+  if (!props.unsubscribe) {
+    return <Error navigation={props.navigation} message={'Network Error'} />
+  } else {
+    return (
+      <ImageBackground
+        source={require('../assets/images/mainBackground.jpg')}
+        style={styles.backgroundImage}
+        imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
+        <View style={styles.exampleImageContainer}>
+          <View style={{ alignItems: 'center' }}>
+            {/* 예시 사진 수정 */}
+            <Image style={styles.img} source={require('../assets/images/imageEx.jpg')} />
+            <Text style={styles.text}>이렇게 찍어주세요</Text>
+            <Image source={require('../assets/yesIcon2.png')} style={styles.icon} />
+          </View>
+
+          <View style={{ alignItems: 'center' }}>
+            <Image style={styles.img} source={require('../assets/images/imageNonEx.jpg')} />
+            <Text style={styles.text}>이러면 그릴 수 없어요</Text>
+            <Image source={require('../assets/noIcon2.png')} style={styles.icon} />
+          </View>
         </View>
 
-        <View style={{ alignItems: 'center' }}>
-          <Image style={styles.img} source={require('../assets/images/imageNonEx.jpg')} />
-          <Text style={styles.text}>이러면 그릴 수 없어요</Text>
-          <Image source={require('../assets/noIcon2.png')} style={styles.icon} />
+        <View style={styles.buttonContainer}>
+          <Button text={'이해했어요'} onPress={handleClickButton} />
         </View>
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <Button text={'이해했어요'} onPress={handleClickButton} />
-      </View>
-    </ImageBackground>
-  )
+      </ImageBackground>
+    )
+  }
 };
 
 const styles = StyleSheet.create({
@@ -62,7 +71,7 @@ const styles = StyleSheet.create({
   icon: {
     marginTop: 50,
     borderRadius: 100,
-    width: 45, 
+    width: 45,
     height: 45,
   },
   buttonContainer: {

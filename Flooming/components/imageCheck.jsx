@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FormData from 'form-data';
 import * as ImagePicker from 'expo-image-picker';
@@ -12,12 +12,17 @@ export default function ImageCheck(props) {
   const [photoPermission, setPhotoPermission] = ImagePicker.useCameraPermissions(); // 카메라 접근 권한
   const imageData = new FormData(); // 사진 전송 폼
 
+  // 네트워크 연결 확인
+  useEffect(() => {
+    props.unsubscribe;
+  }, []);
+
   // 앨범에서 가져오기 이벤트
-  const handleClickGalleryButton = async() => {
+  const handleClickGalleryButton = async () => {
     // 접근 권한 허용 여부
     if (!galleryPermission?.granted) {
       const permission = await setGalleryPermission();
-      if(!permission.granted) {
+      if (!permission.granted) {
         return null;
       }
     };
@@ -29,19 +34,17 @@ export default function ImageCheck(props) {
       aspect: [1, 1],
     });
 
-    if (!result.cancelled) { 
-      props.getImage(result.uri) ;
+    if (!result.cancelled) {
+      props.getImage(result.uri);
     };
-
-    console.log(result.uri)
   };
 
   // 사진 촬영 이벤트
-  const handleClickPhotoButton = async() => {
+  const handleClickPhotoButton = async () => {
     // 접근 권한 허용 여부
     if (!photoPermission?.granted) {
       const permission = await setPhotoPermission();
-      if(!permission.granted) {
+      if (!permission.granted) {
         return null;
       }
     };
@@ -58,8 +61,8 @@ export default function ImageCheck(props) {
     }
   };
 
-    // 이미지 전송 이벤트 (버튼 클릭)
-    const handleClickSelectButton = () => {
+  // 이미지 전송 이벤트 (버튼 클릭)
+  const handleClickSelectButton = () => {
     const filename = props.image.split('/').pop();
     imageData.append('file', { uri: props.image, type: 'multipart/form-data', name: filename });
 
@@ -82,51 +85,55 @@ export default function ImageCheck(props) {
 
   const handleGoBack = () => { setOnError(!onError) };
 
-  return (
-    <ImageBackground
-      source={require('../assets/images/mainBackground.jpg')}
-      style={styles.backgroundImage}
-      imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
+  if (!props.unsubscribe) {
+    return <Error navigation={props.navigation} message={'Network Error'} />
+  } else {
+    return (
+      <ImageBackground
+        source={require('../assets/images/mainBackground.jpg')}
+        style={styles.backgroundImage}
+        imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
-      {/* error message */}
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={onError}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modal}>
-            <Text style={styles.errorMessageText}>{errorMessage}</Text>
+        {/* error message */}
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={onError}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modal}>
+              <Text style={styles.errorMessageText}>{errorMessage}</Text>
 
-            <View style={styles.modalButtonContainer}>
-              <TouchableOpacity onPress={handleGoBack}>
-                <Text style={styles.modalButtonText}>사진 다시 찍기</Text>
-              </TouchableOpacity>
+              <View style={styles.modalButtonContainer}>
+                <TouchableOpacity onPress={handleGoBack}>
+                  <Text style={styles.modalButtonText}>사진 다시 찍기</Text>
+                </TouchableOpacity>
+              </View>
+
             </View>
-
           </View>
+        </Modal>
+
+        <View style={styles.imageContainer}>
+          {/* 받아온 꽃 사진 */}
+          {props.image ? <Image style={styles.exImage} source={{ uri: props.image }} /> : <Image style={styles.exImage} source={require('../assets/images/imageEx.jpg')} />}
+
+          <View style={styles.imageButtonContainer}>
+            <TouchableOpacity>
+              <Text style={styles.buttonText} onPress={handleClickPhotoButton}>사진 찍기</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.buttonText} onPress={handleClickGalleryButton}>앨범에서 가져오기</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
-      </Modal>
 
-      <View style={styles.imageContainer}>
-        {/* 받아온 꽃 사진 */}
-        { props.image ? <Image style={styles.exImage} source={{uri: props.image}} /> : <Image style={styles.exImage} source={require('../assets/images/imageEx.jpg')} />}
-
-        <View style={styles.imageButtonContainer}>
-          <TouchableOpacity>
-            <Text style={styles.buttonText} onPress={handleClickPhotoButton}>사진 찍기</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.buttonText} onPress={handleClickGalleryButton}>앨범에서 가져오기</Text>
-          </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <Button text={'사진 선택'} onPress={handleClickSelectButton} />
         </View>
-
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <Button text={'사진 선택'} onPress={handleClickSelectButton} />
-      </View>
-    </ImageBackground>
-  )
+      </ImageBackground>
+    )
+  }
 };
 
 const styles = StyleSheet.create({
@@ -140,7 +147,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modal : {
+  modal: {
     width: 350,
     height: 200,
     padding: 20,
