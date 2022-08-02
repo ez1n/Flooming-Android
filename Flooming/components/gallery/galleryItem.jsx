@@ -1,13 +1,14 @@
 import React from 'react';
 import { SliderBox } from 'react-native-image-slider-box';
 import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-const GalleryItem = (props) => {
+export default function GalleryItem(props) {
   // 갤러리 저장 이벤트
   const saveFile = async (fileUri) => {
-    const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+    const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync('flooming');
 
     if (permissions.granted) {
       const asset = await MediaLibrary.createAssetAsync(fileUri);
@@ -15,21 +16,21 @@ const GalleryItem = (props) => {
     }
   };
 
-  const saveImage = async () => {
-    const downloadResumable = FileSystem.createDownloadResumable(
-      `${props.url}/picture/${props.item.picture_id}`,
+  const saveImage = async (pictureId) => {
+    const pictureDownloadResumable = FileSystem.createDownloadResumable(
+      `${props.url}/picture/${pictureId}`,
       FileSystem.documentDirectory + '.jpg',
       {}
     );
 
     try {
-      const { uri } = await downloadResumable.downloadAsync().then((item) => {
+      const { uri } = await pictureDownloadResumable.downloadAsync().then((item) => {
         return item;
       });
 
       saveFile(uri)
         .then(() => {
-          alert('저장되었어요'); console.log(uri)
+          alert('저장되었어요')
         });
     } catch (event) {
       console.error(event);
@@ -45,21 +46,19 @@ const GalleryItem = (props) => {
           images={[
             `${props.url}/picture/${props.item.picture_id}`,
             `${props.url}/photo/${props.item.photo_id}`
-          ]} 
+          ]}
         />
       </View>
 
       <View style={styles.commentContainer}>
         <Text style={styles.comment}>{props.item.comment}</Text>
-        <TouchableOpacity onPress={saveImage}>
+        <TouchableOpacity onPress={() => saveImage(props.item.picture_id)}>
           <FontAwesome name='download' size={24} color='#D3D3D3' />
         </TouchableOpacity>
       </View>
     </View>
   )
 };
-
-export default GalleryItem;
 
 const styles = StyleSheet.create({
   galleryContainer: {

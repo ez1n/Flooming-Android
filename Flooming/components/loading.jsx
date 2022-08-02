@@ -1,33 +1,36 @@
-import React from 'react';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import React, { useLayoutEffect } from 'react';
+import { StyleSheet, Text, ImageBackground, View, ActivityIndicator } from 'react-native';
 
 export default function Loading(props) {
+  // header
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerShown: false
+    });
+  }, []);
+
   return (
-    <ImageBackground
-      source={require('../assets/images/loadingBackground.jpg')}
-      style={styles.backgroundImage}
-      imageStyle={{ opacity: 0.9 }}>
-      <View style={styles.textContainer}>
-        <Text style={styles.text}>꽃을 그리고 있어요</Text>
-        <Text style={styles.text}>잠시만 기다려 주세요 :)</Text>
-      </View>
-    </ImageBackground>
+    <View style={{ flex: 1 }}>
+      <ImageBackground
+        source={require('../assets/images/loadingBackground.jpg')}
+        style={styles.image}>
+        <ActivityIndicator size="large" color="#FCFCFC" />
+        <Text style={styles.text}>그림을 그리는 중이에요</Text>
+      </ImageBackground>
+    </View>
   )
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
+  image: {
     flex: 1,
-    backgroundColor: '#FCFCFC',
+    alignItems: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textContainer: {
-    alignItems: 'center',
   },
   text: {
     color: '#FCFCFC',
-    fontSize: 28,
+    fontSize: 30,
     fontFamily: 'symkyungha',
-  }
+    marginTop: 20,
+  },
 })

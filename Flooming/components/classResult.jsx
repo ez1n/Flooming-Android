@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { StyleSheet, Image, ImageBackground, View, Text, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, Image, ImageBackground, View, Text } from 'react-native';
 import Button from './button';
+import Loading from './loading';
 
 const ClassResult = (props) => {
   // 서버에 요청할 데이터 state
@@ -9,16 +10,35 @@ const ClassResult = (props) => {
     photo_id: props.flowerData.photo_id,
   };
 
+  const [loading, setLoading] = useState(null);
+
+  // 네트워크 연결 확인
+  useEffect(() => {
+    props.unsubscribe;
+  }, []);
+
   // 그림 그리기 이벤트
-  const handleDrawImage = () => {
-    axios.post(`${props.url}/picture`, currentImageType)
-      .then((response) => {
-        props.navigation.navigate('ImageResult');
-        props.updateGalleryData(response.data);
-      })
-      .catch((error) => console.log(error))
+  const handleDrawImage = async () => {
+    setLoading(true);
+    try {
+      axios.post(`${props.url}/picture`, currentImageType)
+        .then((response) => {
+          props.navigation.navigate('ImageResult');
+          props.updateGalleryData(response.data);
+        })
+        .catch((error) => console.log(error))
+    } catch (error) {
+      console.warn(error)
+      alert('오류가 발생했어요');
+    }
   };
 
+  if (!props.unsubscribe) {
+    return <Error navigation={props.navigation} message={'Network Error'} />
+  }
+  if (loading) {
+    return (<Loading navigation={props.navigation} />)
+  }
   return (
     <ImageBackground
       source={require('../assets/images/mainBackground.jpg')}

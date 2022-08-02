@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { StyleSheet, ImageBackground, Image, Text } from 'react-native';
 
 export default function Error(props) {
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerShown: false
+    });
+  }, []);
+
   return (
     <ImageBackground
       source={require('../assets/images/loadingBackground.jpg')}
       style={styles.backgroundImage}
       imageStyle={{ opacity: 0.9 }}>
         <Image style={styles.icon} source={require('../assets/errorIcon.png')} />
-        <Text style={styles.errorMessageText}>error message</Text>
+        <Text style={styles.errorMessageText}>{props.message}</Text>
     </ImageBackground>
   )
 };

@@ -11,7 +11,6 @@ export default function OnBoarding(props) {
   const navigation = useNavigation();
   const pagerRef = useRef(null);
 
-
   const handleSkip = () => { navigation.replace('Main') };
 
   // Page Button 이벤트

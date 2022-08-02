@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Flooming from './flooming';
 import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import * as Font from 'expo-font';
@@ -14,11 +15,11 @@ import ClassResult from './components/classResult';
 import ImageResult from './components/imageResult';
 import Gallery from './components/gallery/gallery';
 import OnBoarding from './components/onBoarding/onBoarding';
-import Error from './components/error';
 
 const Stack = createNativeStackNavigator(); // 네비게이터
+SplashScreen.preventAutoHideAsync(); // Splash screen
 
-export default function App() {
+const App = () => {
   const flooming = new Flooming(); // url
   const [onLoaded, setOnLoaded] = useState(false); // 앱 로딩 state
   const [firstLaunch, setFirstLaunch] = useState(null);
@@ -40,14 +41,35 @@ export default function App() {
       if (value == null) {
         AsyncStorage.setItem('launched', 'true');
         setFirstLaunch(true);
+
       } else {
         setFirstLaunch(false);
       }
     });
   }, []);
 
+  // // 메인 로딩화면 (ing)
+  // useEffect(() => {
+  //   async function prepare() {
+  //     try {
+  //       await Font.loadAsync({
+  //         'symkyungha': require('./assets/fonts/SimKyungha.ttf'),
+  //       });
+
+  //       await new Promise(resolve => setTimeout(resolve, 200));
+  //     } catch (error) {
+  //       console.warn(error);
+  //     } finally {
+  //       setOnLoaded(true);
+  //     }
+  //   }
+
+  //   prepare();
+  // }, []);
+
   // 인터넷 연결 여부
   const unsubscribe = () => NetInfo.addEventListener(state => {
+    console.log(state.isConnected)
     return (state.isConnected);
   });
 
@@ -57,10 +79,12 @@ export default function App() {
   const getLoadData = (data) => { setLoadData({ data }) }; // 갤러리 로딩 정보 가져오기
   // 갤러리 정보 추가하기
   const updateLoadData = (data) => {
-    for (let i = 0; i < data.length; i++) {
-      const newData = [...loadData.data, data[i]];
-      setLoadData(newData);
-    }
+    const newData = { data: [...loadData.data] };
+    data.map(item => {
+      newData.data.push(item)
+    })
+    console.log(newData);
+    setLoadData(newData);
   };
   // 폰트 로딩
   const onLoading = async () => {
@@ -84,7 +108,7 @@ export default function App() {
   };
 
   if (firstLaunch == null) {
-    return null;
+    return null
   } else if (firstLaunch == true) { // 어플 실행이 처음인 경우 (onboarding)
     return (
       <NavigationContainer>
@@ -115,7 +139,10 @@ export default function App() {
 
           <Stack.Screen
             name='Guide'
-            component={Guide}
+            children={({ navigation }) => <Guide
+              unsubscribe={unsubscribe}
+              navigation={navigation}
+            />}
             options={{ title: '사진 가이드' }}
           />
 
@@ -125,6 +152,7 @@ export default function App() {
               url={flooming.url()}
               image={image}
               flowerData={flowerData}
+              unsubscribe={unsubscribe}
               updateFlowerData={updateFlowerData}
               getImage={getImage}
               navigation={navigation}
@@ -138,7 +166,8 @@ export default function App() {
               url={flooming.url()}
               flowerData={flowerData}
               currentImage={image}
-              updateGalleryData={updateGalleryData} d
+              unsubscribe={unsubscribe}
+              updateGalleryData={updateGalleryData}
               navigation={navigation}
             />)}
             options={{ title: '분류 결과' }}
@@ -149,6 +178,7 @@ export default function App() {
             children={(({ navigation }) => <ImageResult
               url={flooming.url()}
               galleryData={galleryData}
+              unsubscribe={unsubscribe}
               getLoadData={getLoadData}
               navigation={navigation}
             />)}
@@ -160,6 +190,7 @@ export default function App() {
             children={(({ navigation }) => <Gallery
               url={flooming.url()}
               loadData={loadData}
+              unsubscribe={unsubscribe}
               getImage={getImage}
               updateFlowerData={updateFlowerData}
               getLoadData={getLoadData}
@@ -188,6 +219,7 @@ export default function App() {
           <Stack.Screen
             name='Main'
             children={({ navigation }) => <Main
+              unsubscribe={unsubscribe}
               navigation={navigation}
             />}
             options={{ headerTitle: 'FLOOMING' }}
@@ -195,7 +227,10 @@ export default function App() {
 
           <Stack.Screen
             name='Guide'
-            component={Guide}
+            children={({ navigation }) => <Guide
+              unsubscribe={unsubscribe}
+              navigation={navigation}
+            />}
             options={{ title: '사진 가이드' }}
           />
 
@@ -205,6 +240,7 @@ export default function App() {
               url={flooming.url()}
               image={image}
               flowerData={flowerData}
+              unsubscribe={unsubscribe}
               updateFlowerData={updateFlowerData}
               getImage={getImage}
               navigation={navigation}
@@ -218,7 +254,8 @@ export default function App() {
               url={flooming.url()}
               flowerData={flowerData}
               currentImage={image}
-              updateGalleryData={updateGalleryData} d
+              unsubscribe={unsubscribe}
+              updateGalleryData={updateGalleryData}
               navigation={navigation}
             />)}
             options={{ title: '분류 결과' }}
@@ -229,6 +266,7 @@ export default function App() {
             children={(({ navigation }) => <ImageResult
               url={flooming.url()}
               galleryData={galleryData}
+              unsubscribe={unsubscribe}
               getLoadData={getLoadData}
               navigation={navigation}
             />)}
@@ -240,6 +278,7 @@ export default function App() {
             children={(({ navigation }) => <Gallery
               url={flooming.url()}
               loadData={loadData}
+              unsubscribe={unsubscribe}
               getImage={getImage}
               updateFlowerData={updateFlowerData}
               getLoadData={getLoadData}
@@ -254,3 +293,5 @@ export default function App() {
     )
   }
 }
+
+export default React.memo(App);
