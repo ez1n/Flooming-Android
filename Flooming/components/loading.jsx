@@ -15,7 +15,7 @@ export default function Loading(props) {
         source={require('../assets/images/loadingBackground.jpg')}
         style={styles.image}>
         <ActivityIndicator size="large" color="#FCFCFC" />
-        <Text style={styles.text}>그림을 그리고 있어요</Text>
+        <Text style={styles.text}>그림을 그리는 중이에요</Text>
       </ImageBackground>
     </View>
   )

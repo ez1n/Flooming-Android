@@ -16,8 +16,7 @@ export default function MainLoading(props) {
 const styles = StyleSheet.create({
   text: {
     color: '#FCFCFC',
-    fontSize: 30,
-    fontFamily: 'symkyungha',
+    fontSize: 25,
   },
   image: {
     flex: 1,

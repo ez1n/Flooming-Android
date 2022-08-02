@@ -19,7 +19,7 @@ import OnBoarding from './components/onBoarding/onBoarding';
 const Stack = createNativeStackNavigator(); // 네비게이터
 SplashScreen.preventAutoHideAsync(); // Splash screen
 
-export default function App() {
+const App = () => {
   const flooming = new Flooming(); // url
   const [onLoaded, setOnLoaded] = useState(false); // 앱 로딩 state
   const [firstLaunch, setFirstLaunch] = useState(null);
@@ -41,11 +41,9 @@ export default function App() {
       if (value == null) {
         AsyncStorage.setItem('launched', 'true');
         setFirstLaunch(true);
-        console.log('first launch')
 
       } else {
         setFirstLaunch(false);
-        console.log('second launch')
       }
     });
   }, []);
@@ -81,10 +79,12 @@ export default function App() {
   const getLoadData = (data) => { setLoadData({ data }) }; // 갤러리 로딩 정보 가져오기
   // 갤러리 정보 추가하기
   const updateLoadData = (data) => {
-    for (let i = 0; i < data.length; i++) {
-      const newData = [...loadData.data, data[i]];
-      setLoadData(newData);
-    }
+    const newData = { data: [...loadData.data] };
+    data.map(item => {
+      newData.data.push(item)
+    })
+    console.log(newData);
+    setLoadData(newData);
   };
   // 폰트 로딩
   const onLoading = async () => {
@@ -293,3 +293,5 @@ export default function App() {
     )
   }
 }
+
+export default React.memo(App);
