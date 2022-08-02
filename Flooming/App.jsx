@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Flooming from './flooming';
 import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import * as Font from 'expo-font';
@@ -14,9 +15,9 @@ import ClassResult from './components/classResult';
 import ImageResult from './components/imageResult';
 import Gallery from './components/gallery/gallery';
 import OnBoarding from './components/onBoarding/onBoarding';
-import Error from './components/error';
 
 const Stack = createNativeStackNavigator(); // 네비게이터
+SplashScreen.preventAutoHideAsync(); // Splash screen
 
 export default function App() {
   const flooming = new Flooming(); // url
@@ -40,11 +41,33 @@ export default function App() {
       if (value == null) {
         AsyncStorage.setItem('launched', 'true');
         setFirstLaunch(true);
+        console.log('first launch')
+
       } else {
         setFirstLaunch(false);
+        console.log('second launch')
       }
     });
   }, []);
+
+  // // 메인 로딩화면 (ing)
+  // useEffect(() => {
+  //   async function prepare() {
+  //     try {
+  //       await Font.loadAsync({
+  //         'symkyungha': require('./assets/fonts/SimKyungha.ttf'),
+  //       });
+
+  //       await new Promise(resolve => setTimeout(resolve, 200));
+  //     } catch (error) {
+  //       console.warn(error);
+  //     } finally {
+  //       setOnLoaded(true);
+  //     }
+  //   }
+
+  //   prepare();
+  // }, []);
 
   // 인터넷 연결 여부
   const unsubscribe = () => NetInfo.addEventListener(state => {
@@ -85,11 +108,7 @@ export default function App() {
   };
 
   if (firstLaunch == null) {
-    return (<Stack.Screen
-      name='Onboarding'
-      component={OnBoarding}
-      options={{ headerShown: false }}
-    />)
+    return null
   } else if (firstLaunch == true) { // 어플 실행이 처음인 경우 (onboarding)
     return (
       <NavigationContainer>

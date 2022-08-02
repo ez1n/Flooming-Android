@@ -8,7 +8,7 @@ import Button from './button';
 const ImageResult = (props) => {
   const { photo_id, picture_id } = props.galleryData;
 
-  // 갤러리에 들어가야할 데이터
+  // 갤러리에 들어가야할 데이터 state
   const [data, setData] = useState(
     {
       photo_id: photo_id,

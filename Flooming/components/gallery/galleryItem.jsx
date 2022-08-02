@@ -4,7 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-const GalleryItem = (props) => {
+export default function GalleryItem(props) {
   // 갤러리 저장 이벤트
   const saveFile = async (fileUri) => {
     const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
@@ -45,7 +45,7 @@ const GalleryItem = (props) => {
           images={[
             `${props.url}/picture/${props.item.picture_id}`,
             `${props.url}/photo/${props.item.photo_id}`
-          ]} 
+          ]}
         />
       </View>
 
@@ -58,8 +58,6 @@ const GalleryItem = (props) => {
     </View>
   )
 };
-
-export default GalleryItem;
 
 const styles = StyleSheet.create({
   galleryContainer: {

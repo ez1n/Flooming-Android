@@ -9,8 +9,6 @@ export default function MainLoading(props) {
         style={styles.image}>
         <Text style={styles.text}>FLOOMING</Text>
       </ImageBackground>
-      <View style={styles.footer}>
-      </View>
     </View>
   )
 };
@@ -19,7 +17,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#FCFCFC',
     fontSize: 30,
-    fontFamily: 'symkyungha',    
+    fontFamily: 'symkyungha',
   },
   image: {
     flex: 1,
