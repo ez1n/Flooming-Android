@@ -45,12 +45,14 @@ const ImageResult = (props) => {
   const saveFile = async (fileUri) => {
     const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync('flooming');
 
+    // 권한 확인
     if (permissions.granted) {
       const asset = await MediaLibrary.createAssetAsync(fileUri);
       await MediaLibrary.createAlbumAsync('flooming', asset, false);
     }
   };
 
+  // 사진 저장
   const saveImage = async () => {
     const downloadResumable = FileSystem.createDownloadResumable(
       `${props.url}/picture/${picture_id}`,

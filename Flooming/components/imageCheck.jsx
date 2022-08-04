@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FormData from 'form-data';
 import * as ImagePicker from 'expo-image-picker';
-import { StyleSheet, ImageBackground, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, ImageBackground, Text, View, Image, TouchableOpacity } from 'react-native';
 import Button from './button';
+import ErrorModal from './errorModal';
 
 export default function ImageCheck(props) {
   const [onError, setOnError] = useState(false); // error 상태 state
@@ -73,16 +74,20 @@ export default function ImageCheck(props) {
     })
       .then((response) => {
         props.updateFlowerData(response.data);
-        // axios.get(`${props.url}/flower/${props.flowerData.kor_name}`); // 없어도 사진 오는데..?
         props.navigation.navigate('ClassResult');
       })
       .catch((error) => {
-        console.log(error.response);
+        console.log(error.response.data.detail);
         setOnError(!onError);
-        setErrorMessage(error.response.data.detail);
+        if (error.response.data.detail == undefined) {
+          setErrorMessage('사진을 다시 찍어주세요!');
+        } else {
+          setErrorMessage(error.response.data.detail);
+        };
       })
   };
 
+  // 사진 다시 찍기 이벤트
   const handleGoBack = () => { setOnError(!onError) };
 
   if (!props.unsubscribe) {
@@ -95,23 +100,11 @@ export default function ImageCheck(props) {
         imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
         {/* error message */}
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={onError}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modal}>
-              <Text style={styles.errorMessageText}>{errorMessage}</Text>
-
-              <View style={styles.modalButtonContainer}>
-                <TouchableOpacity onPress={handleGoBack}>
-                  <Text style={styles.modalButtonText}>사진 다시 찍기</Text>
-                </TouchableOpacity>
-              </View>
-
-            </View>
-          </View>
-        </Modal>
+        <ErrorModal
+          handleGoBack={handleGoBack}
+          onError={onError}
+          comment={'사진 다시 찍기'}
+          errorMessage={errorMessage} />
 
         <View style={styles.imageContainer}>
           {/* 받아온 꽃 사진 */}
@@ -140,39 +133,6 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     backgroundColor: '#FCFCFC',
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modal: {
-    width: 350,
-    height: 200,
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 20,
-    backgroundColor: '#FCFCFC',
-  },
-  errorMessageText: {
-    fontSize: 25,
-    fontFamily: 'symkyungha',
-  },
-  modalButtonContainer: {
-    width: 100,
-    height: 35,
-    backgroundColor: '#0C0B0C',
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  modalButtonText: {
-    fontSize: 20,
-    color: '#FCFCFC',
-    fontFamily: 'symkyungha',
   },
   titleContainer: {
     width: '100%',

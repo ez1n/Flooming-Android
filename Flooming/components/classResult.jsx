@@ -3,13 +3,18 @@ import axios from 'axios';
 import { StyleSheet, Image, ImageBackground, View, Text } from 'react-native';
 import Button from './button';
 import Loading from './loading';
+import ErrorModal from './errorModal';
 
 const ClassResult = (props) => {
+  // error 상태 state
+  const [onError, setOnError] = useState(false);
+  // error message state
+  const [errorMessage, setErrorMessage] = useState(null);
   // 서버에 요청할 데이터 state
   const currentImageType = {
     photo_id: props.flowerData.photo_id,
   };
-
+  // 로딩 state
   const [loading, setLoading] = useState(null);
 
   // 네트워크 연결 확인
@@ -26,12 +31,21 @@ const ClassResult = (props) => {
           props.navigation.navigate('ImageResult');
           props.updateGalleryData(response.data);
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+          console.log(error);
+          setOnError(!onError);
+          setErrorMessage(error.response.data.detail);
+        })
     } catch (error) {
-      console.warn(error)
-      alert('오류가 발생했어요');
+      console.warn(error);
+      setLoading(false);
+      setOnError(!onError);
+      setErrorMessage('오류가 발생했어요');
     }
   };
+
+  // 그림 다시 그리기 이벤트
+  const handleGoBack = () => { setOnError(!onError) };
 
   if (!props.unsubscribe) {
     return <Error navigation={props.navigation} message={'Network Error'} />
@@ -44,6 +58,13 @@ const ClassResult = (props) => {
       source={require('../assets/images/mainBackground.jpg')}
       style={styles.backgroundImage}
       imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
+
+      {/* error message */}
+      <ErrorModal
+        handleGoBack={handleGoBack}
+        onError={onError}
+        comment={'그림 다시 그리기'}
+        errorMessage={errorMessage} />
 
       <View style={styles.imageContainer}>
 

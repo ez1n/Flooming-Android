@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Flooming from './flooming';
+import * as ImagePicker from 'expo-image-picker';
 import AppLoading from 'expo-app-loading';
 import * as SplashScreen from 'expo-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,6 +22,8 @@ SplashScreen.preventAutoHideAsync(); // Splash screen
 
 const App = () => {
   const flooming = new Flooming(); // url
+  const [galleryPermission, setGalleryPermission] = ImagePicker.useMediaLibraryPermissions();  // 갤러리 접근 권한
+  const [photoPermission, setPhotoPermission] = ImagePicker.useCameraPermissions(); // 카메라 접근 권한
   const [onLoaded, setOnLoaded] = useState(false); // 앱 로딩 state
   const [firstLaunch, setFirstLaunch] = useState(null);
   const [image, setImage] = useState(null); // 현재 사진 state (나의 사진)
@@ -35,13 +38,32 @@ const App = () => {
     { photo_id: null, picture_id: null, comment: null },
   ]);
 
-  // 온보딩 화면 표시 여부 불러오기
   useEffect(() => {
+    const permissionCheck = async () => {
+      // 갤러리 접근 권한 허용 여부
+      if (!galleryPermission?.granted) {
+        const permission = await setGalleryPermission();
+        if (!permission.granted) {
+          return null;
+        }
+      };
+
+      // 카메라 접근 권한 허용 여부
+      if (!photoPermission?.granted) {
+        const permission = await setPhotoPermission();
+        if (!permission.granted) {
+          return null;
+        }
+      };
+    }
+
+    permissionCheck();
+
+    // 어플 실행 여부 (first launch?)
     AsyncStorage.getItem('launched').then(value => {
       if (value == null) {
         AsyncStorage.setItem('launched', 'true');
         setFirstLaunch(true);
-
       } else {
         setFirstLaunch(false);
       }
@@ -67,7 +89,7 @@ const App = () => {
   //   prepare();
   // }, []);
 
-  // 인터넷 연결 여부
+  // 인터넷 연결 확인
   const unsubscribe = () => NetInfo.addEventListener(state => {
     console.log(state.isConnected)
     return (state.isConnected);
