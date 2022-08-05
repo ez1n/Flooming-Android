@@ -4,8 +4,11 @@ import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import { StyleSheet, ImageBackground, View, Image, TextInput } from 'react-native';
 import Button from './button';
+import AlertModal from './alertModal';
 
 const ImageResult = (props) => {
+  const [onVisible, setonVisible] = useState(false); // modal state
+  const [saveMessage, setSaveMessage] = useState(''); // modal message state
   const { photo_id, picture_id } = props.galleryData;
 
   // 갤러리에 들어가야할 데이터 state
@@ -67,12 +70,18 @@ const ImageResult = (props) => {
 
       saveFile(uri)
         .then(() => {
-          alert('저장되었어요');
+          setonVisible(true);
+          setSaveMessage('저장되었어요 :)');
         });
     } catch (event) {
       console.error(event);
+      setonVisible(true);
+      setSaveMessage('사진을 저장할 수 없어요');
     };
   };
+
+  // 뒤로가기 이벤트
+  const handleGoBack = () => { setonVisible(false) };
 
   if (!props.unsubscribe) {
     return <Error navigation={props.navigation} message={'Network Error'} />
@@ -82,6 +91,13 @@ const ImageResult = (props) => {
         source={require('../assets/images/mainBackground.jpg')}
         style={styles.backgroundImage}
         imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
+        {/* 알림창 (modal) */}
+        <AlertModal
+          onVisible={onVisible}
+          handleGoBack={handleGoBack}
+          message={saveMessage}
+          comment={'닫기'}
+        />
 
         <View style={styles.illustContainer}>
           <Image style={styles.illust} source={{ uri: `${props.url}/picture/${props.galleryData.picture_id}` }} />

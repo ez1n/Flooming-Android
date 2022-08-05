@@ -3,7 +3,7 @@ import axios from 'axios';
 import { StyleSheet, Image, ImageBackground, View, Text } from 'react-native';
 import Button from './button';
 import Loading from './loading';
-import ErrorModal from './errorModal';
+import AlertModal from './alertModal';
 
 const ClassResult = (props) => {
   // error 상태 state
@@ -33,14 +33,12 @@ const ClassResult = (props) => {
         })
         .catch((error) => {
           console.log(error);
+          setLoading(false);
           setOnError(!onError);
           setErrorMessage(error.response.data.detail);
         })
     } catch (error) {
       console.warn(error);
-      setLoading(false);
-      setOnError(!onError);
-      setErrorMessage('오류가 발생했어요');
     }
   };
 
@@ -60,11 +58,11 @@ const ClassResult = (props) => {
       imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
       {/* error message */}
-      <ErrorModal
+      <AlertModal
         handleGoBack={handleGoBack}
-        onError={onError}
+        onVisible={onError}
         comment={'그림 다시 그리기'}
-        errorMessage={errorMessage} />
+        message={errorMessage} />
 
       <View style={styles.imageContainer}>
 
