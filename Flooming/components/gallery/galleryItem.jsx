@@ -1,44 +1,66 @@
-import React from 'react';
-import { SliderBox } from 'react-native-image-slider-box';
+import React, { useState } from 'react';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
+import { SliderBox } from 'react-native-image-slider-box';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import AlertModal from '../alertModal';
 
 export default function GalleryItem(props) {
+  const [onVisible, setOnVisible] = useState(false); // modal state
+  const [saveMessage, setSaveMessage] = useState(''); // modal message state
+
   // 갤러리 저장 이벤트
-  const saveFile = async (fileUri) => {
+  const saveFile = async (picture) => {
     const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync('flooming');
 
     if (permissions.granted) {
-      const asset = await MediaLibrary.createAssetAsync(fileUri);
+      const asset = await MediaLibrary.createAssetAsync(picture);
       await MediaLibrary.createAlbumAsync('flooming', asset, false);
     }
   };
 
-  const saveImage = async (pictureId) => {
+  const saveImage = async (url) => {
     const pictureDownloadResumable = FileSystem.createDownloadResumable(
-      `${props.url}/picture/${pictureId}`,
+      `${props.url}/picture/${url.picture_id}`,
       FileSystem.documentDirectory + '.jpg',
       {}
     );
 
     try {
-      const { uri } = await pictureDownloadResumable.downloadAsync().then((item) => {
+      const { uri } = await pictureDownloadResumable.downloadAsync().then(item => {
         return item;
       });
 
       saveFile(uri)
         .then(() => {
-          alert('저장되었어요')
+          setOnVisible(true);
+          setSaveMessage('저장되었어요 :)');
+        })
+        .catch(error => {
+          setOnVisible(true);
+          setSaveMessage('사진을 저장할 수 없어요');
         });
-    } catch (event) {
-      console.error(event);
+    } catch (error) {
+      console.error(error);
+      setOnVisible(true);
+      setSaveMessage('사진을 저장할 수 없어요');
     };
   };
 
+  // modal 닫기 이벤트
+  const handleGoBack = () => { setOnVisible(false) };
+
   return (
     <View style={styles.galleryContainer}>
+      {/* 알림창 (modal) */}
+      <AlertModal
+        onVisible={onVisible}
+        handleGoBack={handleGoBack}
+        message={saveMessage}
+        comment={'닫기'}
+      />
+
       <View style={styles.imageContainer}>
         <SliderBox
           style={styles.imageSlider}
@@ -52,7 +74,9 @@ export default function GalleryItem(props) {
 
       <View style={styles.commentContainer}>
         <Text style={styles.comment}>{props.item.comment}</Text>
-        <TouchableOpacity onPress={() => saveImage(props.item.picture_id)}>
+        <TouchableOpacity onPress={() => {
+          saveImage(props.item);
+        }}>
           <FontAwesome name='download' size={24} color='#D3D3D3' />
         </TouchableOpacity>
       </View>

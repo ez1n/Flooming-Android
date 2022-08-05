@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Flooming from './flooming';
 import * as ImagePicker from 'expo-image-picker';
 import AppLoading from 'expo-app-loading';
@@ -70,15 +70,13 @@ const App = () => {
     });
   }, []);
 
-  // // 메인 로딩화면 (ing)
+  // // 메인 로딩화면
   // useEffect(() => {
   //   async function prepare() {
   //     try {
   //       await Font.loadAsync({
   //         'symkyungha': require('./assets/fonts/SimKyungha.ttf'),
   //       });
-
-  //       await new Promise(resolve => setTimeout(resolve, 200));
   //     } catch (error) {
   //       console.warn(error);
   //     } finally {
@@ -88,6 +86,13 @@ const App = () => {
 
   //   prepare();
   // }, []);
+
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (onLoaded) {
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [onLoaded]);
+
 
   // 인터넷 연결 확인
   const unsubscribe = () => NetInfo.addEventListener(state => {
@@ -146,7 +151,9 @@ const App = () => {
 
           <Stack.Screen
             name='Onboarding'
-            component={OnBoarding}
+            children={() => <OnBoarding
+            // onLayoutRootView={onLayoutRootView}
+            />}
             options={{ headerShown: false }}
           />
 
@@ -241,6 +248,7 @@ const App = () => {
           <Stack.Screen
             name='Main'
             children={({ navigation }) => <Main
+              // onLayoutRootView={onLayoutRootView}
               unsubscribe={unsubscribe}
               navigation={navigation}
             />}

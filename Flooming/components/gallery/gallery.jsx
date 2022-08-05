@@ -5,7 +5,6 @@ import { StyleSheet, ImageBackground, FlatList } from 'react-native';
 import GalleryItem from './galleryItem';
 
 const Gallery = (props) => {
-  const [isLoading, setIsLoading] = useState(false); // 화면 로딩 state
   const [isRefreshing, setIsRefreshing] = useState(false); // 새로고침 state
   const [pageCount, setPageCount] = useState(1); // 페이지 count state
 
@@ -38,8 +37,8 @@ const Gallery = (props) => {
     await axios.get(`${props.url}/gallery?page=0`)
       .then((response) => {
         props.getLoadData(response.data.result);
-        setIsRefreshing(false);
         setPageCount(1);
+        setIsRefreshing(false);
       })
       .catch((error) => console.log(error))
   };
@@ -48,7 +47,7 @@ const Gallery = (props) => {
   const handleEndReached = async (page) => {
     await axios.get(`${props.url}/gallery?page=${page}`)
       .then((response) => {
-        if (response.data.result > 0) {
+        if (response.data.result.length > 0) {
           console.log('page', pageCount)
           props.updateLoadData(response.data.result);
           setPageCount(pageCount + 1);

@@ -4,7 +4,7 @@ import FormData from 'form-data';
 import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, ImageBackground, Text, View, Image, TouchableOpacity } from 'react-native';
 import Button from './button';
-import ErrorModal from './errorModal';
+import AlertModal from './alertModal';
 
 export default function ImageCheck(props) {
   const [onError, setOnError] = useState(false); // error 상태 state
@@ -64,30 +64,36 @@ export default function ImageCheck(props) {
 
   // 이미지 전송 이벤트 (버튼 클릭)
   const handleClickSelectButton = () => {
-    const filename = props.image.split('/').pop();
-    imageData.append('file', { uri: props.image, type: 'multipart/form-data', name: filename });
+    if (props.image == null) {  // 사진이 없는 경우
+      setOnError(!onError);
+      setErrorMessage('사진을 선택해 주세요!');
+    } else { // 사진이 있는 경우
+      const filename = props.image.split('/').pop();
+      imageData.append('file', { uri: props.image, type: 'multipart/form-data', name: filename });
 
-    axios.post(`${props.url}/photo`, imageData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-      .then((response) => {
-        props.updateFlowerData(response.data);
-        props.navigation.navigate('ClassResult');
+      axios.post(`${props.url}/photo`, imageData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       })
-      .catch((error) => {
-        console.log(error.response.data.detail);
-        setOnError(!onError);
-        if (error.response.data.detail == undefined) {
-          setErrorMessage('사진을 다시 찍어주세요!');
-        } else {
-          setErrorMessage(error.response.data.detail);
-        };
-      })
+        .then((response) => {
+          props.updateFlowerData(response.data);
+          props.navigation.navigate('ClassResult');
+        })
+        .catch((error) => {
+          console.log(error.response);
+          setOnError(!onError);
+
+          if (error.response.data.detail == undefined) {
+            setErrorMessage('사진을 다시 찍어주세요!');
+          } else {
+            setErrorMessage(error.response.data.detail);
+          };
+        })
+    }
   };
 
-  // 사진 다시 찍기 이벤트
+  // 뒤로가기 이벤트
   const handleGoBack = () => { setOnError(!onError) };
 
   if (!props.unsubscribe) {
@@ -100,11 +106,11 @@ export default function ImageCheck(props) {
         imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
         {/* error message */}
-        <ErrorModal
+        <AlertModal
           handleGoBack={handleGoBack}
-          onError={onError}
+          onVisible={onError}
           comment={'사진 다시 찍기'}
-          errorMessage={errorMessage} />
+          message={errorMessage} />
 
         <View style={styles.imageContainer}>
           {/* 받아온 꽃 사진 */}
