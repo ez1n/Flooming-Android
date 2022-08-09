@@ -42,7 +42,7 @@ const ClassResult = (props) => {
     }
   };
 
-  // 그림 다시 그리기 이벤트
+  // 뒤로가기 이벤트 (modal close)
   const handleGoBack = () => { setOnError(!onError) };
 
   if (!props.unsubscribe) {
@@ -67,7 +67,7 @@ const ClassResult = (props) => {
       <View style={styles.imageContainer}>
 
         <View style={styles.myImageContainer}>
-          <Text style={styles.myImageText}>당신의 꽃</Text>
+          <Text style={styles.myImageText}>당신이 찍은 꽃</Text>
           <Image style={styles.myImage} source={{ uri: props.currentImage }} />
         </View>
 

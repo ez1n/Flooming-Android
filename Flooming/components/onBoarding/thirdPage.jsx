@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Text, ImageBackground } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import OnbaordingButton from './onboardingButton';
 
-export default function ThirdPage (props) {
+export default function ThirdPage(props) {
   return (
     <ImageBackground
       source={require('../../assets/images/mainBackground.jpg')}
@@ -12,7 +12,7 @@ export default function ThirdPage (props) {
       <View style={styles.exampleImageContainer}>
         <View style={{ alignItems: 'center' }}>
           {/* 예시 사진 수정 */}
-          <Image style={styles.img} source={require('../../assets/images/imageEx.jpg')} />
+          <Image style={styles.img} source={require('../../assets/images/mainPhoto.jpg')} />
           <Text style={styles.text}>이렇게 찍어주세요</Text>
           <AntDesign style={styles.icon} name="checkcircle" size={40} color="blue" />
         </View>
@@ -26,10 +26,10 @@ export default function ThirdPage (props) {
 
       <View style={styles.footer}>
         <OnbaordingButton
-        LeftLabel={'이전'}
-        RightLabel={'시작하기'}
-        handleBack={props.handleBack}
-        handleNext={props.handleNext} />
+          LeftLabel={'이전'}
+          RightLabel={'시작하기'}
+          handleBack={props.handleBack}
+          handleNext={props.handleNext} />
       </View>
     </ImageBackground>
   )

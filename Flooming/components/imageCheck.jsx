@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, ImageBackground, Text, View, Image, TouchableOpacity } from 'react-native';
 import Button from './button';
 import AlertModal from './alertModal';
+import ExtraButton from './extraButton';
 
 export default function ImageCheck(props) {
   const [onError, setOnError] = useState(false); // error 상태 state
@@ -33,6 +34,7 @@ export default function ImageCheck(props) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
+      quality: 0.1,
     });
 
     if (!result.cancelled) {
@@ -55,6 +57,7 @@ export default function ImageCheck(props) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
+      quality: 0.2,
     });
 
     if (!result.cancelled) {
@@ -114,14 +117,14 @@ export default function ImageCheck(props) {
 
         <View style={styles.imageContainer}>
           {/* 받아온 꽃 사진 */}
-          {props.image ? <Image style={styles.exImage} source={{ uri: props.image }} /> : <Image style={styles.exImage} source={require('../assets/images/imageEx.jpg')} />}
+          {props.image ? <Image style={styles.exImage} source={{ uri: props.image }} /> : <Image style={styles.exImage} source={require('../assets/images/exampleImage.jpg')} />}
 
           <View style={styles.imageButtonContainer}>
             <TouchableOpacity>
-              <Text style={styles.buttonText} onPress={handleClickPhotoButton}>사진 찍기</Text>
+              <ExtraButton text={'사진 찍기'} onPress={handleClickPhotoButton} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <Text style={styles.buttonText} onPress={handleClickGalleryButton}>앨범에서 가져오기</Text>
+              <ExtraButton text={'앨범에서 가져오기'} onPress={handleClickGalleryButton} />
             </TouchableOpacity>
           </View>
 
@@ -155,8 +158,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   exImage: {
-    width: 300,
-    height: 300,
+    width: 350,
+    height: 350,
     borderRadius: 20,
   },
   imageButtonContainer: {
@@ -165,8 +168,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
   },
   buttonText: {
     color: '#FCFCFC',

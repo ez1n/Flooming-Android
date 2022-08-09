@@ -5,7 +5,7 @@ import Button from './button';
 import Error from './error';
 
 export default function Main(props) {
-  const handleClickButton = () => { props.navigation.navigate('Guide') }; // 버튼 클릭 이벤트
+  const handleClickButton = (path) => { props.navigation.navigate(path) }; // 버튼 클릭 이벤트
 
   // 네트워크 연결 확인
   useEffect(() => {
@@ -22,18 +22,21 @@ export default function Main(props) {
         imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
         <View style={styles.textContainer}>
-          <Text style={styles.innerText}>마음에 드는 <Text style={{ fontWeight: 'bold' }}>꽃</Text>을</Text>
-          <Text style={styles.innerText}><Text style={{ fontWeight: 'bold' }}>그림</Text>으로 바꿔봐요.</Text>
+          <Text style={styles.innerText}><Text style={{ fontWeight: 'bold', fontSize: 35 }}>FLOOMING</Text>은 마음에 드는 </Text>
+          <Text style={styles.innerText}><Text style={{ fontWeight: 'bold', fontSize: 35 }}>꽃사진</Text>을 <Text style={{ fontWeight: 'bold', fontSize: 35 }}>그림</Text>으로 만들어줘요.</Text>
         </View>
 
-        <View style={styles.imageContainer}>
-          <Image style={styles.exImage} source={require('../assets/images/imageEx.jpg')}></Image>
-          <FontAwesome name='arrow-right' size={24} color='#FFF9C3' />
-          <Image style={styles.exImage} source={require('../assets/images/illustrationimageEx.jpg')}></Image>
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <Image style={styles.exImage} source={require('../assets/images/mainPhoto.jpg')}></Image>
+            <FontAwesome name='arrow-right' size={24} color='#FFF9C3' />
+            <Image style={styles.exImage} source={require('../assets/images/illustrationimageEx.jpg')}></Image>
+          </View>
         </View>
 
         <View style={styles.buttonContainer}>
-          <Button text={'지금 해볼래요'} onPress={handleClickButton} />
+          <Button text={'관람할래요'} onPress={() => handleClickButton('Gallery')} />
+          <Button text={'지금 해볼래요'} onPress={() => handleClickButton('Guide')} />
         </View>
       </ImageBackground>
     )
@@ -46,28 +49,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFC',
   },
   textContainer: {
-    flex: 0.35,
+    flex: 0.2,
     justifyContent: 'flex-end',
   },
   innerText: {
     color: '#FFF9C3',
-    fontSize: 40,
+    fontSize: 30,
     paddingLeft: 40,
+    marginBottom: 10,
     fontFamily: 'symkyungha',
   },
+  container: {
+    flex: 0.45,
+    paddingTop: 10,
+  },
   imageContainer: {
-    flex: 0.3,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 30
   },
   exImage: {
     width: 150,
     height: 150,
     margin: 10,
     borderRadius: 20,
+    borderColor: '#FCFCFC',
+    borderWidth: 3,
   },
   buttonContainer: {
     flex: 0.35,
