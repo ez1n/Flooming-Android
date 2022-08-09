@@ -14,18 +14,17 @@ const ImageResult = (props) => {
   // 갤러리에 들어가야할 데이터 state
   const [data, setData] = useState(
     {
-      photo_id: photo_id,
-      picture_id: picture_id,
+      photo_id: '',
+      picture_id: '',
       comment: '',
     }
   );
 
   // 네트워크 연결 확인
   useEffect(() => {
-    console.log('gallery', props.galleryData);
-    console.log('data', data);
+    setData({ ...data, photo_id: photo_id, picture_id: picture_id });
     props.unsubscribe;
-  }, []);
+  }, [props.galleryData]);
 
   // comment 입력 이벤트
   const getComment = (event) => {
@@ -99,6 +98,7 @@ const ImageResult = (props) => {
           comment={'닫기'}
         />
 
+        {/* 그림 결과 */}
         <View style={styles.illustContainer}>
           <Image style={styles.illust} source={{ uri: `${props.url}/picture/${props.galleryData.picture_id}` }} />
           <TextInput
@@ -110,7 +110,7 @@ const ImageResult = (props) => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <Button text={'전시 할래요'} onPress={handleClickGallery} />
+          <Button text={'전시관에 업로드 할게요'} onPress={handleClickGallery} />
           <Button text={'저장 할게요'} onPress={saveImage} />
         </View>
       </ImageBackground>

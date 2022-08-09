@@ -15,7 +15,7 @@ export default function SecondPage(props) {
         <Text style={styles.innerText}><Text style={{ fontWeight: 'bold' }}>그림</Text>으로 바꿔봐요.</Text>
 
         <View style={styles.imageContainer}>
-          <Image style={styles.exImage} source={require('../../assets/images/imageEx.jpg')}></Image>
+          <Image style={styles.exImage} source={require('../../assets/images/mainPhoto.jpg')}></Image>
           <FontAwesome name='arrow-right' size={24} color='#FFF9C3' />
           <Image style={styles.exImage} source={require('../../assets/images/illustrationimageEx.jpg')}></Image>
         </View>
@@ -23,10 +23,10 @@ export default function SecondPage(props) {
 
       <View style={styles.footer}>
         <OnboardingButton
-        LeftLabel={'이전'}
-        RightLabel={'다음'}
-        handleBack={props.handleBack}
-        handleNext={props.handleNext} />
+          LeftLabel={'이전'}
+          RightLabel={'다음'}
+          handleBack={props.handleBack}
+          handleNext={props.handleNext} />
       </View>
     </ImageBackground>
   )

@@ -18,7 +18,7 @@ const Gallery = (props) => {
           color='black'
           onPress={() => {
             props.getImage(null); // 현재 사진 초기화
-            props.updateFlowerData({ photo_id: null, probability: null, kor_name: null, eng_name: null, flower_language: null }); // 꽃 정보 초기화
+            props.updateFlowerData({ photo_id: '', probability: '', kor_name: '', eng_name: '', flower_language: '' }); // 꽃 정보 초기화
             props.navigation.popToTop(); // main 페이지로 이동 (스택 초기화)
           }}
         />

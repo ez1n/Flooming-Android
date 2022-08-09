@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Flooming from './flooming';
 import * as ImagePicker from 'expo-image-picker';
 import AppLoading from 'expo-app-loading';
@@ -29,13 +29,13 @@ const App = () => {
   const [image, setImage] = useState(null); // 현재 사진 state (나의 사진)
   // 꽃 정보 state
   const [flowerData, setFlowerData] = useState([
-    { photo_id: null, probability: null, kor_name: null, eng_name: null, flower_language: null },
+    { photo_id: '', probability: '', kor_name: '', eng_name: '', flower_language: '' },
   ]);
   // 갤러리 정보 state
-  const [galleryData, setGalleryData] = useState({ photo_id: null, picture_id: null });
+  const [galleryData, setGalleryData] = useState({ photo_id: '', picture_id: '' });
   // 갤러리 로딩 데이터 state (페이징)
   const [loadData, setLoadData] = useState([
-    { photo_id: null, picture_id: null, comment: null },
+    { photo_id: '', picture_id: '', comment: '' },
   ]);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const App = () => {
 
     permissionCheck();
 
-    // 어플 실행 여부 (first launch?)
+    // 어플 실행 여부 확인 (first launch?)
     AsyncStorage.getItem('launched').then(value => {
       if (value == null) {
         AsyncStorage.setItem('launched', 'true');
@@ -69,30 +69,6 @@ const App = () => {
       }
     });
   }, []);
-
-  // // 메인 로딩화면
-  // useEffect(() => {
-  //   async function prepare() {
-  //     try {
-  //       await Font.loadAsync({
-  //         'symkyungha': require('./assets/fonts/SimKyungha.ttf'),
-  //       });
-  //     } catch (error) {
-  //       console.warn(error);
-  //     } finally {
-  //       setOnLoaded(true);
-  //     }
-  //   }
-
-  //   prepare();
-  // }, []);
-
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (onLoaded) {
-  //     await SplashScreen.hideAsync();
-  //   }
-  // }, [onLoaded]);
-
 
   // 인터넷 연결 확인
   const unsubscribe = () => NetInfo.addEventListener(state => {
@@ -107,12 +83,10 @@ const App = () => {
   // 갤러리 정보 추가하기
   const updateLoadData = (data) => {
     const newData = { data: [...loadData.data] };
-    data.map(item => {
-      newData.data.push(item)
-    })
-    console.log(newData);
+    data.map(item => { newData.data.push(item) })
     setLoadData(newData);
   };
+
   // 폰트 로딩
   const onLoading = async () => {
     await Font.loadAsync({
@@ -123,7 +97,6 @@ const App = () => {
   // 로딩 state 변경
   const loaded = () => { setOnLoaded(true) };
 
-  // 처음 로딩화면 어떻게 보여주지;
   if (!onLoaded) {
     return (
       <AppLoading
@@ -152,7 +125,6 @@ const App = () => {
           <Stack.Screen
             name='Onboarding'
             children={() => <OnBoarding
-            // onLayoutRootView={onLayoutRootView}
             />}
             options={{ headerShown: false }}
           />
@@ -186,7 +158,7 @@ const App = () => {
               getImage={getImage}
               navigation={navigation}
             />}
-            options={{ title: '' }}
+            options={{ title: '사진 선택' }}
           />
 
           <Stack.Screen
@@ -248,7 +220,6 @@ const App = () => {
           <Stack.Screen
             name='Main'
             children={({ navigation }) => <Main
-              // onLayoutRootView={onLayoutRootView}
               unsubscribe={unsubscribe}
               navigation={navigation}
             />}
@@ -275,7 +246,7 @@ const App = () => {
               getImage={getImage}
               navigation={navigation}
             />}
-            options={{ title: '' }}
+            options={{ title: '사진 선택' }}
           />
 
           <Stack.Screen

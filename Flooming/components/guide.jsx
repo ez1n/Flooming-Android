@@ -23,14 +23,19 @@ export default function Guide(props) {
         <View style={styles.exampleImageContainer}>
           <View style={{ alignItems: 'center' }}>
             {/* 예시 사진 수정 */}
-            <Image style={styles.img} source={require('../assets/images/imageEx.jpg')} />
-            <Text style={styles.text}>이렇게 찍어주세요</Text>
+            <Image style={styles.img} source={require('../assets/images/mainPhoto.jpg')} />
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>꽃이 잘 보이게 찍어주세요</Text>
+            </View>
             <Image source={require('../assets/yesIcon.png')} style={styles.icon} />
           </View>
 
           <View style={{ alignItems: 'center' }}>
             <Image style={styles.img} source={require('../assets/images/imageNonEx.jpg')} />
-            <Text style={styles.text}>이러면 그릴 수 없어요</Text>
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>불분명한 사진은 </Text>
+              <Text style={styles.noText}>그림을 그릴 수 없어요</Text>
+            </View>
             <Image source={require('../assets/noIcon.png')} style={styles.icon} />
           </View>
         </View>
@@ -61,11 +66,22 @@ const styles = StyleSheet.create({
     height: 190,
     margin: 5,
     borderRadius: 20,
+    borderColor: '#FCFCFC',
+    borderWidth: 3,
+  },
+  textContainer: {
+    height: 45,
+    justifyContent: 'center',
   },
   text: {
     marginTop: 20,
     color: '#FCFCFC',
-    fontSize: 27,
+    fontSize: 22,
+    fontFamily: 'symkyungha',
+  },
+  noText: {
+    color: '#FCFCFC',
+    fontSize: 22,
     fontFamily: 'symkyungha',
   },
   icon: {
