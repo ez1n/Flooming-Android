@@ -29,6 +29,13 @@ const Gallery = (props) => {
   // 네트워크 연결 확인
   useEffect(() => {
     props.unsubscribe;
+    axios.get(`${props.url}/gallery?page=0`)
+      .then((response) => {
+        props.getLoadData(response.data.result);
+        setPageCount(1);
+        setIsRefreshing(false);
+      })
+      .catch((error) => console.log(error))
   }, []);
 
   // 새로고침 이벤트
