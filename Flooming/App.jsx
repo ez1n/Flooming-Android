@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Flooming from './flooming';
 import * as ImagePicker from 'expo-image-picker';
-import AppLoading from 'expo-app-loading';
 import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
-import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -15,7 +15,7 @@ import ImageCheck from './components/imageCheck';
 import ClassResult from './components/classResult';
 import ImageResult from './components/imageResult';
 import Gallery from './components/gallery/gallery';
-import OnBoarding from './components/onBoarding/onBoarding';
+import OnBoarding from './components/onBoarding';
 
 const Stack = createNativeStackNavigator(); // 네비게이터
 SplashScreen.preventAutoHideAsync(); // Splash screen
@@ -124,8 +124,7 @@ const App = () => {
 
           <Stack.Screen
             name='Onboarding'
-            children={() => <OnBoarding
-            />}
+            children={(({ navigation }) => <OnBoarding navigation={navigation} />)}
             options={{ headerShown: false }}
           />
 

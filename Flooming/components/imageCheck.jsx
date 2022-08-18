@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FormData from 'form-data';
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 import { StyleSheet, ImageBackground, Text, View, Image, TouchableOpacity } from 'react-native';
 import Button from './button';
 import AlertModal from './alertModal';
@@ -34,7 +35,6 @@ export default function ImageCheck(props) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.1,
     });
 
     if (!result.cancelled) {
@@ -57,7 +57,6 @@ export default function ImageCheck(props) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.2,
     });
 
     if (!result.cancelled) {
@@ -84,7 +83,7 @@ export default function ImageCheck(props) {
           props.navigation.navigate('ClassResult');
         })
         .catch((error) => {
-          console.log(error.response);
+          console.log(error.response.data.detail);
           setOnError(!onError);
 
           if (error.response.data.detail == undefined) {
