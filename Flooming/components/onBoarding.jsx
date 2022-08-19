@@ -14,21 +14,18 @@ export default function onBoarding(props) {
       title: '이 꽃은 무슨 꽃일까?',
       text: '길거리에 피어있는\n꽃의 이름과 꽃말을 알아봐요.',
       image: require('../assets/images/onboarding_1.png'),
-      backgroundColor: '#ffffff',
     },
     {
       key: 2,
       title: '꽃을 그림으로 간직하고 싶은 당신',
       text: 'FLOOMING에서 원하는 꽃 사진을\n선택해 나만의 그림으로 바꿔봐요.',
       image: require('../assets/images/onboarding_2.png'),
-      backgroundColor: '#ffffff',
     },
     {
       key: 3,
       title: '다른 그림을 보고 싶나요?',
       text: '다양한 사용자들의 꽃 사진과 그림을\n 관람할 수 있어요.',
       image: require('../assets/images/onboarding_3.png'),
-      backgroundColor: '#ffffff',
     }
   ];
 
@@ -79,14 +76,15 @@ export default function onBoarding(props) {
       data={slides}
       renderItem={renderItem}
       onDone={handleSkip}
+      onSkip={handleSkip}
       renderSkipButton={skipButton}
       renderNextButton={nextButton}
       renderPrevButton={prevButton}
       renderDoneButton={doneButton}
       showPrevButton={true}
       showSkipButton={true}
-      dotStyle={{ backgroundColor: 'purple' }}
-      activeDotStyle={{ backgroundColor: '#D5CBF3' }}
+      dotStyle={{ backgroundColor: '#D5CBF3' }}
+      activeDotStyle={{ backgroundColor: 'purple' }}
     />
   )
 };
@@ -96,6 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white'
   },
   image: {
     flex: 0.5,

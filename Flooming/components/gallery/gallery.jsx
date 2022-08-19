@@ -26,9 +26,11 @@ const Gallery = (props) => {
     });
   }, []);
 
-  // 네트워크 연결 확인
   useEffect(() => {
+    // 네트워크 연결 확인
     props.unsubscribe;
+
+    // 전시관 목록 불러오기
     axios.get(`${props.url}/gallery?page=0`)
       .then((response) => {
         props.getLoadData(response.data.result);
