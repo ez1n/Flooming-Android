@@ -4,7 +4,7 @@
     "slug": "Flooming",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/mainIcon.png",
+    "icon": "./assets/flooming.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splashScreen.png",
@@ -21,12 +21,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/mainIcon.png",
+        "foregroundImage": "./assets/flooming.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/mainIcon.png"
+      "favicon": "./assets/flooming.png"
     }
   }
 }

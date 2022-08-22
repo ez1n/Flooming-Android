@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import { SliderBox } from 'react-native-image-slider-box';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import AlertModal from '../alertModal';
+import ReportModal from './reportModal';
 
 export default function GalleryItem(props) {
   const [onVisible, setOnVisible] = useState(false); // modal state
   const [saveMessage, setSaveMessage] = useState(''); // modal message state
+  const [onReport, setOnReport] = useState(false); // 신고 modal state
 
   // 갤러리 저장 이벤트
   const saveFile = async (picture) => {
@@ -50,6 +54,7 @@ export default function GalleryItem(props) {
 
   // modal 닫기 이벤트
   const handleGoBack = () => { setOnVisible(false) };
+  const handleCancelReport = () => { setOnReport(!onReport) };
 
   return (
     <View style={styles.galleryContainer}>
@@ -59,6 +64,13 @@ export default function GalleryItem(props) {
         handleGoBack={handleGoBack}
         message={saveMessage}
         comment={'닫기'}
+      />
+
+      {/* 신고 modal */}
+      <ReportModal
+        onVisible={onReport}
+        galleryId={props.item.galleryId}
+        handleGoBack={handleCancelReport}
       />
 
       <View style={styles.imageContainer}>
@@ -74,11 +86,17 @@ export default function GalleryItem(props) {
 
       <View style={styles.commentContainer}>
         <Text style={styles.comment}>{props.item.comment}</Text>
-        <TouchableOpacity onPress={() => {
-          saveImage(props.item);
-        }}>
-          <FontAwesome name='download' size={24} color='#D3D3D3' />
-        </TouchableOpacity>
+        <View style={styles.buttons}>
+          <TouchableOpacity onPress={() => {
+            saveImage(props.item);
+          }}>
+            <FontAwesome name='download' size={24} color='#D3D3D3' />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleCancelReport}>
+            <Image style={styles.sirenIcon} source={require('../../assets/siren.png')} />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )
@@ -111,4 +129,15 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontFamily: 'symkyungha',
   },
+  buttons: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  sirenIcon: {
+    width: 30,
+    height: 30,
+    marginLeft: 5,
+  }
 })
