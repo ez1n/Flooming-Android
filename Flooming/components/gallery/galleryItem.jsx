@@ -138,6 +138,6 @@ const styles = StyleSheet.create({
   sirenIcon: {
     width: 30,
     height: 30,
-    marginLeft: 5,
+    marginLeft: 10,
   }
 })
