@@ -36,6 +36,7 @@ const Gallery = (props) => {
         props.getLoadData(response.data.result);
         setPageCount(1);
         setIsRefreshing(false);
+        console.log(response.data)
       })
       .catch((error) => console.log(error))
   }, []);
