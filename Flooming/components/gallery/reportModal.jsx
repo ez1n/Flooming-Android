@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   StyleSheet,
   Modal,
@@ -19,12 +20,12 @@ export default function ReportModal(props) {
 
   // 신고
   const report = () => {
-    // axios.post(`${props.url}/report`, { gallery_id: props.item.gallery_id, detail: reportMessage })
-    // .then(res => {
-    // props.handleGoBack;
-    // alert('신고되었습니다.')
-    // })
-    console.log(reportMessage)
+    axios.post(`${props.url}/report`, { gallery_id: props.gallery_id, detail: reportMessage })
+      .then(res => {
+        props.handleGoBack();
+        alert('신고되었습니다.');
+      })
+      .catch(error => console.log(error))
   };
 
   return (

@@ -119,10 +119,10 @@ export default function ImageCheck(props) {
           {props.image ? <Image style={styles.exImage} source={{ uri: props.image }} /> : <Image style={styles.exImage} source={require('../assets/images/exampleImage.jpg')} />}
 
           <View style={styles.imageButtonContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
               <ExtraButton text={'사진 찍기'} onPress={handleClickPhotoButton} />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
               <ExtraButton text={'앨범에서 가져오기'} onPress={handleClickGalleryButton} />
             </TouchableOpacity>
           </View>
@@ -157,8 +157,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   exImage: {
-    width: 350,
-    height: 350,
+    width: 370,
+    height: 370,
     borderRadius: 20,
   },
   imageButtonContainer: {
@@ -177,5 +177,8 @@ const styles = StyleSheet.create({
     flex: 0.15,
     alignItems: 'center',
     justifyContent: 'flex-end',
+  },
+  button: {
+    width: '40%'
   }
 })

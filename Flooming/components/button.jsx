@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#0C0B0C',
     alignItems: 'center',
+    justifyContent: 'center',
     padding: 5,
     width: '90%',
     borderRadius: 16,
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: '#FCFCFC',
-    fontSize: 28,
+    fontSize: 25,
     height: 35,
     fontFamily: 'symkyungha',
   },
