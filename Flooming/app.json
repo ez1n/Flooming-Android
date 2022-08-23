@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Flooming",
-    "slug": "Flooming",
+    "slug": "flooming",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/flooming.png",
@@ -16,17 +16,12 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/flooming.png",
         "backgroundColor": "#FFFFFF"
-      }
-    },
-    "web": {
-      "favicon": "./assets/flooming.png"
+      },
+      "versionCode": 1
     }
   }
 }

@@ -35,7 +35,7 @@ const App = () => {
   const [galleryData, setGalleryData] = useState({ photo_id: '', picture_id: '' });
   // 갤러리 로딩 데이터 state (페이징)
   const [loadData, setLoadData] = useState([
-    { photo_id: '', picture_id: '', comment: '' },
+    { photo_id: '', picture_id: '', comment: '', gallery_id: '', },
   ]);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const App = () => {
           return null;
         }
       };
-    }
+    };
 
     permissionCheck();
 
@@ -131,6 +131,7 @@ const App = () => {
           <Stack.Screen
             name='Main'
             children={({ navigation }) => <Main
+              url={flooming.url()}
               unsubscribe={unsubscribe}
               navigation={navigation}
             />}
@@ -219,6 +220,7 @@ const App = () => {
           <Stack.Screen
             name='Main'
             children={({ navigation }) => <Main
+              url={flooming.url()}
               unsubscribe={unsubscribe}
               navigation={navigation}
             />}

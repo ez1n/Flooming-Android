@@ -1,18 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Button from './button';
 import Error from './error';
+import ServerError from './serverError';
 
 export default function Main(props) {
-  const handleClickButton = (path) => { props.navigation.navigate(path) }; // 버튼 클릭 이벤트
+  // 서버 연결 확인 state
+  const [onServer, setOnServer] = useState(false);
 
-  // 네트워크 연결 확인
   useEffect(() => {
+    // 네트워크 연결 확인
     props.unsubscribe;
+
+    // 서버 연결 확인
+    axios.get(`${props.url}/`)
+      .then(response => { setOnServer(false) })
+      .catch(error => { setOnServer(true) })
   }, []);
 
-  if (!props.unsubscribe) {
+  // 버튼 클릭 이벤트
+  const handleClickButton = (path) => { props.navigation.navigate(path) };
+
+  if (onServer) {
+    return <ServerError message={'현재 서비스를 이용할 수 없어요'} />
+  } else if (!props.unsubscribe) {
     return <Error navigation={props.navigation} message={'Network Error'} />
   } else {
     return (

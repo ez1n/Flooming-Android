@@ -4,8 +4,6 @@ import * as MediaLibrary from 'expo-media-library';
 import { SliderBox } from 'react-native-image-slider-box';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import AlertModal from '../alertModal';
 import ReportModal from './reportModal';
 
@@ -68,8 +66,9 @@ export default function GalleryItem(props) {
 
       {/* 신고 modal */}
       <ReportModal
+        url={props.url}
         onVisible={onReport}
-        galleryId={props.item.galleryId}
+        gallery_id={props.item.gallery_id}
         handleGoBack={handleCancelReport}
       />
 
