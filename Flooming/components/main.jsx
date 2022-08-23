@@ -8,7 +8,7 @@ import ServerError from './serverError';
 
 export default function Main(props) {
   // 서버 연결 확인 state
-  const [onServer, setOnServer] = useState(false);
+  const [onServer, setOnServer] = useState(true);
 
   useEffect(() => {
     // 네트워크 연결 확인
@@ -16,15 +16,15 @@ export default function Main(props) {
 
     // 서버 연결 확인
     axios.get(`${props.url}/`)
-      .then(response => { setOnServer(false) })
-      .catch(error => { setOnServer(true) })
+      .then(response => { setOnServer(true) })
+      .catch(error => { setOnServer(false) })
   }, []);
 
   // 버튼 클릭 이벤트
   const handleClickButton = (path) => { props.navigation.navigate(path) };
 
-  if (onServer) {
-    return <ServerError message={'현재 서비스를 이용할 수 없어요'} />
+  if (!onServer) {
+    return <ServerError navigation={props.navigation} message={'현재 서비스를 이용할 수 없어요'} />
   } else if (!props.unsubscribe) {
     return <Error navigation={props.navigation} message={'Network Error'} />
   } else {
