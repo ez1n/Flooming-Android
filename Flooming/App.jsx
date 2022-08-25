@@ -119,7 +119,7 @@ const App = () => {
             headerTitleAlign: 'center',
             headerShadowVisible: false,
             headerStyle: { backgroundColor: '#FCFCFC' },
-            headerTitleStyle: { fontFamily: 'symkyungha', fontSize: 30 }
+            headerTitleStyle: { fontFamily: 'symkyungha', headerTitleStyle: 20 },
           }}>
 
           <Stack.Screen
@@ -214,7 +214,7 @@ const App = () => {
             headerTitleAlign: 'center',
             headerShadowVisible: false,
             headerStyle: { backgroundColor: '#FCFCFC' },
-            headerTitleStyle: { fontFamily: 'symkyungha', fontSize: 30 }
+            headerTitleStyle: { fontFamily: 'symkyungha', fontSize: 20 }
           }}>
 
           <Stack.Screen

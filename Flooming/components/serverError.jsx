@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   errorMessageText: {
     color: '#FCFCFC',
-    fontSize: 28,
+    fontSize: 20,
     fontFamily: 'symkyungha',
   },
   buttonContainer: {

@@ -45,13 +45,8 @@ const ImageResult = (props) => {
 
   // 갤러리 저장 이벤트
   const saveFile = async (fileUri) => {
-    const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync('flooming');
-
-    // 권한 확인
-    if (permissions.granted) {
-      const asset = await MediaLibrary.createAssetAsync(fileUri);
-      await MediaLibrary.createAlbumAsync('flooming', asset, false);
-    }
+    const asset = await MediaLibrary.createAssetAsync(fileUri);
+    await MediaLibrary.createAlbumAsync('flooming', asset, false);
   };
 
   // 사진 저장
@@ -73,7 +68,6 @@ const ImageResult = (props) => {
           setSaveMessage('저장되었어요 :)');
         });
     } catch (event) {
-      console.error(event);
       setonVisible(true);
       setSaveMessage('사진을 저장할 수 없어요');
     };
@@ -100,7 +94,9 @@ const ImageResult = (props) => {
 
         {/* 그림 결과 */}
         <View style={styles.illustContainer}>
-          <Image style={styles.illust} source={{ uri: `${props.url}/picture/${props.galleryData.picture_id}` }} />
+          <View style={styles.imageSize}>
+            <Image style={styles.illust} source={{ uri: `${props.url}/picture/${props.galleryData.picture_id}` }} />
+          </View>
           <TextInput
             style={styles.illustText}
             placeholder='남기고 싶은 말이 있나요?'
@@ -130,16 +126,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  illust: {
-    width: 320,
-    height: 320,
+  imageSize: {
+    width: '90%',
+    height: 300,
     marginBottom: 15,
+    borderRadius: 20,
+  },
+  illust: {
+    width: '100%',
+    height: '100%',
     borderRadius: 20,
   },
   illustText: {
     color: '#FCFCFC',
-    fontSize: 25,
+    fontSize: 15,
     fontFamily: 'symkyungha',
+    width: '80%',
   },
   buttonContainer: {
     flex: 0.2,

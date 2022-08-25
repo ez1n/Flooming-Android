@@ -22,8 +22,13 @@ export default function ReportModal(props) {
   const report = () => {
     axios.post(`${props.url}/report`, { gallery_id: props.gallery_id, detail: reportMessage })
       .then(res => {
-        props.handleGoBack();
+        axios.get(`${props.url}/gallery?page=0`)
+          .then((response) => {
+            props.getLoadData(response.data.result);
+          })
+          .catch((error) => console.log(error))
         alert('신고되었습니다.');
+        props.handleGoBack();
       })
       .catch(error => console.log(error))
   };
@@ -71,8 +76,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modal: {
-    width: 320,
-    height: 240,
+    width: '85%',
+    height: 220,
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -80,14 +85,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFC',
   },
   errorMessageText: {
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'symkyungha',
   },
   reportMessage: {
     width: '80%',
     marginTop: 25,
     fontFamily: 'symkyungha',
-    fontSize: 20,
+    fontSize: 14,
     borderStyle: 'solid',
     borderColor: 'black'
   },
@@ -96,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   modalButton: {
-    padding: 10,
+    padding: 5,
     backgroundColor: '#0C0B0C',
     borderRadius: 10,
     alignItems: 'center',
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
     width: 100
   },
   modalButtonText: {
-    fontSize: 20,
+    fontSize: 15,
     color: '#FCFCFC',
     fontFamily: 'symkyungha',
   },

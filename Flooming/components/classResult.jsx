@@ -65,19 +65,15 @@ const ClassResult = (props) => {
         message={errorMessage} />
 
       <View style={styles.imageContainer}>
-
-        <View style={styles.myImageContainer}>
-          <Text style={styles.myImageText}>당신이 찍은 꽃</Text>
+        <Text style={styles.myImageText}>당신이 찍은 꽃</Text>
+        <View style={styles.myImageSize}>
           <Image style={styles.myImage} source={{ uri: props.currentImage }} />
         </View>
 
-        <View style={styles.resultImageContainer}>
-          <Image style={styles.resultImage} source={{ uri: `${props.url}/flower/${props.flowerData.kor_name}` }} />
-          <Text style={[styles.flowerData, styles.flowerName]}>{props.flowerData.kor_name} ({props.flowerData.eng_name})</Text>
-          <Text style={[styles.flowerData, styles.flowerLanguage]}>'{props.flowerData.flower_language}'</Text>
-          <Text style={[styles.flowerData, styles.flowerProbability]}>{props.flowerData.probability}%</Text>
-        </View>
-
+        <Image style={styles.resultImage} source={{ uri: `${props.url}/flower/${props.flowerData.kor_name}` }} />
+        <Text style={[styles.flowerData, styles.flowerName]}>{props.flowerData.kor_name} ({props.flowerData.eng_name})</Text>
+        <Text style={[styles.flowerData, styles.flowerLanguage]}>'{props.flowerData.flower_language}'</Text>
+        <Text style={[styles.flowerData, styles.flowerProbability]}>{props.flowerData.probability}%</Text>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -100,26 +96,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  myImageContainer: {
-    flex: 0.5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   myImageText: {
     color: '#FCFCFC',
-    fontSize: 30,
+    fontSize: 20,
     fontFamily: 'symkyungha',
   },
-  myImage: {
-    width: 180,
-    height: 180,
+  myImageSize: {
+    width: '50%',
+    height: '30%',
     marginTop: 15,
+    marginBottom: 30,
     borderRadius: 20,
   },
-  resultImageContainer: {
-    flex: 0.4,
-    justifyContent: 'center',
-    alignItems: 'center',
+  myImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 20,
   },
   resultImage: {
     width: 120,
@@ -133,13 +125,13 @@ const styles = StyleSheet.create({
     fontFamily: 'symkyungha',
   },
   flowerName: {
-    fontSize: 26,
+    fontSize: 18,
   },
   flowerLanguage: {
-    fontSize: 22,
+    fontSize: 15,
   },
   flowerProbability: {
-    fontSize: 15,
+    fontSize: 12,
   },
   buttonContainer: {
     flex: 0.1,

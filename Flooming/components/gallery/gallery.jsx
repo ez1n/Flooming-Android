@@ -78,7 +78,7 @@ const Gallery = (props) => {
         imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
         <FlatList
           data={props.loadData.data}
-          renderItem={({ item }) => (<GalleryItem item={item} url={props.url} />)}
+          renderItem={({ item }) => (<GalleryItem item={item} url={props.url} getLoadData={props.getLoadData} />)}
           refreshing={isRefreshing}
           onRefresh={handleRefresh}
           onEndReached={() => handleEndReached(pageCount)}

@@ -13,8 +13,8 @@ export default function Error(props) {
       source={require('../assets/images/loadingBackground.jpg')}
       style={styles.backgroundImage}
       imageStyle={{ opacity: 0.9 }}>
-        <Image style={styles.icon} source={require('../assets/errorIcon.png')} />
-        <Text style={styles.errorMessageText}>{props.message}</Text>
+      <Image style={styles.icon} source={require('../assets/errorIcon.png')} />
+      <Text style={styles.errorMessageText}>{props.message}</Text>
     </ImageBackground>
   )
 };
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   errorMessageText: {
     color: '#FCFCFC',
-    fontSize: 28,
+    fontSize: 20,
     fontFamily: 'symkyungha',
   },
 })

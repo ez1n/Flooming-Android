@@ -14,12 +14,8 @@ export default function GalleryItem(props) {
 
   // 갤러리 저장 이벤트
   const saveFile = async (picture) => {
-    const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync('flooming');
-
-    if (permissions.granted) {
-      const asset = await MediaLibrary.createAssetAsync(picture);
-      await MediaLibrary.createAlbumAsync('flooming', asset, false);
-    }
+    const asset = await MediaLibrary.createAssetAsync(picture);
+    await MediaLibrary.createAlbumAsync('flooming', asset, false);
   };
 
   const saveImage = async (url) => {
@@ -70,12 +66,13 @@ export default function GalleryItem(props) {
         onVisible={onReport}
         gallery_id={props.item.gallery_id}
         handleGoBack={handleCancelReport}
+        getLoadData={props.getLoadData}
       />
 
       <View style={styles.imageContainer}>
         <SliderBox
           style={styles.imageSlider}
-          parentWidth={300}
+          parentWidth={260}
           images={[
             `${props.url}/picture/${props.item.picture_id}`,
             `${props.url}/photo/${props.item.photo_id}`
@@ -105,19 +102,19 @@ const styles = StyleSheet.create({
   galleryContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 30,
+    marginTop: 30,
   },
   imageContainer: {
     display: 'flex',
     flexDirection: 'row',
   },
   imageSlider: {
-    width: 300,
-    height: 300,
+    width: '100%',
+    height: 260,
     borderRadius: 20,
   },
   commentContainer: {
-    width: 300,
+    width: 260,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -125,7 +122,7 @@ const styles = StyleSheet.create({
   },
   comment: {
     color: '#FCFCFC',
-    fontSize: 23,
+    fontSize: 15,
     fontFamily: 'symkyungha',
   },
   buttons: {

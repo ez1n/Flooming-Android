@@ -102,16 +102,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'symkyungha',
-    fontSize: 23,
+    fontSize: 20,
     margin: 20
   },
   description: {
     fontFamily: 'symkyungha',
-    fontSize: 20,
+    fontSize: 15,
     textAlign: 'center'
   },
   button: {
     color: 'black',
-    fontSize: 15
+    fontSize: 13
   }
 });
