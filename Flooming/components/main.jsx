@@ -35,15 +35,19 @@ export default function Main(props) {
         imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
 
         <View style={styles.textContainer}>
-          <Text style={styles.innerText}><Text style={{ fontWeight: 'bold', fontSize: 35 }}>FLOOMING</Text>은 마음에 드는 </Text>
-          <Text style={styles.innerText}><Text style={{ fontWeight: 'bold', fontSize: 35 }}>꽃사진</Text>을 <Text style={{ fontWeight: 'bold', fontSize: 35 }}>그림</Text>으로 만들어줘요.</Text>
+          <Text style={styles.innerText}><Text style={{ fontWeight: 'bold', fontSize: 25 }}>FLOOMING</Text>은 마음에 드는 </Text>
+          <Text style={styles.innerText}><Text style={{ fontWeight: 'bold', fontSize: 25 }}>꽃사진</Text>을 <Text style={{ fontWeight: 'bold', fontSize: 25 }}>그림</Text>으로 만들어줘요.</Text>
         </View>
 
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image style={styles.exImage} source={require('../assets/images/mainPhoto.jpg')}></Image>
+            <View style={styles.imageSize}>
+              <Image style={styles.exImage} source={require('../assets/images/mainPhoto.jpg')}></Image>
+            </View>
             <FontAwesome name='arrow-right' size={24} color='#FFF9C3' />
-            <Image style={styles.exImage} source={require('../assets/images/illustrationimageEx.jpg')}></Image>
+            <View style={styles.imageSize}>
+              <Image style={styles.exImage} source={require('../assets/images/illustrationimageEx.jpg')}></Image>
+            </View>
           </View>
         </View>
 
@@ -51,7 +55,7 @@ export default function Main(props) {
           <Button text={'관람할래요'} onPress={() => handleClickButton('Gallery')} />
           <Button text={'지금 해볼래요'} onPress={() => handleClickButton('Guide')} />
         </View>
-      </ImageBackground>
+      </ImageBackground >
     )
   }
 };
@@ -62,18 +66,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFC',
   },
   textContainer: {
-    flex: 0.2,
+    flex: 0.3,
     justifyContent: 'flex-end',
   },
   innerText: {
     color: '#FFF9C3',
-    fontSize: 30,
+    fontSize: 20,
     paddingLeft: 40,
     marginBottom: 10,
     fontFamily: 'symkyungha',
   },
   container: {
-    flex: 0.45,
+    flex: 0.4,
     paddingTop: 10,
   },
   imageContainer: {
@@ -82,16 +86,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  exImage: {
-    width: 150,
-    height: 150,
+  imageSize: {
+    width: '40%',
+    height: '70%',
     margin: 10,
     borderRadius: 20,
     borderColor: '#FCFCFC',
-    borderWidth: 3,
+    borderWidth: 3
+  },
+  exImage: {
+    borderRadius: 15,
+    borderColor: '#FCFCFC',
+    width: '100%',
+    height: '100%'
   },
   buttonContainer: {
-    flex: 0.35,
+    flex: 0.3,
     alignItems: 'center',
     justifyContent: 'flex-end',
   },

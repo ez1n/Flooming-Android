@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FormData from 'form-data';
 import * as ImagePicker from 'expo-image-picker';
-import * as ImageManipulator from 'expo-image-manipulator';
-import { StyleSheet, ImageBackground, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, ImageBackground, View, Image, TouchableOpacity } from 'react-native';
 import Button from './button';
 import AlertModal from './alertModal';
 import ExtraButton from './extraButton';
@@ -11,8 +10,6 @@ import ExtraButton from './extraButton';
 export default function ImageCheck(props) {
   const [onError, setOnError] = useState(false); // error 상태 state
   const [errorMessage, setErrorMessage] = useState(null); // error message
-  const [galleryPermission, setGalleryPermission] = ImagePicker.useMediaLibraryPermissions();  // 갤러리 접근 권한
-  const [photoPermission, setPhotoPermission] = ImagePicker.useCameraPermissions(); // 카메라 접근 권한
   const imageData = new FormData(); // 사진 전송 폼
 
   // 네트워크 연결 확인
@@ -22,19 +19,12 @@ export default function ImageCheck(props) {
 
   // 앨범에서 가져오기 이벤트
   const handleClickGalleryButton = async () => {
-    // 접근 권한 허용 여부
-    if (!galleryPermission?.granted) {
-      const permission = await setGalleryPermission();
-      if (!permission.granted) {
-        return null;
-      }
-    };
-
     // 이미지 가져오기 (갤러리)
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
+      quality: 0.1
     });
 
     if (!result.cancelled) {
@@ -44,19 +34,12 @@ export default function ImageCheck(props) {
 
   // 사진 촬영 이벤트
   const handleClickPhotoButton = async () => {
-    // 접근 권한 허용 여부
-    if (!photoPermission?.granted) {
-      const permission = await setPhotoPermission();
-      if (!permission.granted) {
-        return null;
-      }
-    };
-
     // 사진 촬영
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
+      quality: 0.1
     });
 
     if (!result.cancelled) {
@@ -83,7 +66,7 @@ export default function ImageCheck(props) {
           props.navigation.navigate('ClassResult');
         })
         .catch((error) => {
-          console.log(error.response.data.detail);
+          console.log(error.response);
           setOnError(!onError);
 
           if (error.response.data.detail == undefined) {
@@ -116,7 +99,9 @@ export default function ImageCheck(props) {
 
         <View style={styles.imageContainer}>
           {/* 받아온 꽃 사진 */}
-          {props.image ? <Image style={styles.exImage} source={{ uri: props.image }} /> : <Image style={styles.exImage} source={require('../assets/images/exampleImage.jpg')} />}
+          <View style={styles.imageSize}>
+            {props.image ? <Image style={styles.exImage} source={{ uri: props.image }} /> : <Image style={styles.exImage} source={require('../assets/images/exampleImage.jpg')} />}
+          </View>
 
           <View style={styles.imageButtonContainer}>
             <TouchableOpacity style={styles.button}>
@@ -142,23 +127,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FCFCFC',
   },
-  titleContainer: {
-    width: '100%',
-    position: 'absolute',
-    top: 0,
-    height: 70,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FCFCFC',
-  },
   imageContainer: {
     flex: 0.85,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  imageSize: {
+    width: '90%',
+    height: '55%',
+    borderRadius: 20,
+  },
   exImage: {
-    width: 370,
-    height: 370,
+    width: '100%',
+    height: '100%',
     borderRadius: 20,
   },
   imageButtonContainer: {
@@ -167,11 +148,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
-  },
-  buttonText: {
-    color: '#FCFCFC',
-    fontSize: 30,
-    fontFamily: 'symkyungha',
   },
   buttonContainer: {
     flex: 0.15,

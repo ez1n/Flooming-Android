@@ -12,19 +12,17 @@ export default function ExtraButton(props) {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: '#0C0B0C',
+    display: 'flex',
     alignItems: 'center',
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 15,
-    paddingRight: 15,
+    justifyContent: 'center',
     width: '100%',
-    borderRadius: 16,
-    marginBottom: 5,
+    borderRadius: 15,
+    paddingTop: 7,
+    paddingBottom: 7
   },
   textButton: {
     color: '#FCFCFC',
-    fontSize: 25,
-    height: 35,
+    fontSize: 15,
     fontFamily: 'symkyungha',
   },
 })

@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modal: {
-    width: 320,
-    height: 180,
+    width: '85%',
+    height: '25%',
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFC',
   },
   errorMessageText: {
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'symkyungha',
   },
   modalButtonContainer: {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   modalButtonText: {
-    fontSize: 20,
+    fontSize: 15,
     color: '#FCFCFC',
     fontFamily: 'symkyungha',
   },

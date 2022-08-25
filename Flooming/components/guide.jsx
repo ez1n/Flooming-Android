@@ -21,17 +21,23 @@ export default function Guide(props) {
         style={styles.backgroundImage}
         imageStyle={{ borderTopLeftRadius: 40, borderTopRightRadius: 40, opacity: 0.9 }}>
         <View style={styles.exampleImageContainer}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: 'center', flex: 0.5 }}>
             {/* 예시 사진 수정 */}
-            <Image style={styles.img} source={require('../assets/images/mainPhoto.jpg')} />
+            <View style={styles.imageSize}>
+              <Image style={styles.img} source={require('../assets/images/mainPhoto.jpg')} />
+            </View>
             <View style={styles.textContainer}>
               <Text style={styles.text}>꽃이 잘 보이게 찍어주세요</Text>
             </View>
+
             <Image source={require('../assets/yesIcon.png')} style={styles.icon} />
+
           </View>
 
-          <View style={{ alignItems: 'center' }}>
-            <Image style={styles.img} source={require('../assets/images/imageNonEx.jpg')} />
+          <View style={{ alignItems: 'center', flex: 0.5 }}>
+            <View style={styles.imageSize}>
+              <Image style={styles.img} source={require('../assets/images/imageNonEx.jpg')} />
+            </View>
             <View style={styles.textContainer}>
               <Text style={styles.text}>불분명한 사진은 </Text>
               <Text style={styles.noText}>그림을 그릴 수 없어요</Text>
@@ -61,13 +67,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  img: {
-    width: 190,
-    height: 190,
+  imageSize: {
+    width: '85%',
+    height: '28%',
     margin: 5,
     borderRadius: 20,
     borderColor: '#FCFCFC',
     borderWidth: 3,
+  },
+  img: {
+    borderRadius: 18,
+    borderWidth: 3,
+    width: '100%',
+    height: '100%',
   },
   textContainer: {
     height: 45,
@@ -77,19 +89,19 @@ const styles = StyleSheet.create({
   text: {
     marginTop: 20,
     color: '#FCFCFC',
-    fontSize: 22,
+    fontSize: 13,
     fontFamily: 'symkyungha',
   },
   noText: {
     color: '#FCFCFC',
-    fontSize: 22,
+    fontSize: 13,
     fontFamily: 'symkyungha',
   },
   icon: {
     marginTop: 50,
     borderRadius: 100,
-    width: 45,
-    height: 45,
+    width: 40,
+    height: 40,
   },
   buttonContainer: {
     flex: 0.15,
