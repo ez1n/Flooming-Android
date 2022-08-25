@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Flooming",
-    "slug": "flooming",
+    "slug": "Flooming",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/flooming.png",
@@ -21,6 +21,7 @@
         "foregroundImage": "./assets/flooming.png",
         "backgroundColor": "#FFFFFF"
       },
+      "package": "com.flooming.flooming",
       "versionCode": 1
     }
   }
