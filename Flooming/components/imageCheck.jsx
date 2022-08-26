@@ -125,7 +125,7 @@ export default function ImageCheck(props) {
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
-    backgroundColor: '#FCFCFC',
+    backgroundColor: '#140855',
   },
   imageContainer: {
     flex: 0.85,

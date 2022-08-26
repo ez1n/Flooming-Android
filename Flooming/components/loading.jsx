@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#FCFCFC',
-    fontSize: 30,
+    fontSize: 20,
     fontFamily: 'symkyungha',
     marginTop: 20,
   },

@@ -100,6 +100,7 @@ const ImageResult = (props) => {
           <TextInput
             style={styles.illustText}
             placeholder='남기고 싶은 말이 있나요?'
+            maxLength={100}
             placeholderTextColor='#FCFCFC'
             onChange={getComment}
           />
@@ -119,7 +120,7 @@ export default ImageResult;
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
-    backgroundColor: '#FCFCFC',
+    backgroundColor: '#140855',
   },
   illustContainer: {
     flex: 0.8,
