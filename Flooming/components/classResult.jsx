@@ -88,7 +88,7 @@ export default ClassResult;
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
-    backgroundColor: '#FCFCFC',
+    backgroundColor: '#140855',
   },
   imageContainer: {
     flex: 0.9,

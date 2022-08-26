@@ -63,7 +63,7 @@ export default function Main(props) {
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
-    backgroundColor: '#FCFCFC',
+    backgroundColor: '#140855',
   },
   textContainer: {
     flex: 0.3,

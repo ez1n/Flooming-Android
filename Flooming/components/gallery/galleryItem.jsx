@@ -119,17 +119,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 15,
+    paddingLeft: 5,
   },
   comment: {
+    flex: 0.75,
     color: '#FCFCFC',
     fontSize: 15,
     fontFamily: 'symkyungha',
   },
   buttons: {
+    flex: 0.25,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    marginLeft: 10
   },
   sirenIcon: {
     width: 30,

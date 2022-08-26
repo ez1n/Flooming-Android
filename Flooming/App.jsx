@@ -71,10 +71,7 @@ const App = () => {
   }, []);
 
   // 인터넷 연결 확인
-  const unsubscribe = () => NetInfo.addEventListener(state => {
-    console.log(state.isConnected)
-    return (state.isConnected);
-  });
+  const unsubscribe = () => NetInfo.addEventListener(state => { return (state.isConnected) });
 
   const getImage = (data) => { setImage(data) }; // 현재 이미지 데이터 가져오기
   const updateFlowerData = (data) => { setFlowerData(data) }; // 꽃 정보 업데이트
@@ -118,8 +115,9 @@ const App = () => {
           screenOptions={{
             headerTitleAlign: 'center',
             headerShadowVisible: false,
-            headerStyle: { backgroundColor: '#FCFCFC' },
-            headerTitleStyle: { fontFamily: 'symkyungha', headerTitleStyle: 20 },
+            headerStyle: { backgroundColor: '#140855' },
+            headerTitleStyle: { fontFamily: 'symkyungha', headerTitleStyle: 20, color: '#FCFCFC' },
+            headerTintColor: '#FCFCFC'
           }}>
 
           <Stack.Screen
@@ -213,8 +211,9 @@ const App = () => {
           screenOptions={{
             headerTitleAlign: 'center',
             headerShadowVisible: false,
-            headerStyle: { backgroundColor: '#FCFCFC' },
-            headerTitleStyle: { fontFamily: 'symkyungha', fontSize: 20 }
+            headerStyle: { backgroundColor: '#140855' },
+            headerTitleStyle: { fontFamily: 'symkyungha', fontSize: 20 },
+            headerTintColor: '#FCFCFC'
           }}>
 
           <Stack.Screen
