@@ -1,5 +1,7 @@
 # Flooming-Android
 
+![flooming results](images/flooming.jpg)
+
 ## Description
 >딥러닝 모델을 활용한 꽃 사진 분류, 꽃 그림 생성 모바일 앱
 
@@ -22,5 +24,4 @@
   <li>게시글 신고</li>
 </ul>
 
-## Results
-![flooming results](images/flooming.jpg)
+<!-- ## Results -->
